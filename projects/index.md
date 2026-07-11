@@ -61,6 +61,25 @@ projects/<name>/
 
 ---
 
+## Project Structure: Vault + Code
+
+FluentIT projects use a **two-root model**:
+
+- **Vault side** (`projects/<name>/`): OKF, specs, PRDs, ADRs, bounded contexts
+- **Code side** (external directory): Features, frontend code, backend code, tests
+
+The OKF (`projects/<name>/okf/index.md`) links them together via `codePaths`:
+
+```yaml
+codePaths:
+  - machine: "desktop"
+    path: "C:/Users/Reforged/Projects/my-project"
+```
+
+If `codePaths` is omitted, the project is **vault-local** — everything lives in `projects/<name>/`.
+
+---
+
 ## Cross-Project Intelligence
 
 ```bash
