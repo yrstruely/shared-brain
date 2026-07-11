@@ -19,7 +19,7 @@ paths:
     e2e: frontend/e2e
 codePaths:
   - machine: "desktop"
-    path: "C:/Users/Reforged/Projects/hello-world"
+    path: "C:/Users/Reforged/Dropbox/Programming/hello-world"
 ---
 
 # Hello World

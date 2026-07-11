@@ -86,22 +86,23 @@ The framework has been fully assembled — all skills ported, wiki populated, do
 
 ## What Remains Untested (High Risk)
 
+
 ### 🔴 Critical: No Skill Has Executed Real Work
 
-| Skill | What Could Break | Likelihood |
-|-------|-----------------|------------|
-| `fluentit-orchestrator` | State detection logic may fail on real projects | High |
-| `fluentit-bdd-features` | May not generate valid Gherkin from real PRDs | High |
-| `fluentit-tdd-frontend` | May not handle real Vue/Nuxt component structure | High |
-| `fluentit-tdd-backend` | May fail with real NestJS CQRS patterns | High |
-| `fluentit-bdd-frontend-steps` | Playwright/MSW/Pact generation untested | High |
-| `fluentit-bdd-backend-steps` | API E2E step generation untested | High |
-| `fluentit-domain-entity` | Interview flow may not converge on real domains | Medium |
-| `fluentit-api-contracts` | DTO generation may mismatch real APIs | Medium |
-| `fluentit-backend-module` | May scaffold incompatible with project conventions | Medium |
-| `fluentit-frontend-guide` | May not adapt to real design requirements | Medium |
-| `fluentit-pr` | Git provider detection untested | Medium |
-| `fluentit-review` | AI artifact detection may be incomplete | Low |
+| Skill                         | What Could Break                                   | Likelihood |
+| ----------------------------- | -------------------------------------------------- | ---------- |
+| `fluentit-orchestrator`       | State detection logic may fail on real projects    | High       |
+| `fluentit-bdd-features`       | May not generate valid Gherkin from real PRDs      | High       |
+| `fluentit-tdd-frontend`       | May not handle real Vue/Nuxt component structure   | High       |
+| `fluentit-tdd-backend`        | May fail with real NestJS CQRS patterns            | High       |
+| `fluentit-bdd-frontend-steps` | Playwright/MSW/Pact generation untested            | High       |
+| `fluentit-bdd-backend-steps`  | API E2E step generation untested                   | High       |
+| `fluentit-domain-entity`      | Interview flow may not converge on real domains    | Medium     |
+| `fluentit-api-contracts`      | DTO generation may mismatch real APIs              | Medium     |
+| `fluentit-backend-module`     | May scaffold incompatible with project conventions | Medium     |
+| `fluentit-frontend-guide`     | May not adapt to real design requirements          | Medium     |
+| `fluentit-pr`                 | Git provider detection untested                    | Medium     |
+| `fluentit-review`             | AI artifact detection may be incomplete            | Low        |
 
 ### 🟡 Medium Risk: Infrastructure Gaps
 
