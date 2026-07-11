@@ -45,6 +45,8 @@ The framework has been fully assembled — all skills ported, wiki populated, do
 - All skills installed to `~/.claude/skills/`
 - All skills have proper Claude Code frontmatter (`description`, `argument-hint`)
 
+> **⚠️ Important:** Skills are loaded once at Claude Code startup. After updating skills in `.framework/skills/`, re-copy to `~/.claude/skills/` and **restart Claude Code**.
+
 ### 2. Wiki Populated (69 pages)
 
 | Section | Pages | Source |

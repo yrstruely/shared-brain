@@ -78,6 +78,8 @@ cp -r .framework/skills/* ~/.claude/skills/
 claude /skills:list
 ```
 
+> **⚠️ Important:** Claude Code loads skills once at startup. After updating skills in `.framework/skills/`, re-copy to `~/.claude/skills/` and **restart Claude Code** for the changes to take effect.
+
 ---
 
 ## Skill Architecture

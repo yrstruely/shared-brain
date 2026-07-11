@@ -88,6 +88,8 @@ obsidian-vault/
    cp -r obsidian-vault/.framework/skills/* ~/.claude/skills/
    ```
 
+   > **⚠️ Important:** After any skill is updated in `.framework/skills/`, you must re-copy it to `~/.claude/skills/` and **restart Claude Code** for the changes to take effect. Skills are loaded once at startup.
+
 4. **Verify skill loading:**
    ```bash
    claude /skills:list
