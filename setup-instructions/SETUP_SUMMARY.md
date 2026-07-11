@@ -1,375 +1,302 @@
-# Wiki Setup Summary Report
+# Framework Status Report
 
-> Generated on 2026-07-08 after reading SETUP_GUIDE.md and QUICKSTART_CHECKLIST.md
-
----
-
-## Overview
-
-This report documents the vault structure that was scaffolded based on the Agentic BDD/TDD Framework setup instructions. The framework integrates AI Agent Playbooks, Karpathy LLM Wiki, Recursive Language Models (RLM), and Graphify into a single, compounding system.
-
-**Scope:** Vault structure (A) + Framework stubs (B)  
-**External dependencies:** Not installed (documented with next steps)  
-**Playbooks:** Project-specific playbooks need refactoring to be project-agnostic
+> Updated: 2026-07-11
+> Framework: Agentic BDD/TDD Development Framework (FluentIT)
+> GitHub: Pushed to kerry.harris0713@gmail.com account
 
 ---
 
-## Files Created
+## Executive Summary
 
-**34 markdown files** were created across the full vault structure.
+**Status: Structurally complete, functionally unproven.**
 
-### Root Schema
-
-| File | Purpose |
-|------|---------|
-| `CLAUDE.md` | Framework contract — principles, commands, metrics, maintenance schedule, external dependency status |
-
-### Wiki Layer (`wiki/`)
-
-| File | Purpose |
-|------|---------|
-| `wiki/index.md` | Cross-project knowledge index with statistics |
-| `wiki/concepts/index.md` | Domain concepts (empty, ready for ingest) |
-| `wiki/patterns/index.md` | Discovered patterns + links to framework patterns |
-| `wiki/technologies/index.md` | 10 technologies pre-registered for IP Hub stack |
-| `wiki/anti-patterns/index.md` | Template for documenting mistakes |
-| `wiki/post-mortems/index.md` | Template for incident analysis |
-
-### Framework Layer (`.framework/`)
-
-**Skills** (6 files) — Ready to copy to `~/.claude/skills/`:
-
-| File | Status | Description |
-|------|--------|-------------|
-| `skills/index.md` | ✅ Active | Skill registry + architecture contract |
-| `skills/rlm-context-loader.md` | ⏳ Stub | Needs RLM installation |
-| `skills/wiki-ingest-pipeline.md` | ✅ Active | Uses existing `wiki-ingest` skill |
-| `skills/graphify-minimal.md` | ⏳ Stub | JSON-based MVP for code relationships |
-| `skills/bdd-feature-agents.md` | ⏳ Stub | Needs playbook porting |
-| `skills/tdd-implementation-agents.md` | ⏳ Stub | Needs playbook porting |
-
-**Agents** (6 files) — Project-agnostic BDD/TDD pipeline:
-
-| File | Stage | Description |
-|------|-------|-------------|
-| `agents/index.md` | — | Agent registry + execution order |
-| `agents/bdd-feature-generator.md` | 1 | PRDs → `.feature` files |
-| `agents/bdd-frontend-steps.md` | 2a | Features → Playwright step definitions |
-| `agents/bdd-backend-steps.md` | 2b | Features → NestJS step definitions |
-| `agents/tdd-frontend.md` | 3a | Steps → Vue components (RED→GREEN→CLEAN) |
-| `agents/tdd-backend.md` | 3b | Steps → CQRS handlers (RED→GREEN→CLEAN) |
-
-**Patterns** (6 files) — Full pattern documentation with code examples:
-
-| File | Category |
-|------|----------|
-| `patterns/index.md` | Pattern registry |
-| `patterns/repository-pattern.md` | Data Access |
-| `patterns/cqrs-pattern.md` | Architecture |
-| `patterns/aggregate-root.md` | Domain |
-| `patterns/domain-events.md` | Communication |
-| `patterns/pact-contract-testing.md` | Testing |
-
-**Templates & Registry** (4 files):
-
-| File | Purpose |
-|------|---------|
-| `templates/project-types/index.md` | Supported project types registry |
-| `templates/project-types/nestjs-vue.md` | Full NestJS+Nuxt+PostgreSQL stack definition |
-| `templates/okf-bundle/nestjs-vue/index.md` | OKF bundle template with ADR/BC templates |
-| `registry/pattern-catalog.md` | Cross-project pattern usage tracking |
-
-### Sources Layer (`sources/`)
-
-| File | Purpose |
-|------|---------|
-| `sources/index.md` | Source categories + ingest workflow + stats |
-
-### Projects Layer (`projects/`)
-
-**IP Hub** — First project initialized with 12 bounded contexts:
-
-| File | Purpose |
-|------|---------|
-| `projects/index.md` | Projects registry |
-| `projects/ip-hub/okf/index.md` | Full project metadata + bounded contexts list |
-| `projects/ip-hub/links.md` | External URLs (repo, CI, staging, etc.) |
-| `projects/ip-hub/okf/bounded-contexts/index.md` | Context map (mermaid) + 12 context definitions |
-| `projects/ip-hub/okf/adr/README.md` | 3 ADRs (Stack, Database, Cart Aggregate) + template |
+The framework has been fully assembled — all skills ported, wiki populated, documentation written, and code pushed to GitHub. However, **no skill has been invoked on a real project**. The framework is a factory-built car that has never been driven.
 
 ---
 
-## Directory Tree
+## What Has Been Completed Since Last Update (2026-07-08)
 
-```
-obsidian-vault/
-├── .framework/
-│   ├── agents/
-│   │   ├── index.md
-│   │   ├── bdd-feature-generator.md
-│   │   ├── bdd-frontend-steps.md
-│   │   ├── bdd-backend-steps.md
-│   │   ├── tdd-frontend.md
-│   │   └── tdd-backend.md
-│   ├── patterns/
-│   │   ├── index.md
-│   │   ├── repository-pattern.md
-│   │   ├── cqrs-pattern.md
-│   │   ├── aggregate-root.md
-│   │   ├── domain-events.md
-│   │   └── pact-contract-testing.md
-│   ├── skills/
-│   │   ├── index.md
-│   │   ├── rlm-context-loader.md
-│   │   ├── wiki-ingest-pipeline.md
-│   │   ├── graphify-minimal.md
-│   │   ├── bdd-feature-agents.md
-│   │   └── tdd-implementation-agents.md
-│   ├── templates/
-│   │   ├── okf-bundle/
-│   │   │   └── nestjs-vue/
-│   │   │       └── index.md
-│   │   └── project-types/
-│   │       ├── index.md
-│   │       └── nestjs-vue.md
-│   └── registry/
-│       └── pattern-catalog.md
-├── wiki/
-│   ├── index.md
-│   ├── concepts/
-│   │   └── index.md
-│   ├── patterns/
-│   │   └── index.md
-│   ├── technologies/
-│   │   └── index.md
-│   ├── anti-patterns/
-│   │   └── index.md
-│   └── post-mortems/
-│       └── index.md
-├── sources/
-│   ├── index.md
-│   ├── books/
-│   ├── papers/
-│   ├── articles/
-│   └── meeting-notes/
-├── projects/
-│   ├── index.md
-│   └── ip-hub/
-│       ├── links.md
-│       └── okf/
-│           ├── index.md
-│           ├── bounded-contexts/
-│           │   └── index.md
-│           └── adr/
-│               └── README.md
-├── setup-instructions/
-│   ├── SETUP_GUIDE.md          (existing)
-│   ├── QUICKSTART_CHECKLIST.md (existing)
-│   └── SETUP_SUMMARY.md        (this file)
-└── CLAUDE.md
+### 1. Skills Ported & Renamed (17 total)
+
+| Phase | Skill | Status | Tested |
+|-------|-------|--------|--------|
+| Infrastructure | `rlm-context-loader` | ✅ Active | ❌ No |
+| Infrastructure | `graphify-minimal` | ✅ Active | ✅ Yes (self-indexed) |
+| Infrastructure | `wiki-ingest-pipeline` | ✅ Active | ✅ Yes (Cucumber docs) |
+| Pipeline | `fluentit-bdd-features` | ✅ Ported | ❌ No |
+| Pipeline | `fluentit-bdd-frontend-steps` | ✅ Ported | ❌ No |
+| Pipeline | `fluentit-bdd-backend-steps` | ✅ Ported | ❌ No |
+| Pipeline | `fluentit-tdd-frontend` | ✅ Ported | ❌ No |
+| Pipeline | `fluentit-tdd-backend` | ✅ Ported | ❌ No |
+| Scaffolding | `fluentit-domain-entity` | ✅ Ported | ❌ No |
+| Scaffolding | `fluentit-api-contracts` | ✅ Ported | ❌ No |
+| Scaffolding | `fluentit-backend-module` | ✅ Ported | ❌ No |
+| Workflow | `fluentit-frontend-guide` | ✅ Ported | ❌ No |
+| Workflow | `fluentit-pr` | ✅ Ported | ❌ No |
+| Workflow | `fluentit-review` | ✅ Ported | ❌ No |
+| Meta | `fluentit-orchestrator` | ✅ Created | ❌ No |
+| Reference | `MASTER_TEMPLATE` | ✅ Active | N/A |
+| Registry | `index` | ✅ Active | N/A |
+
+**Key Changes:**
+- All 12 DNA skills renamed from `dna-` to `fluentit-` prefix
+- 2 original stubs (`bdd-feature-agents`, `tdd-implementation-agents`) merged into ported versions and deleted
+- `fluentit-orchestrator` created as meta-skill for pipeline routing
+- All skills installed to `~/.claude/skills/`
+- All skills have proper Claude Code frontmatter (`description`, `argument-hint`)
+
+### 2. Wiki Populated (69 pages)
+
+| Section | Pages | Source |
+|---------|-------|--------|
+| Concepts | 28 | Cucumber.io BDD documentation (ingested) |
+| Entities | 8 | Cucumber ecosystem tools |
+| Technologies | 17 | Framework skills + infrastructure |
+| Patterns | 3 | BDD pipeline, TDD red-green-clean |
+| Sources | 1 | Cucumber/Gherkin reference |
+| Workflow | 1 | Project development guide |
+| Log | 1 | Operation history |
+
+**Ingestion:** Cucumber.io docs ingested via DeepSeek V4 Flash on OpenRouter
+
+### 3. Graphify Tested
+
+- ✅ Built: `npm install && npm run build`
+- ✅ Indexed: `shared-brain` project (16 nodes, 4 edges)
+- ✅ Queried: P1 (projects), P2 (entities), custom Cypher (modules)
+- ⚠️ Limitation: Only indexed its own source code. Real project = 1000+ nodes
+
+### 4. Documentation Written
+
+| Document | Purpose |
+|----------|---------|
+| `setup-instructions/WORKFLOW.md` | Step-by-step project development guide |
+| `wiki/workflow.md` | Wiki summary of workflow |
+| `bin/sync-skills.sh` | Script to sync skills after edits |
+| `README.md` | Updated with workflow link and LLM config |
+
+### 5. Git Repository
+
+- ✅ Initialized in `//nas/obsidian-vault/shared-brain`
+- ✅ 2 commits pushed to GitHub (kerry.harris0713@gmail.com account)
+- ✅ `.gitignore` configured (excludes `.graphify/`, `node_modules/`, `.obsidian/`)
+- ✅ Local git config: Kerry Harris / nzfluentit@gmail.com
+
+---
+
+## What Remains Untested (High Risk)
+
+### 🔴 Critical: No Skill Has Executed Real Work
+
+| Skill | What Could Break | Likelihood |
+|-------|-----------------|------------|
+| `fluentit-orchestrator` | State detection logic may fail on real projects | High |
+| `fluentit-bdd-features` | May not generate valid Gherkin from real PRDs | High |
+| `fluentit-tdd-frontend` | May not handle real Vue/Nuxt component structure | High |
+| `fluentit-tdd-backend` | May fail with real NestJS CQRS patterns | High |
+| `fluentit-bdd-frontend-steps` | Playwright/MSW/Pact generation untested | High |
+| `fluentit-bdd-backend-steps` | API E2E step generation untested | High |
+| `fluentit-domain-entity` | Interview flow may not converge on real domains | Medium |
+| `fluentit-api-contracts` | DTO generation may mismatch real APIs | Medium |
+| `fluentit-backend-module` | May scaffold incompatible with project conventions | Medium |
+| `fluentit-frontend-guide` | May not adapt to real design requirements | Medium |
+| `fluentit-pr` | Git provider detection untested | Medium |
+| `fluentit-review` | AI artifact detection may be incomplete | Low |
+
+### 🟡 Medium Risk: Infrastructure Gaps
+
+| Component | Gap | Impact |
+|-----------|-----|--------|
+| RLM | Not installed (`~/RLM` missing) | Skills reference `loadProjectContext()` but function doesn't exist |
+| Graphify | Not tested on real codebase | Cross-project queries are theoretical |
+| Obsidian CLI | Installed but not integrated with skills | Skills can't write to wiki via CLI |
+| Karpathy Plugin | Configured but not tested end-to-end | Ingestion pipeline may have gaps |
+
+### 🟢 Low Risk: Known Limitations
+
+| Limitation | Mitigation |
+|------------|------------|
+| Skills are large (10-12KB each) | Only loaded when invoked; no performance issue |
+| Symlinks not possible on Windows | Using `bin/sync-skills.sh` copy script |
+| No CI/CD integration | Manual `fluentit-pr` skill handles PR workflow |
+
+---
+
+## What's Missing
+
+### 1. Real Project Scaffold
+
+IP Hub exists as OKF metadata only:
+- ❌ No `src/` directory
+- ❌ No `package.json`
+- ❌ No actual NestJS or Vue code
+- ❌ No test files
+
+**Impact:** Skills have nothing to operate on.
+
+### 2. Error Handling
+
+Skills assume happy path:
+- ❌ What if RLM fails to load context?
+- ❌ What if Graphify returns no results?
+- ❌ What if project OKF is malformed?
+- ❌ What if tests fail during TDD cycle?
+
+### 3. Cross-Skill State Passing
+
+The orchestrator detects state, but:
+- ❌ Skills don't read each other's output files
+- ❌ No shared state format between BDD → TDD handoff
+- ❌ No verification that previous skill succeeded
+
+### 4. RLM Implementation
+
+The `rlm-context-loader` skill references:
+```typescript
+const context = await loadProjectContext(projectName);
 ```
 
+But `loadProjectContext()` is **not implemented**. It's a function signature in the skill description, not actual code.
+
+**Options:**
+- Install `hampton-io/RLM` (requires separate repo)
+- Implement a minimal `loadProjectContext()` that reads OKF files directly
+- Use a simpler approach: just read `projects/{name}/okf/index.md`
+
+### 5. Integration Testing
+
+No test validates:
+- ❌ End-to-end pipeline on a real feature
+- ❌ Skill composition (orchestrator → skill A → skill B)
+- ❌ Wiki updates after skill execution
+- ❌ Graphify reindexing after code changes
+
 ---
 
-## External Dependency Status
+## Recommended Path to Production
 
-| Tool                     | Status          | Location / Next Step                              |
-| ------------------------ | --------------- | ------------------------------------------------- |
-| Obsidian CLI             | ✅ Ready         | `D:\Program Files\Obsidian\Obsidian.com`          |
-| RLM (hampton-io)         | ⏳ Not installed | `git clone https://github.com/hampton-io/RLM.git` |
-| RLM (code-rabi/rllm)     | ⏳ Not installed | `npm install rllm`                                |
-| Graphify                 | ⏳ Not installed | Use `graphify-minimal` JSON MVP for now           |
-| Karpathy LLM Wiki Plugin | ⏳ Not installed | `green-dalii/obsidian-llm-wiki`                   |
+### Phase 1: Hello World Validation (1-2 days)
 
+**Goal:** Prove the framework can build something.
+
+```bash
+# 1. Create minimal project
+mkdir -p projects/hello-world/src/frontend
+mkdir -p projects/hello-world/src/backend
+mkdir -p projects/hello-world/okf
+
+# 2. Write minimal OKF
+cat > projects/hello-world/okf/index.md << 'EOF'
 ---
+name: hello-world
+type: nestjs-vue
+techStack:
+  frontend: vue3
+  backend: nestjs
+paths:
+  frontend: src/frontend
+  backend: src/backend
+---
+EOF
 
-## Agent Pipeline Execution Order
+# 3. Scaffold minimal NestJS + Vue
+# (Use nest CLI and nuxi init)
 
+# 4. Write a PRD
+cat > projects/hello-world/sources/prds/welcome.md << 'EOF'
+# Welcome Message
+
+## Feature
+As a user, I want to see a welcome message so that I know the app loaded.
+
+## Acceptance Criteria
+- Given I open the app
+- When the page loads
+- Then I see "Hello, World!"
+EOF
+
+# 5. Run the pipeline
+fluentit-orchestrator --project hello-world --feature welcome
 ```
-BDD Feature Generator (Stage 1)
-    ↓
-BDD Frontend Steps ←→ BDD Backend Steps (Stage 2, parallel)
-    ↓
-TDD Frontend ←→ TDD Backend (Stage 3, parallel)
-    ↓
-Graphify Reindex
+
+**Expected outcome:** A working Vue component with a passing Playwright test.
+
+**If this works:** Framework is viable. Proceed to Phase 2.
+**If this fails:** Fix the broken skill(s) before proceeding.
+
+### Phase 2: RLM Implementation (1 day)
+
+**Goal:** Make `loadProjectContext()` real.
+
+**Minimal implementation:**
+```typescript
+async function loadProjectContext(projectName: string) {
+  const okfPath = `projects/${projectName}/okf/index.md`;
+  const okf = await readOkfIndex(okfPath);
+  return {
+    project: okf,
+    projectType: await readProjectType(okf.projectType),
+    graph: { query: async () => [] }, // stub
+    wiki: { query: async () => [] },  // stub
+  };
+}
 ```
 
-Every agent follows this contract:
-1. Receive Task + ProjectContext
-2. Load RLM context (~15k tokens)
-3. Query Graphify for relationships
-4. Query Wiki for patterns
-5. Execute core logic
-6. Write outputs (code + wiki updates)
-7. Trigger Graphify reindex
+**Test:** Every skill can call `loadProjectContext('hello-world')` without error.
+
+### Phase 3: IP Hub Feature (2-3 days)
+
+**Goal:** Build one real feature in IP Hub.
+
+1. Scaffold IP Hub codebase (NestJS + Nuxt)
+2. Pick simplest bounded context (e.g., User Management)
+3. Run full pipeline: PRD → Features → Steps → TDD → Review → PR
+4. Document what breaks
+
+### Phase 4: Hardening (Ongoing)
+
+- Add error handling to each skill
+- Add validation checkpoints (did previous skill succeed?)
+- Add rollback capability
+- Optimize token usage (currently ~15k target, may need tuning)
 
 ---
 
-## IP Hub: 12 Bounded Contexts
+## Success Metrics (Revised)
 
-| # | Context | Responsibility | Status |
-|---|---------|---------------|--------|
-| 1 | Cart | IP asset selection and pricing | 🚧 In Progress |
-| 2 | Order | License/purchase processing | ⏳ Planned |
-| 3 | Catalog | IP asset catalog and search | ⏳ Planned |
-| 4 | Fulfillment | License delivery and activation | ⏳ Planned |
-| 5 | User Management | Authentication and profiles | ⏳ Planned |
-| 6 | Billing | Invoicing and payments | ⏳ Planned |
-| 7 | Search | Full-text and faceted search | ⏳ Planned |
-| 8 | Notifications | Email, SMS, in-app alerts | ⏳ Planned |
-| 9 | Analytics | Usage metrics and reporting | ⏳ Planned |
-| 10 | Compliance | Regulatory requirements | ⏳ Planned |
-| 11 | Audit | Change tracking and logs | ⏳ Planned |
-| 12 | Integration | Third-party connectors | ⏳ Planned |
+| Metric | Current | Target (3 months) |
+|--------|---------|-------------------|
+| Skills tested end-to-end | 0/12 | 12/12 |
+| Real features built | 0 | 10+ |
+| Framework projects | 0 | 2+ |
+| Wiki pages | 69 | 200+ |
+| Avg. time per feature | N/A | < 4 hours |
+| Token cost per feature | N/A | < $2.00 |
 
 ---
 
-## Framework Patterns Catalog
+## Decision Point
 
-| ID | Pattern | Category | Projects |
-|----|---------|----------|----------|
-| P1 | Repository with Unit of Work | Data Access | IP Hub |
-| P2 | CQRS Command/Query Separation | Architecture | IP Hub |
-| P3 | Aggregate Root | Domain | IP Hub |
-| P4 | Domain Events | Communication | IP Hub |
-| P5 | Pact Contract Testing | Testing | IP Hub |
+**The framework is at a fork:**
 
----
+**Path A: Validate Now** (Recommended)
+- Spend 1-2 days on Hello World
+- Find and fix the breaking points
+- Decide if the framework is worth investing more time
 
-## Tech Stack (IP Hub)
+**Path B: Keep Building**
+- Add more skills (debugging, deployment, monitoring)
+- Improve documentation
+- Build more wiki content
 
-### Frontend
-- **Framework:** Nuxt 4
-- **UI:** Vue 3
-- **State:** Pinia
-- **Testing:** Vitest
-- **E2E:** Playwright
+**Path C: Pivot**
+- Extract the most valuable skill (e.g., `fluentit-bdd-features`)
+- Use it standalone without the full framework
+- Gradually add orchestration later
 
-### Backend
-- **Framework:** NestJS
-- **Architecture:** CQRS
-- **Database:** PostgreSQL
-- **ORM:** TypeORM
-- **Testing:** Jest
-- **E2E:** Cucumber + Jest
-
-### Infrastructure
-- **API:** REST + GraphQL
-- **Events:** Domain Events + Event Bus
-- **Contracts:** Pact
-- **CI/CD:** GitHub Actions
+**My recommendation: Path A.** The framework has enough structure. What it needs now is proof that it works.
 
 ---
 
-## Next Steps
-
-### Option A: Start Using the Wiki Immediately
-- Ingest sources: `/wiki:ingest sources/articles/my-article.md`
-- Query knowledge: `/wiki:query "patterns for NestJS CQRS"`
-- Add notes directly to `wiki/` folders
-
-### Option B: Port Your Playbooks
-- Refactor project-specific agents to use `ProjectContext`
-- Copy skill stubs from `.framework/skills/` to `~/.claude/skills/`
-- Test BDD/TDD pipeline on IP Hub
-
-### Option C: Install External Dependencies
-1. **RLM:** Clone hampton-io/RLM or install code-rabi/rllm
-2. **Graphify:** Use minimal JSON implementation or install full version
-3. **Karpathy LLM Wiki Plugin:** Manual install from green-dalii/obsidian-llm-wiki
-
-### Option D: Continue with Quick Start Checklist
-
-#### Day 1: Foundation ✅
-- [x] Create Obsidian vault with framework structure
-- [ ] Install Karpathy LLM Wiki plugin
-- [ ] Configure plugin (API key, folders)
-- [x] Install Claude Code
-- [ ] Copy framework skills to `~/.claude/skills/`
-
-#### Day 2: RLM
-- [ ] Clone hampton-io/RLM or install code-rabi/rllm
-- [ ] Test RLM with simple query
-- [ ] Create `rlm-context-loader` skill
-
-#### Day 3: Graphify
-- [ ] Set up minimal graph implementation (JSON store)
-- [ ] Create indexing pipeline for TypeScript + Gherkin
-- [ ] Test graph queries
-
-#### Day 4: First Project ✅ (Partial)
-- [x] Initialize IP Hub: `/framework:init-project --name ip-hub --type nestjs-vue`
-- [x] Configure `projects/ip-hub/okf/index.md`
-- [x] Link codebase in `projects/ip-hub/links.md`
-- [ ] Ingest existing PRDs: `/wiki:ingest projects/ip-hub/sources/prds/`
-
-#### Day 5: Playbooks
-- [ ] Port BDD feature agents to framework
-- [ ] Port TDD implementation agents
-- [ ] Add RLM context loading to each agent
-- [ ] Replace file grepping with Graphify queries
-
-#### Day 6: Test Pipeline
-- [ ] Run full BDD pipeline on one feature
-- [ ] Verify tests fail (RED), pass (GREEN), refactor (CLEAN)
-- [ ] Check wiki for new patterns
-- [ ] Check graph for indexed relationships
-
-#### Week 2: Second Project
-- [ ] Initialize billing-service
-- [ ] Ingest sources
-- [ ] Run cross-project query: `/wiki:query "patterns used by >1 project"`
-- [ ] Reuse IP Hub patterns in billing-service
-
-#### Ongoing
-- [ ] Weekly: `/wiki:sync` + `/wiki:lint`
-- [ ] Weekly: `/graphify:reindex --all`
-- [ ] Per-feature: Run BDD/TDD pipeline
-- [ ] Monthly: Review framework skills, add new patterns
-
----
-
-## Alternative Suggestions
-
-### BDD/TDD MCP Services vs Skills
-Instead of porting playbooks to Claude Code skills, consider exposing them as MCP services:
-
-| Approach | Pros | Cons |
-|----------|------|------|
-| Skills (Claude Code) | Tight integration, easy to invoke | Tied to Claude Code |
-| MCP Server | Universal, any client can use | More setup, HTTP overhead |
-| Hybrid | Skills for dev, MCP for CI/CD | More maintenance |
-
-**Recommendation:** Start with skills. If team adoption grows, extract to MCP.
-
-### Graphify: Minimal vs Full
-The setup guide recommends starting with a simpler JSON-based graph:
-
-| Approach | Setup Time | Value | Migration |
-|----------|-----------|-------|-----------|
-| Graphify Minimal (JSON) | 1 hour | 80% | Export → Import |
-| Graphify Full (Neo4j) | 1 day | 100% | Native |
-
-**Recommendation:** Use `graphify-minimal` skill until cross-project queries prove value, then migrate.
-
----
-
-## Success Metrics
-
-| Metric | Baseline | Target (3 months) |
-|--------|----------|-------------------|
-| Time to generate BDD features | 2 hours | 15 minutes |
-| Time to implement + test a story | 3 days | 4 hours |
-| Test coverage (new code) | 60% | 90% |
-| Cross-project pattern reuse | 0% | 40% |
-| Context loading tokens | 50,000 | 15,000 |
-| Agent cost per story | $5.00 | $1.50 |
-| Wiki pages | 0 | 200+ |
-| Projects using framework | 1 | 3+ |
-
----
-
-*Generated for Kerry Harris — IP Hub Project*  
-*Framework version: 1.0*  
-*Last updated: 2026-07-08*
+*Report for Kerry Harris — FluentIT Framework*
+*Last updated: 2026-07-11*
