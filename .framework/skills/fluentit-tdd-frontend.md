@@ -113,6 +113,11 @@ describe('WelcomeMessage', () => {
 ```
 
 Use the Write tool to create the test file at:
+
+**⚠️ Verify the write path:**
+- The resolved codeRoot is: {codeRoot}
+- This test MUST be written to: `{codeRoot}/{frontendPath}/components/{FeatureName}.spec.ts`
+- DO NOT write to `projects/{projectName}/...`
 ```
 {codeRoot}/{frontendPath}/components/{FeatureName}.spec.ts
 ```
@@ -159,6 +164,11 @@ export default function {FeatureName}() {
 ```
 
 Use the Write tool to create the component at:
+
+**⚠️ Verify the write path:**
+- The resolved codeRoot is: {codeRoot}
+- This component MUST be written to: `{codeRoot}/{frontendPath}/components/{FeatureName}.vue`
+- DO NOT write to `projects/{projectName}/...`
 ```
 {codeRoot}/{frontendPath}/components/{FeatureName}.vue
 ```

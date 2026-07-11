@@ -85,6 +85,11 @@ Then('the user sees {string} displayed on the screen', async (text: string) => {
 ```
 
 Use Write to create:
+
+**⚠️ Verify the write path:**
+- The resolved codeRoot is: {codeRoot}
+- This step file MUST be written to: `{codeRoot}/{frontendPath}/features/step-definitions/{featureName}.steps.ts`
+- DO NOT write to `projects/{projectName}/...`
 ```
 {codeRoot}/{frontendPath}/features/step-definitions/{featureName}.steps.ts
 ```

@@ -102,6 +102,11 @@ Feature: [Feature Name from spec]
 
 ### Step 5: Write the Feature File
 
+**⚠️ Verify the write path before proceeding:**
+- The resolved codeRoot is: {codeRoot}
+- This feature file MUST be written to: `{codeRoot}/features/{feature-name}.feature`
+- DO NOT write to `projects/{projectName}/features/{feature-name}.feature` — that is the vault side
+
 Use the Write tool to create:
 ```
 {codeRoot}/features/{feature-name}.feature

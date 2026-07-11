@@ -50,6 +50,11 @@ Check if the OKF has a `codePaths` field.
 - `projects/{projectName}/` for OKF, specs, and documentation (vault side)
 - `{codeRoot}/` for features, code, tests, and git operations (code side)
 
+**⚠️ CRITICAL — Two-Root Rule:**
+- Code files (features, tests, components, controllers) **MUST** go to `{codeRoot}/`
+- **NEVER** write code files to `projects/{projectName}/` — that directory is for vault documentation only
+- If you are unsure which path to use, STOP and ask the user
+
 **Step 3: Detect the Current State**
 
 Check vault-side artifacts (documentation):
@@ -96,6 +101,8 @@ Output a clear recommendation:
 
 ```
 📋 Project: {projectName} | Feature: {featureName}
+📂 Code Directory: {codeRoot}
+🗄️  Vault OKF: projects/{projectName}/okf/index.md
 
 Detected State:
   ✅ OKF exists
@@ -106,6 +113,7 @@ Detected State:
 
 Next Skill: fluentit-bdd-features
   → Reads specs/PRDs and generates Gherkin .feature files
+  → Writes features to: {codeRoot}/features/
   → Command: fluentit-bdd-features --project {projectName} --specs specs/
 
 Dependencies: None (starting from scratch)

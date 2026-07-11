@@ -83,6 +83,11 @@ Then('the response body contains {string}', (bodyText: string) => {
 ```
 
 Use Write to create:
+
+**⚠️ Verify the write path:**
+- The resolved codeRoot is: {codeRoot}
+- This step file MUST be written to: `{codeRoot}/{backendPath}/test/e2e/step-definitions/{featureName}.steps.ts`
+- DO NOT write to `projects/{projectName}/...`
 ```
 {codeRoot}/{backendPath}/test/e2e/step-definitions/{featureName}.steps.ts
 ```

@@ -112,6 +112,11 @@ describe('WelcomeController', () => {
 ```
 
 Use the Write tool to create the test file at:
+
+**⚠️ Verify the write path:**
+- The resolved codeRoot is: {codeRoot}
+- This test MUST be written to: `{codeRoot}/{backendPath}/{featureName}/{featureName}.controller.spec.ts`
+- DO NOT write to `projects/{projectName}/...`
 ```
 {codeRoot}/{backendPath}/{featureName}/{featureName}.controller.spec.ts
 ```
@@ -140,6 +145,11 @@ export class WelcomeService {
 ```
 
 Use the Write tool:
+
+**⚠️ Verify the write path:**
+- The resolved codeRoot is: {codeRoot}
+- This service MUST be written to: `{codeRoot}/{backendPath}/{featureName}/{featureName}.service.ts`
+- DO NOT write to `projects/{projectName}/...`
 ```
 {codeRoot}/{backendPath}/{featureName}/{featureName}.service.ts
 ```
@@ -164,6 +174,11 @@ export class WelcomeController {
 ```
 
 Use the Write tool:
+
+**⚠️ Verify the write path:**
+- The resolved codeRoot is: {codeRoot}
+- This service MUST be written to: `{codeRoot}/{backendPath}/{featureName}/{featureName}.service.ts`
+- DO NOT write to `projects/{projectName}/...`
 ```
 {codeRoot}/{backendPath}/{featureName}/{featureName}.controller.ts
 ```
