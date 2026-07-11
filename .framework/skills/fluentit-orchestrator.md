@@ -21,33 +21,64 @@ fluentit-orchestrator --project hello-world --feature welcome
 
 ## How to Use
 
-**Step 1:** The user provides a project name and optionally a feature name.
+The user provides a project name and optionally a feature name.
 
-**Step 2:** Read the OKF file:
-- Use the Read tool to open `projects/{projectName}/okf/index.md`
-- If this file doesn't exist, STOP and tell the user: "Project '{projectName}' not found. Create projects/{projectName}/okf/index.md first."
+**Step 1: Read the OKF**
 
-**Step 3:** Detect the current state by checking which files exist. Use the Bash tool to list directories:
+Use the Read tool to open `projects/{projectName}/okf/index.md`.
 
+If this file doesn't exist, STOP and tell the user: "Project '{projectName}' not found. Create projects/{projectName}/okf/index.md first."
+
+**Step 2: Resolve the Code Path**
+
+Check if the OKF has a `codePaths` field.
+
+**If `codePaths` is present:**
+1. Determine the machine identifier in this priority:
+   - Environment variable `FLUENTIT_MACHINE`
+   - Local config file `~/.fluentit/machine.json` (read with Bash: `cat ~/.fluentit/machine.json 2>/dev/null || echo "{}"`)
+   - Hostname: `hostname` command
+2. Find the entry in `codePaths` where `machine` matches the identifier.
+3. If found, set `{codeRoot}` to that entry's `path`.
+4. If not found, STOP and tell the user:
+   > "No code path configured for machine '{machineId}' in project '{projectName}'. Please provide the path, or add this to the OKF:\n> codePaths:\n>   - machine: '{machineId}'\n>     path: '<your path here>'"
+
+**If `codePaths` is absent:**
+- The project is vault-local. Set `{codeRoot}` = `projects/{projectName}/`.
+
+**From now on, use:**
+- `projects/{projectName}/` for OKF, specs, and documentation (vault side)
+- `{codeRoot}/` for features, code, tests, and git operations (code side)
+
+**Step 3: Detect the Current State**
+
+Check vault-side artifacts (documentation):
 ```bash
 # Check for specs (PRDs, requirements)
 ls projects/{projectName}/specs/ 2>/dev/null || echo "No specs"
-
-# Check for Gherkin features
-ls projects/{projectName}/features/ 2>/dev/null || echo "No features"
-
-# Check for step definitions
-find projects/{projectName} -name "*.steps.ts" 2>/dev/null | head -5
-
-# Check for implementation files
-find projects/{projectName}/frontend/src -name "*.vue" 2>/dev/null | head -5
-find projects/{projectName}/backend/src -name "*.controller.ts" 2>/dev/null | head -5
-
-# Check for test files
-find projects/{projectName} -name "*.spec.ts" 2>/dev/null | head -5
 ```
 
-**Step 4:** Recommend the next skill based on state:
+Check code-side artifacts (implementation):
+```bash
+# Check for Gherkin features
+ls {codeRoot}/features/ 2>/dev/null || echo "No features"
+
+# Check for step definitions
+find {codeRoot} -name "*.steps.ts" 2>/dev/null | head -5
+
+# Check for implementation files
+find {codeRoot}/{frontendPath} -name "*.vue" 2>/dev/null | head -5
+find {codeRoot}/{backendPath} -name "*.controller.ts" 2>/dev/null | head -5
+
+# Check for test files
+find {codeRoot} -name "*.spec.ts" 2>/dev/null | head -5
+```
+
+Note: `{frontendPath}` and `{backendPath}` come from the OKF `paths` map.
+
+**Step 4: Recommend the Next Skill**
+
+Recommend the next skill based on state:
 
 | State Detected | Recommended Skill | Why |
 |---|---|---|
@@ -59,7 +90,9 @@ find projects/{projectName} -name "*.spec.ts" 2>/dev/null | head -5
 | Code exists, unreviewed | `fluentit-review` | Clean up AI artifacts |
 | Code clean, uncommitted | `fluentit-pr` | Create PR |
 
-**Step 5:** Output a clear recommendation:
+**Step 5: Output the Recommendation**
+
+Output a clear recommendation:
 
 ```
 📋 Project: {projectName} | Feature: {featureName}
@@ -86,6 +119,7 @@ Dependencies: None (starting from scratch)
 | Project directory missing | "Run: mkdir -p projects/{name}/okf && create the index.md" |
 | Feature name not provided | "Please provide a feature name: fluentit-orchestrator --project {name} --feature {feature}" |
 | Multiple missing phases | List them in order and recommend starting with the first |
+| No matching codePaths entry | "No code path configured for machine '{id}'. Provide the path or add it to the OKF." |
 
 ## Skill Registry
 
