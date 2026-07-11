@@ -34,11 +34,32 @@ Extract:
 
 If OKF doesn't exist, STOP and tell the user to create it.
 
-### Step 2: Find the Feature File
+### Step 2: Resolve the Code Path
+
+Check if the OKF has a `codePaths` field.
+
+**If `codePaths` is present:**
+1. Determine the machine identifier in this priority:
+   - Environment variable `FLUENTIT_MACHINE`
+   - Local config file `~/.fluentit/machine.json` (read with Bash: `cat ~/.fluentit/machine.json 2>/dev/null || echo "{}"`)
+   - Hostname: `hostname` command
+2. Find the entry in `codePaths` where `machine` matches the identifier.
+3. If found, set `{codeRoot}` to that entry's `path`.
+4. If not found, STOP and tell the user:
+   > "No code path configured for machine '{machineId}' in project '{projectName}'. Please provide the path, or add this to the OKF:\n> codePaths:\n>   - machine: '{machineId}'\n>     path: '<your path here>'"
+
+**If `codePaths` is absent:**
+- The project is vault-local. Set `{codeRoot}` = `projects/{projectName}/`.
+
+**From now on, use:**
+- `projects/{projectName}/` for OKF, specs, and documentation (vault side)
+- `{codeRoot}/` for features, code, tests, and git operations (code side)
+
+### Step 3: Find the Feature File
 
 Use the Bash tool to find the feature file:
 ```bash
-find projects/{projectName}/features -name "*{featureName}*.feature" 2>/dev/null
+find {codeRoot}/features -name "*{featureName}*.feature" 2>/dev/null
 ```
 
 Use the Read tool to read the matching `.feature` file.
@@ -46,18 +67,18 @@ Use the Read tool to read the matching `.feature` file.
 If no feature file found, STOP and tell the user:
 > "No feature file found for '{featureName}'. Run fluentit-bdd-features first."
 
-### Step 3: Check Existing Code
+### Step 4: Check Existing Code
 
 Use the Bash tool to see what already exists:
 ```bash
 # Check for existing component
-find projects/{projectName}/{frontendPath} -name "*{featureName}*.vue" -o -name "*{featureName}*.tsx" 2>/dev/null
+find {codeRoot}/{frontendPath} -name "*{featureName}*.vue" -o -name "*{featureName}*.tsx" 2>/dev/null
 
 # Check for existing tests
-find projects/{projectName}/{frontendPath} -name "*{featureName}*.spec.*" 2>/dev/null
+find {codeRoot}/{frontendPath} -name "*{featureName}*.spec.*" 2>/dev/null
 ```
 
-### Step 4: Generate Tests (Red)
+### Step 5: Generate Tests (Red)
 
 Based on the feature file scenarios, generate a test file.
 
@@ -93,19 +114,19 @@ describe('WelcomeMessage', () => {
 
 Use the Write tool to create the test file at:
 ```
-projects/{projectName}/{frontendPath}/components/{FeatureName}.spec.ts
+{codeRoot}/{frontendPath}/components/{FeatureName}.spec.ts
 ```
 
-### Step 5: Run Tests (Confirm Red)
+### Step 6: Run Tests (Confirm Red)
 
 Use the Bash tool:
 ```bash
-cd projects/{projectName}/{frontendPath} && npm test -- {FeatureName}.spec.ts 2>&1
+cd {codeRoot}/{frontendPath} && npm test -- {FeatureName}.spec.ts 2>&1
 ```
 
 The tests should **fail** because the component doesn't exist yet. If they pass, something is wrong.
 
-### Step 6: Implement Component (Green)
+### Step 7: Implement Component (Green)
 
 Create the component that makes the tests pass.
 
@@ -139,25 +160,25 @@ export default function {FeatureName}() {
 
 Use the Write tool to create the component at:
 ```
-projects/{projectName}/{frontendPath}/components/{FeatureName}.vue
+{codeRoot}/{frontendPath}/components/{FeatureName}.vue
 ```
 
-### Step 7: Run Tests (Confirm Green)
+### Step 8: Run Tests (Confirm Green)
 
 ```bash
-cd projects/{projectName}/{frontendPath} && npm test -- {FeatureName}.spec.ts 2>&1
+cd {codeRoot}/{frontendPath} && npm test -- {FeatureName}.spec.ts 2>&1
 ```
 
 Tests should now **pass**.
 
-### Step 8: Report Results
+### Step 9: Report Results
 
 Tell the user:
 ```
 ✅ Frontend TDD Complete: {featureName}
 
 Tests: PASS
-Component: projects/{projectName}/{frontendPath}/components/{FeatureName}.vue
+Component: {codeRoot}/{frontendPath}/components/{FeatureName}.vue
 
 Next steps:
   - Review the component

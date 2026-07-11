@@ -34,11 +34,32 @@ Extract:
 
 If OKF doesn't exist, STOP and tell the user to create it.
 
-### Step 2: Find the Feature File
+### Step 2: Resolve the Code Path
+
+Check if the OKF has a `codePaths` field.
+
+**If `codePaths` is present:**
+1. Determine the machine identifier in this priority:
+   - Environment variable `FLUENTIT_MACHINE`
+   - Local config file `~/.fluentit/machine.json` (read with Bash: `cat ~/.fluentit/machine.json 2>/dev/null || echo "{}"`)
+   - Hostname: `hostname` command
+2. Find the entry in `codePaths` where `machine` matches the identifier.
+3. If found, set `{codeRoot}` to that entry's `path`.
+4. If not found, STOP and tell the user:
+   > "No code path configured for machine '{machineId}' in project '{projectName}'. Please provide the path, or add this to the OKF:\n> codePaths:\n>   - machine: '{machineId}'\n>     path: '<your path here>'"
+
+**If `codePaths` is absent:**
+- The project is vault-local. Set `{codeRoot}` = `projects/{projectName}/`.
+
+**From now on, use:**
+- `projects/{projectName}/` for OKF, specs, and documentation (vault side)
+- `{codeRoot}/` for features, code, tests, and git operations (code side)
+
+### Step 3: Find the Feature File
 
 Use the Bash tool:
 ```bash
-find projects/{projectName}/features -name "*{featureName}*.feature" 2>/dev/null
+find {codeRoot}/features -name "*{featureName}*.feature" 2>/dev/null
 ```
 
 Use the Read tool to read the matching `.feature` file.
@@ -46,20 +67,20 @@ Use the Read tool to read the matching `.feature` file.
 If no feature file found, STOP:
 > "No feature file found for '{featureName}'. Run fluentit-bdd-features first."
 
-### Step 3: Check Existing Code
+### Step 4: Check Existing Code
 
 ```bash
 # Check for existing controller
-find projects/{projectName}/{backendPath} -name "*{featureName}*.controller.*" 2>/dev/null
+find {codeRoot}/{backendPath} -name "*{featureName}*.controller.*" 2>/dev/null
 
 # Check for existing service
-find projects/{projectName}/{backendPath} -name "*{featureName}*.service.*" 2>/dev/null
+find {codeRoot}/{backendPath} -name "*{featureName}*.service.*" 2>/dev/null
 
 # Check for existing tests
-find projects/{projectName}/{backendPath} -name "*{featureName}*.spec.*" 2>/dev/null
+find {codeRoot}/{backendPath} -name "*{featureName}*.spec.*" 2>/dev/null
 ```
 
-### Step 4: Generate Tests (Red)
+### Step 5: Generate Tests (Red)
 
 Create a controller test based on the `@backend` scenarios in the feature file.
 
@@ -92,18 +113,18 @@ describe('WelcomeController', () => {
 
 Use the Write tool to create the test file at:
 ```
-projects/{projectName}/{backendPath}/{featureName}/{featureName}.controller.spec.ts
+{codeRoot}/{backendPath}/{featureName}/{featureName}.controller.spec.ts
 ```
 
-### Step 5: Run Tests (Confirm Red)
+### Step 6: Run Tests (Confirm Red)
 
 ```bash
-cd projects/{projectName}/{backendPath} && npx jest {featureName}.controller.spec.ts 2>&1
+cd {codeRoot}/{backendPath} && npx jest {featureName}.controller.spec.ts 2>&1
 ```
 
 Tests should **fail** because the controller and service don't exist.
 
-### Step 6: Implement Service (Green)
+### Step 7: Implement Service (Green)
 
 Create a minimal service:
 
@@ -120,10 +141,10 @@ export class WelcomeService {
 
 Use the Write tool:
 ```
-projects/{projectName}/{backendPath}/{featureName}/{featureName}.service.ts
+{codeRoot}/{backendPath}/{featureName}/{featureName}.service.ts
 ```
 
-### Step 7: Implement Controller (Green)
+### Step 8: Implement Controller (Green)
 
 Create a minimal controller:
 
@@ -144,34 +165,34 @@ export class WelcomeController {
 
 Use the Write tool:
 ```
-projects/{projectName}/{backendPath}/{featureName}/{featureName}.controller.ts
+{codeRoot}/{backendPath}/{featureName}/{featureName}.controller.ts
 ```
 
-### Step 8: Register in Module
+### Step 9: Register in Module
 
 Read the AppModule:
 ```
-projects/{projectName}/{backendPath}/app.module.ts
+{codeRoot}/{backendPath}/app.module.ts
 ```
 
 Add the new module/controller. If there's a dedicated module file, add it there. Otherwise, add to AppModule.
 
-### Step 9: Run Tests (Confirm Green)
+### Step 10: Run Tests (Confirm Green)
 
 ```bash
-cd projects/{projectName}/{backendPath} && npx jest {featureName}.controller.spec.ts 2>&1
+cd {codeRoot}/{backendPath} && npx jest {featureName}.controller.spec.ts 2>&1
 ```
 
 Tests should now **pass**.
 
-### Step 10: Report Results
+### Step 11: Report Results
 
 ```
 ✅ Backend TDD Complete: {featureName}
 
 Tests: PASS
-Controller: projects/{projectName}/{backendPath}/{featureName}/{featureName}.controller.ts
-Service: projects/{projectName}/{backendPath}/{featureName}/{featureName}.service.ts
+Controller: {codeRoot}/{backendPath}/{featureName}/{featureName}.controller.ts
+Service: {codeRoot}/{backendPath}/{featureName}/{featureName}.service.ts
 
 Next steps:
   - Review the controller and service
