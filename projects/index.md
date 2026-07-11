@@ -9,6 +9,7 @@
 | Project | Type | Status | Patterns |
 |---------|------|--------|----------|
 | [[projects/ip-hub/okf/index\|IP Hub]] | nestjs-vue | 🚧 In Progress | P1-P5 |
+| [[projects/hello-world/okf/index\|Hello World]] | nestjs-vue | 🧪 Validating | — |
 
 ---
 
