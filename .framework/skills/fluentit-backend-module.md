@@ -25,16 +25,37 @@ fluentit-backend-module --project hello-world --feature user-profile
 
 Read `projects/{projectName}/okf/index.md` for `paths.backend` and `techStack.backend`.
 
-### Step 2: Check Existing Files
+### Step 2: Resolve the Code Path
+
+Check if the OKF has a `codePaths` field.
+
+**If `codePaths` is present:**
+1. Determine the machine identifier in this priority:
+   - Environment variable `FLUENTIT_MACHINE`
+   - Local config file `~/.fluentit/machine.json` (read with Bash: `cat ~/.fluentit/machine.json 2>/dev/null || echo "{}"`)
+   - Hostname: `hostname` command
+2. Find the entry in `codePaths` where `machine` matches the identifier.
+3. If found, set `{codeRoot}` to that entry's `path`.
+4. If not found, STOP and tell the user:
+   > "No code path configured for machine '{machineId}' in project '{projectName}'. Please provide the path, or add this to the OKF:\n> codePaths:\n>   - machine: '{machineId}'\n>     path: '<your path here>'"
+
+**If `codePaths` is absent:**
+- The project is vault-local. Set `{codeRoot}` = `projects/{projectName}/`.
+
+**From now on, use:**
+- `projects/{projectName}/` for OKF, specs, and documentation (vault side)
+- `{codeRoot}/` for features, code, tests, and git operations (code side)
+
+### Step 3: Check Existing Files
 
 ```bash
-find projects/{projectName}/{backendPath} -name "*{featureName}*" 2>/dev/null
+find {codeRoot}/{backendPath} -name "*{featureName}*" 2>/dev/null
 ```
 
-### Step 3: Create Service
+### Step 4: Create Service
 
 ```typescript
-// {backendPath}/{featureName}/{featureName}.service.ts
+// {codeRoot}/{backendPath}/{featureName}/{featureName}.service.ts
 
 import { Injectable } from '@nestjs/common'
 
@@ -44,10 +65,10 @@ export class {FeatureName}Service {
 }
 ```
 
-### Step 4: Create Controller
+### Step 5: Create Controller
 
 ```typescript
-// {backendPath}/{featureName}/{featureName}.controller.ts
+// {codeRoot}/{backendPath}/{featureName}/{featureName}.controller.ts
 
 import { Controller, Get, Post } from '@nestjs/common'
 import { {FeatureName}Service } from './{featureName}.service'
@@ -63,10 +84,10 @@ export class {FeatureName}Controller {
 }
 ```
 
-### Step 5: Create Module
+### Step 6: Create Module
 
 ```typescript
-// {backendPath}/{featureName}/{featureName}.module.ts
+// {codeRoot}/{backendPath}/{featureName}/{featureName}.module.ts
 
 import { Module } from '@nestjs/common'
 import { {FeatureName}Controller } from './{featureName}.controller'
@@ -79,9 +100,9 @@ import { {FeatureName}Service } from './{featureName}.service'
 export class {FeatureName}Module {}
 ```
 
-### Step 6: Register in AppModule
+### Step 7: Register in AppModule
 
-Read `app.module.ts`, add the import.
+Read `{codeRoot}/{backendPath}/app.module.ts`, add the import.
 
 ## Error Handling
 

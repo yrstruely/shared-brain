@@ -25,7 +25,28 @@ fluentit-domain-entity --project hello-world --feature "user profile"
 
 Read `projects/{projectName}/okf/index.md` for `paths.domain`.
 
-### Step 2: Interview the User
+### Step 2: Resolve the Code Path
+
+Check if the OKF has a `codePaths` field.
+
+**If `codePaths` is present:**
+1. Determine the machine identifier in this priority:
+   - Environment variable `FLUENTIT_MACHINE`
+   - Local config file `~/.fluentit/machine.json` (read with Bash: `cat ~/.fluentit/machine.json 2>/dev/null || echo "{}"`)
+   - Hostname: `hostname` command
+2. Find the entry in `codePaths` where `machine` matches the identifier.
+3. If found, set `{codeRoot}` to that entry's `path`.
+4. If not found, STOP and tell the user:
+   > "No code path configured for machine '{machineId}' in project '{projectName}'. Please provide the path, or add this to the OKF:\n> codePaths:\n>   - machine: '{machineId}'\n>     path: '<your path here>'"
+
+**If `codePaths` is absent:**
+- The project is vault-local. Set `{codeRoot}` = `projects/{projectName}/`.
+
+**From now on, use:**
+- `projects/{projectName}/` for OKF, specs, and documentation (vault side)
+- `{codeRoot}/` for features, code, tests, and git operations (code side)
+
+### Step 3: Interview the User
 
 Ask 3-5 questions:
 
@@ -35,7 +56,7 @@ Ask 3-5 questions:
 4. "What business rules apply? (e.g., email must be unique)"
 5. "How does it relate to other entities?"
 
-### Step 3: Design the Entity
+### Step 4: Design the Entity
 
 Present the design:
 
@@ -52,22 +73,32 @@ Business Rules:
   - status transitions: {from} → {to}
 
 Files to create:
-  - {domainPath}/entities/{name}.entity.ts
-  - {domainPath}/entities/{name}.entity.spec.ts
+  - {codeRoot}/{domainPath}/entities/{name}.entity.ts
+  - {codeRoot}/{domainPath}/entities/{name}.entity.spec.ts
 ```
 
 Wait for user confirmation.
 
-### Step 4: Implement
+### Step 5: Implement
 
 Create the entity file with:
 - Constructor validation
 - Business methods
 - No framework dependencies
 
+Use the Write tool to create:
+```
+{codeRoot}/{domainPath}/entities/{name}.entity.ts
+```
+
 Create the test file with:
 - Construction tests
 - Business rule tests
+
+Use the Write tool to create:
+```
+{codeRoot}/{domainPath}/entities/{name}.entity.spec.ts
+```
 
 ## Error Handling
 

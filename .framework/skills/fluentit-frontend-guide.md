@@ -25,9 +25,30 @@ fluentit-frontend-guide --project hello-world --feature welcome
 ### Step 1: Read Context
 
 - OKF: `projects/{projectName}/okf/index.md`
-- Feature: `projects/{projectName}/features/{featureName}.feature`
+- Feature: `{codeRoot}/features/{featureName}.feature`
 
-### Step 2: Plan Implementation
+### Step 2: Resolve the Code Path
+
+Check if the OKF has a `codePaths` field.
+
+**If `codePaths` is present:**
+1. Determine the machine identifier in this priority:
+   - Environment variable `FLUENTIT_MACHINE`
+   - Local config file `~/.fluentit/machine.json` (read with Bash: `cat ~/.fluentit/machine.json 2>/dev/null || echo "{}"`)
+   - Hostname: `hostname` command
+2. Find the entry in `codePaths` where `machine` matches the identifier.
+3. If found, set `{codeRoot}` to that entry's `path`.
+4. If not found, STOP and tell the user:
+   > "No code path configured for machine '{machineId}' in project '{projectName}'. Please provide the path, or add this to the OKF:\n> codePaths:\n>   - machine: '{machineId}'\n>     path: '<your path here>'"
+
+**If `codePaths` is absent:**
+- The project is vault-local. Set `{codeRoot}` = `projects/{projectName}/`.
+
+**From now on, use:**
+- `projects/{projectName}/` for OKF, specs, and documentation (vault side)
+- `{codeRoot}/` for features, code, tests, and git operations (code side)
+
+### Step 3: Plan Implementation
 
 Identify what to build:
 - Pages needed
@@ -48,13 +69,13 @@ Create files one at a time:
 
 After each file, run tests:
 ```bash
-cd projects/{projectName}/{frontendPath} && npm test
+cd {codeRoot}/{frontendPath} && npm test
 ```
 
-### Step 4: Validate
+### Step 5: Validate
 
 ```bash
-cd projects/{projectName}/{frontendPath} && npm run build
+cd {codeRoot}/{frontendPath} && npm run build
 ```
 
 ## Error Handling

@@ -25,7 +25,28 @@ fluentit-api-contracts --project hello-world --feature user-profile
 
 Read `projects/{projectName}/okf/index.md` for paths and tech stack.
 
-### Step 2: Find the Feature Spec
+### Step 2: Resolve the Code Path
+
+Check if the OKF has a `codePaths` field.
+
+**If `codePaths` is present:**
+1. Determine the machine identifier in this priority:
+   - Environment variable `FLUENTIT_MACHINE`
+   - Local config file `~/.fluentit/machine.json` (read with Bash: `cat ~/.fluentit/machine.json 2>/dev/null || echo "{}"`)
+   - Hostname: `hostname` command
+2. Find the entry in `codePaths` where `machine` matches the identifier.
+3. If found, set `{codeRoot}` to that entry's `path`.
+4. If not found, STOP and tell the user:
+   > "No code path configured for machine '{machineId}' in project '{projectName}'. Please provide the path, or add this to the OKF:\n> codePaths:\n>   - machine: '{machineId}'\n>     path: '<your path here>'"
+
+**If `codePaths` is absent:**
+- The project is vault-local. Set `{codeRoot}` = `projects/{projectName}/`.
+
+**From now on, use:**
+- `projects/{projectName}/` for OKF, specs, and documentation (vault side)
+- `{codeRoot}/` for features, code, tests, and git operations (code side)
+
+### Step 3: Find the Feature Spec
 
 ```bash
 find projects/{projectName}/specs -name "*{featureName}*" 2>/dev/null
@@ -33,12 +54,12 @@ find projects/{projectName}/specs -name "*{featureName}*" 2>/dev/null
 
 Read the spec to understand what data structures are needed.
 
-### Step 3: Create DTOs
+### Step 4: Create DTOs
 
 Create a TypeScript file with interfaces:
 
 ```typescript
-// projects/{projectName}/{contractsPath}/dto/{featureName}.dto.ts
+// {codeRoot}/{contractsPath}/dto/{featureName}.dto.ts
 
 export interface {FeatureName}Dto {
   id: string
@@ -57,10 +78,10 @@ export interface Update{FeatureName}Request {
 }
 ```
 
-### Step 4: Create Response Types
+### Step 5: Create Response Types
 
 ```typescript
-// projects/{projectName}/{contractsPath}/responses/{featureName}.responses.ts
+// {codeRoot}/{contractsPath}/responses/{featureName}.responses.ts
 
 export interface Get{FeatureName}Response {
   data: {FeatureName}Dto
@@ -72,10 +93,10 @@ export interface Get{FeatureName}ListResponse {
 }
 ```
 
-### Step 5: Create Frontend API Service
+### Step 6: Create Frontend API Service
 
 ```typescript
-// projects/{projectName}/{frontendPath}/services/{featureName}.api.ts
+// {codeRoot}/{frontendPath}/services/{featureName}.api.ts
 
 export async function get{FeatureName}(id: string): Promise<{FeatureName}Dto> {
   const response = await fetch(`/api/{featureName}s/${id}`)
