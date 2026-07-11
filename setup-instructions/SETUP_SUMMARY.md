@@ -173,6 +173,35 @@ No test validates:
 
 ---
 
+## OKF Template
+
+```yaml
+---
+name: my-project
+type: nestjs-vue
+techStack:
+  frontend: vue3
+  backend: nestjs
+  database: postgresql
+paths:
+  frontend: frontend/src
+  backend: backend/src
+  domain: backend/src/domain
+  features: features/
+  tests:
+    unit: backend/src/**/*.spec.ts
+    integration: backend/test
+    e2e: frontend/e2e
+codePaths:
+  - machine: "desktop"
+    path: "C:/Users/Reforged/Projects/my-project"
+---
+```
+
+> **Note:** `codePaths` is optional. Omit it to keep the project vault-local (all code in `projects/{name}/`).
+
+---
+
 ## Recommended Path to Production
 
 ### Phase 1: Hello World Validation (1-2 days)

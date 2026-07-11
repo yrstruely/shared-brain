@@ -359,6 +359,44 @@ See [bounded-contexts/index.md](bounded-contexts/index.md)
 
 ---
 
+### Step 4.2b: Machine Configuration (for Multi-Computer Setups)
+
+If you work on the same project from multiple computers, the code path may differ on each machine. Configure a machine identifier on each computer:
+
+#### Option A: Environment Variable (recommended for CI)
+```bash
+# Windows
+set FLUENTIT_MACHINE=desktop
+
+# Linux/macOS/WSL
+export FLUENTIT_MACHINE=laptop
+```
+
+#### Option B: Local Config File (recommended for workstations)
+Create `~/.fluentit/machine.json`:
+```json
+{
+  "machine": "desktop"
+}
+```
+
+#### Option C: Hostname (fallback)
+If neither is set, the skill uses the output of the `hostname` command.
+
+#### Add codePaths to Your OKF
+In `projects/{name}/okf/index.md`, add:
+```yaml
+codePaths:
+  - machine: "desktop"
+    path: "C:/Users/Reforged/Projects/hello-world"
+  - machine: "laptop"
+    path: "C:/Users/Kerry/Projects/hello-world"
+```
+
+If no matching machine is found, the skill will ask you for the path.
+
+---
+
 ### Step 4.3: Link Existing Codebase
 
 Create `projects/ip-hub/links.md`:
