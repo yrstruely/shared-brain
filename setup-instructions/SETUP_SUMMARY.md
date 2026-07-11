@@ -8,13 +8,13 @@
 
 ## Executive Summary
 
-**Status: Structurally complete, functionally unproven.**
+**Status: Structurally complete, partially validated, post-major refactor.**
 
-The framework has been fully assembled — all skills ported, wiki populated, documentation written, and code pushed to GitHub. However, **no skill has been invoked on a real project**. The framework is a factory-built car that has never been driven.
+The framework has been fully assembled and undergone a major architectural refactor to support **external project directories** (projects can live outside the shared-brain vault). The orchestrator skill has been invoked successfully and correctly resolves paths. However, **skills wrote generated files to the wrong directory** (vault instead of external) — this has been fixed with explicit path-verification warnings. Full end-to-end pipeline validation is still pending a Claude Code restart.
 
 ---
 
-## What Has Been Completed Since Last Update (2026-07-08)
+## What Has Been Completed
 
 ### 1. Skills Ported & Renamed (17 total)
 
@@ -23,7 +23,7 @@ The framework has been fully assembled — all skills ported, wiki populated, do
 | Infrastructure | `rlm-context-loader` | ✅ Active | ❌ No |
 | Infrastructure | `graphify-minimal` | ✅ Active | ✅ Yes (self-indexed) |
 | Infrastructure | `wiki-ingest-pipeline` | ✅ Active | ✅ Yes (Cucumber docs) |
-| Pipeline | `fluentit-bdd-features` | ✅ Ported | ❌ No |
+| Pipeline | `fluentit-bdd-features` | ✅ Ported | ⚠️ Partial (path fix pending restart) |
 | Pipeline | `fluentit-bdd-frontend-steps` | ✅ Ported | ❌ No |
 | Pipeline | `fluentit-bdd-backend-steps` | ✅ Ported | ❌ No |
 | Pipeline | `fluentit-tdd-frontend` | ✅ Ported | ❌ No |
@@ -34,20 +34,42 @@ The framework has been fully assembled — all skills ported, wiki populated, do
 | Workflow | `fluentit-frontend-guide` | ✅ Ported | ❌ No |
 | Workflow | `fluentit-pr` | ✅ Ported | ❌ No |
 | Workflow | `fluentit-review` | ✅ Ported | ❌ No |
-| Meta | `fluentit-orchestrator` | ✅ Created | ❌ No |
+| Meta | `fluentit-orchestrator` | ✅ Created | ✅ Yes (path resolution works) |
 | Reference | `MASTER_TEMPLATE` | ✅ Active | N/A |
 | Registry | `index` | ✅ Active | N/A |
 
 **Key Changes:**
 - All 12 DNA skills renamed from `dna-` to `fluentit-` prefix
-- 2 original stubs (`bdd-feature-agents`, `tdd-implementation-agents`) merged into ported versions and deleted
+- 2 original stubs merged into ported versions and deleted
 - `fluentit-orchestrator` created as meta-skill for pipeline routing
 - All skills installed to `~/.claude/skills/`
-- All skills have proper Claude Code frontmatter (`description`, `argument-hint`)
+- All skills have proper Claude Code frontmatter
 
 > **⚠️ Important:** Skills are loaded once at Claude Code startup. After updating skills in `.framework/skills/`, re-copy to `~/.claude/skills/` and **restart Claude Code**.
 
-### 2. Wiki Populated (69 pages)
+### 2. Project Externalization Refactor (Major)
+
+**What changed:** Projects can now keep documentation in the vault while code lives in an external directory.
+
+**New OKF field: `codePaths`**
+```yaml
+codePaths:
+  - machine: "desktop"
+    path: "C:/Users/Reforged/Dropbox/Programming/hello-world"
+```
+
+- **Vault side** (`projects/{name}/`): OKF, specs, ADRs, bounded contexts
+- **Code side** (external): Features, frontend code, backend code, tests
+- Machine resolution: `FLUENTIT_MACHINE` env var → `~/.fluentit/machine.json` → `hostname`
+- All 12 skills updated with two-root path resolution
+
+**Files changed:**
+- All 12 `.framework/skills/fluentit-*.md` skills
+- `projects/hello-world/okf/index.md` — added `codePaths`
+- `projects/index.md` — documented two-root model
+- `setup-instructions/SETUP_GUIDE.md` — added machine config section
+
+### 3. Wiki Populated (69 pages)
 
 | Section | Pages | Source |
 |---------|-------|--------|
@@ -83,6 +105,49 @@ The framework has been fully assembled — all skills ported, wiki populated, do
 - ✅ 2 commits pushed to GitHub (kerry.harris0713@gmail.com account)
 - ✅ `.gitignore` configured (excludes `.graphify/`, `node_modules/`, `.obsidian/`)
 - ✅ Local git config: Kerry Harris / nzfluentit@gmail.com
+
+---
+
+## Validation Log
+
+### 2026-07-11: Orchestrator Path Resolution ✅
+
+**Test:** `/fluentit-orchestrator --project hello-world --feature welcome`
+
+**Result:**
+- ✅ Reads OKF from vault: `projects/hello-world/okf/index.md`
+- ✅ Resolves machine ID from `~/.fluentit/machine.json`
+- ✅ Matches `codePaths` entry for "desktop"
+- ✅ Correctly identifies external directory: `C:/Users/Reforged/Dropbox/Programming/hello-world`
+- ✅ Checks specs in vault, features in external directory
+- ✅ Recommends correct next skill: `fluentit-bdd-features`
+
+### 2026-07-11: Bug Found — Skills Writing to Wrong Directory ❌
+
+**Problem:** When skills ran, they wrote generated files to `projects/hello-world/` (vault) instead of `C:/Users/Reforged/Dropbox/Programming/hello-world/` (external).
+
+**Root cause:** `{codeRoot}` is a placeholder in skill markdown. Claude didn't consistently substitute it with the resolved path.
+
+**Files incorrectly created in vault:**
+- `projects/hello-world/backend/src/welcome/*.ts`
+- `projects/hello-world/frontend/src/components/*.vue`
+- `projects/hello-world/features/welcome.feature`
+
+**Fix applied:**
+- Added `⚠️ CRITICAL — Two-Root Rule` warning to all 12 skills
+- Added `⚠️ Verify the write path` warning before every Write operation
+- Orchestrator output now shows: `📂 Code Directory: {codeRoot}`
+- Explicitly warn: "DO NOT write to `projects/{projectName}/` — that is the vault side"
+- Cleaned vault-side `projects/hello-world/` to contain only `okf/`
+
+**Status:** Fix committed but requires **Claude Code restart** to load updated skills.
+
+### 2026-07-11: Pending Validation
+
+- [ ] Re-run orchestrator after restart (confirm path display)
+- [ ] Run `fluentit-bdd-features` (confirm writes to external directory)
+- [ ] Verify vault-side remains clean (only `okf/`)
+- [ ] Run full pipeline end-to-end
 
 ---
 
@@ -127,30 +192,25 @@ The framework has been fully assembled — all skills ported, wiki populated, do
 
 ## What's Missing
 
-### 1. Real Project Scaffold
+### 1. Full Pipeline End-to-End Validation
 
-IP Hub exists as OKF metadata only:
-- ❌ No `src/` directory
-- ❌ No `package.json`
-- ❌ No actual NestJS or Vue code
-- ❌ No test files
+Hello World project exists at `C:/Users/Reforged/Dropbox/Programming/hello-world/` with:
+- ✅ External code directory configured in OKF
+- ✅ `codePaths` with machine "desktop"
+- ✅ Features, frontend, backend directories exist
+- ❌ Full pipeline (orchestrator → bdd-features → bdd-steps → tdd → pr) not yet run cleanly
 
-**Impact:** Skills have nothing to operate on.
+### 2. Skill Restart Verification
 
-### 2. Error Handling
+Updated skills are in `~/.claude/skills/` but Claude Code must be **restarted** to load them. This is the current blocker for continued validation.
+
+### 3. Error Handling
 
 Skills assume happy path:
+- ❌ What if `codePaths` entry path doesn't exist?
 - ❌ What if RLM fails to load context?
-- ❌ What if Graphify returns no results?
 - ❌ What if project OKF is malformed?
 - ❌ What if tests fail during TDD cycle?
-
-### 3. Cross-Skill State Passing
-
-The orchestrator detects state, but:
-- ❌ Skills don't read each other's output files
-- ❌ No shared state format between BDD → TDD handoff
-- ❌ No verification that previous skill succeeded
 
 ### 4. RLM Implementation
 
@@ -166,13 +226,12 @@ But `loadProjectContext()` is **not implemented**. It's a function signature in 
 - Implement a minimal `loadProjectContext()` that reads OKF files directly
 - Use a simpler approach: just read `projects/{name}/okf/index.md`
 
-### 5. Integration Testing
+### 5. Multi-Machine Testing
 
-No test validates:
-- ❌ End-to-end pipeline on a real feature
-- ❌ Skill composition (orchestrator → skill A → skill B)
-- ❌ Wiki updates after skill execution
-- ❌ Graphify reindexing after code changes
+`codePaths` supports multiple machines but has only been tested on "desktop":
+- ❌ Not tested with `FLUENTIT_MACHINE` env var
+- ❌ Not tested with hostname fallback
+- ❌ Not tested on laptop/WSL with different paths
 
 ---
 
@@ -197,7 +256,7 @@ paths:
     e2e: frontend/e2e
 codePaths:
   - machine: "desktop"
-    path: "C:/Users/Reforged/Projects/my-project"
+    path: "C:/Users/Reforged/Dropbox/Programming/my-project"
 ---
 ```
 
@@ -205,130 +264,48 @@ codePaths:
 
 ---
 
-## Recommended Path to Production
+## Recommended Path Forward
 
-### Phase 1: Hello World Validation (1-2 days)
+### Immediate: Restart & Validate (5 minutes)
 
-**Goal:** Prove the framework can build something.
+1. **Restart Claude Code** in your other terminal (skills loaded at startup)
+2. **Re-run orchestrator:** `/fluentit-orchestrator --project hello-world --feature welcome`
+3. **Verify:** Output shows `📂 Code Directory: C:/Users/Reforged/Dropbox/Programming/hello-world`
+4. **Run BDD features:** `/fluentit-bdd-features --project hello-world --specs specs/welcome.md`
+5. **Verify:** Feature file written to external directory, vault-side remains clean
 
-```bash
-# 1. Create minimal project
-mkdir -p projects/hello-world/src/frontend
-mkdir -p projects/hello-world/src/backend
-mkdir -p projects/hello-world/okf
+**If this works:** Framework core is viable. Proceed to hardening.
+**If this fails:** Debug the specific skill and fix.
 
-# 2. Write minimal OKF
-cat > projects/hello-world/okf/index.md << 'EOF'
----
-name: hello-world
-type: nestjs-vue
-techStack:
-  frontend: vue3
-  backend: nestjs
-paths:
-  frontend: src/frontend
-  backend: src/backend
----
-EOF
+### Short-Term: Hardening (1-2 days)
 
-# 3. Scaffold minimal NestJS + Vue
-# (Use nest CLI and nuxi init)
+- Add error handling for missing `codePaths` entries
+- Add validation that previous skill succeeded before running next
+- Test multi-machine path resolution
+- Optimize token usage
 
-# 4. Write a PRD
-cat > projects/hello-world/sources/prds/welcome.md << 'EOF'
-# Welcome Message
+### Medium-Term: Real Feature (IP Hub)
 
-## Feature
-As a user, I want to see a welcome message so that I know the app loaded.
-
-## Acceptance Criteria
-- Given I open the app
-- When the page loads
-- Then I see "Hello, World!"
-EOF
-
-# 5. Run the pipeline
-fluentit-orchestrator --project hello-world --feature welcome
-```
-
-**Expected outcome:** A working Vue component with a passing Playwright test.
-
-**If this works:** Framework is viable. Proceed to Phase 2.
-**If this fails:** Fix the broken skill(s) before proceeding.
-
-### Phase 2: RLM Implementation (1 day)
-
-**Goal:** Make `loadProjectContext()` real.
-
-**Minimal implementation:**
-```typescript
-async function loadProjectContext(projectName: string) {
-  const okfPath = `projects/${projectName}/okf/index.md`;
-  const okf = await readOkfIndex(okfPath);
-  return {
-    project: okf,
-    projectType: await readProjectType(okf.projectType),
-    graph: { query: async () => [] }, // stub
-    wiki: { query: async () => [] },  // stub
-  };
-}
-```
-
-**Test:** Every skill can call `loadProjectContext('hello-world')` without error.
-
-### Phase 3: IP Hub Feature (2-3 days)
-
-**Goal:** Build one real feature in IP Hub.
-
-1. Scaffold IP Hub codebase (NestJS + Nuxt)
-2. Pick simplest bounded context (e.g., User Management)
-3. Run full pipeline: PRD → Features → Steps → TDD → Review → PR
-4. Document what breaks
-
-### Phase 4: Hardening (Ongoing)
-
-- Add error handling to each skill
-- Add validation checkpoints (did previous skill succeed?)
-- Add rollback capability
-- Optimize token usage (currently ~15k target, may need tuning)
+- Pick simplest bounded context
+- Run full pipeline: PRD → Features → Steps → TDD → Review → PR
+- Document what breaks
 
 ---
 
-## Success Metrics (Revised)
+## Success Metrics
 
 | Metric | Current | Target (3 months) |
 |--------|---------|-------------------|
 | Skills tested end-to-end | 0/12 | 12/12 |
+| Orchestrator path resolution | ✅ Works | 12/12 |
+| Skills writing to correct directory | ⚠️ Fix pending restart | 12/12 |
 | Real features built | 0 | 10+ |
-| Framework projects | 0 | 2+ |
+| Framework projects | 1 (hello-world external) | 2+ |
 | Wiki pages | 69 | 200+ |
 | Avg. time per feature | N/A | < 4 hours |
 | Token cost per feature | N/A | < $2.00 |
 
 ---
 
-## Decision Point
-
-**The framework is at a fork:**
-
-**Path A: Validate Now** (Recommended)
-- Spend 1-2 days on Hello World
-- Find and fix the breaking points
-- Decide if the framework is worth investing more time
-
-**Path B: Keep Building**
-- Add more skills (debugging, deployment, monitoring)
-- Improve documentation
-- Build more wiki content
-
-**Path C: Pivot**
-- Extract the most valuable skill (e.g., `fluentit-bdd-features`)
-- Use it standalone without the full framework
-- Gradually add orchestration later
-
-**My recommendation: Path A.** The framework has enough structure. What it needs now is proof that it works.
-
----
-
 *Report for Kerry Harris — FluentIT Framework*
-*Last updated: 2026-07-11*
+*Last updated: 2026-07-11 (post-externalization refactor)*
