@@ -23,7 +23,7 @@ fluentit-bdd-features --project hello-world --specs specs/
 1. **Reads the OKF** to understand the project
 2. **Reads the spec file(s)** provided by the user
 3. **Generates one or more `.feature` files** with Gherkin scenarios
-4. **Writes them to `projects/{name}/features/`**
+4. **Writes them to `{codeRoot}/features/`**
 
 ## Step-by-Step Instructions
 
@@ -34,7 +34,28 @@ Use the Read tool to open `projects/{projectName}/okf/index.md`.
 If the file doesn't exist, STOP and tell the user:
 > "Project '{projectName}' not found. Create the OKF at projects/{projectName}/okf/index.md first."
 
-### Step 2: Read the Spec
+### Step 2: Resolve the Code Path
+
+Check if the OKF has a `codePaths` field.
+
+**If `codePaths` is present:**
+1. Determine the machine identifier in this priority:
+   - Environment variable `FLUENTIT_MACHINE`
+   - Local config file `~/.fluentit/machine.json` (read with Bash: `cat ~/.fluentit/machine.json 2>/dev/null || echo "{}"`)
+   - Hostname: `hostname` command
+2. Find the entry in `codePaths` where `machine` matches the identifier.
+3. If found, set `{codeRoot}` to that entry's `path`.
+4. If not found, STOP and tell the user:
+   > "No code path configured for machine '{machineId}' in project '{projectName}'. Please provide the path, or add this to the OKF:\n> codePaths:\n>   - machine: '{machineId}'\n>     path: '<your path here>'"
+
+**If `codePaths` is absent:**
+- The project is vault-local. Set `{codeRoot}` = `projects/{projectName}/`.
+
+**From now on, use:**
+- `projects/{projectName}/` for OKF, specs, and documentation (vault side)
+- `{codeRoot}/` for features, code, tests, and git operations (code side)
+
+### Step 3: Read the Spec
 
 Use the Read tool to open the spec file the user provided.
 
@@ -44,7 +65,7 @@ ls projects/{projectName}/{specPath}
 ```
 Then Read each `.md` file in that folder.
 
-### Step 3: Generate the Feature File
+### Step 4: Generate the Feature File
 
 Create a Gherkin feature file based on the spec content.
 
@@ -79,23 +100,23 @@ Feature: [Feature Name from spec]
 - Include all scenarios from the spec
 - Add `@wip` tag if the spec is incomplete
 
-### Step 4: Write the Feature File
+### Step 5: Write the Feature File
 
 Use the Write tool to create:
 ```
-projects/{projectName}/features/{feature-name}.feature
+{codeRoot}/features/{feature-name}.feature
 ```
 
 If the `features/` directory doesn't exist, create it first using the Bash tool:
 ```bash
-mkdir -p projects/{projectName}/features
+mkdir -p {codeRoot}/features
 ```
 
-### Step 5: Report What Was Done
+### Step 6: Report What Was Done
 
 Tell the user:
 ```
-✅ Generated: projects/{projectName}/features/{feature-name}.feature
+✅ Generated: {codeRoot}/features/{feature-name}.feature
 
 Scenarios:
   - [scenario 1 name] (@frontend)
