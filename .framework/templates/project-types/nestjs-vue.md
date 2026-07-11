@@ -101,11 +101,11 @@ See [[.framework/templates/okf-bundle/nestjs-vue/index\|OKF Bundle: NestJS-Vue]]
 /framework:init-project --name <name> --type nestjs-vue
 
 # Run BDD pipeline
-/dna-bdd-features:dna-bdd-features @specs/<feature>/ --project <name>
-/dna-bdd-frontend-features:dna-bdd-frontend-features features/<feature>/*.feature --project <name>
-/dna-bdd-backend-features:dna-bdd-backend-features apps/backend-e2e/features/<feature>/*.feature --project <name>
+/fluentit-bdd-features:fluentit-bdd-features @specs/<feature>/ --project <name>
+/fluentit-bdd-frontend-features:fluentit-bdd-frontend-features features/<feature>/*.feature --project <name>
+/fluentit-bdd-backend-features:fluentit-bdd-backend-features apps/backend-e2e/features/<feature>/*.feature --project <name>
 
 # Run TDD pipeline
-/dna-tdd-frontend:dna-tdd-implement specs/<feature>/*.feature --project <name>
-/dna-tdd-backend:dna-tdd-backend apps/backend-e2e/features/<feature>.feature "<scenario>" --project <name>
+/fluentit-tdd-frontend:fluentit-tdd-implement specs/<feature>/*.feature --project <name>
+/fluentit-tdd-backend:fluentit-tdd-backend apps/backend-e2e/features/<feature>.feature "<scenario>" --project <name>
 ```

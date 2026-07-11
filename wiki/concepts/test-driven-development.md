@@ -24,4 +24,4 @@ generation_complete: true
 - The PR Workflow enforces automated checks before commits, aligning with the test-first discipline of test-driven development [[entities/pull-request-workflow|pull-request-workflow]]
 - The Backend Module generation pipeline includes a Write Tests phase that follows Test-Driven Development principles. [[entities/backend-module|backend-module]]
 - The core TDD cycle (Red-Green-Clean) is directly applied in this frontend TDD implementation: [[concepts/skillsfrontend-tdd-implementation|skills/frontend-tdd-implementation]] [[concepts/skillsfrontend-tdd-implementation|skills/frontend-tdd-implementation]]
-- TDD produces code that benefits from Code Review polish, ensuring red-green-refactor cycles result in clean commits without robotic patterns. [[skills/dna-review|Code Review]]
+- TDD produces code that benefits from Code Review polish, ensuring red-green-refactor cycles result in clean commits without robotic patterns. [[skills/fluentit-review|Code Review]]

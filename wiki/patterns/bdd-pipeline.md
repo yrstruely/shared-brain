@@ -1,5 +1,5 @@
 > **Type:** Pattern
-> **Source:** `.framework/skills/dna-bdd-features.md`
+> **Source:** `.framework/skills/fluentit-bdd-features.md`
 > **Related:** [[wiki/patterns/tdd-red-green-clean|TDD Red-Green-Clean]], [[wiki/concepts/project-context|ProjectContext]]
 
 # BDD Pipeline
@@ -146,6 +146,6 @@ specs/frontend/my-feature/
 ## Related
 
 - [[wiki/patterns/tdd-red-green-clean|TDD Red-Green-Clean]] — What happens after features are generated
-- [[technologies/dna-bdd-features|dna-bdd-features]]
-- [[technologies/dna-bdd-frontend-steps|dna-bdd-frontend-steps]]
-- [[technologies/dna-bdd-backend-steps|dna-bdd-backend-steps]]
+- [[technologies/fluentit-bdd-features|fluentit-bdd-features]]
+- [[technologies/fluentit-bdd-frontend-steps|fluentit-bdd-frontend-steps]]
+- [[technologies/fluentit-bdd-backend-steps|fluentit-bdd-backend-steps]]

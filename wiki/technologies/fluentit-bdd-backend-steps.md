@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-bdd-backend-steps.md`
-> **Related:** [[wiki/technologies/dna-bdd-features|BDD Feature Generator]], [[wiki/technologies/dna-tdd-backend|Backend TDD]], [[wiki/technologies/rlm|RLM]]
+> **Source:** `.framework/skills/fluentit-bdd-backend-steps.md`
+> **Related:** [[wiki/technologies/fluentit-bdd-features|BDD Feature Generator]], [[wiki/technologies/fluentit-tdd-backend|Backend TDD]], [[wiki/technologies/rlm|RLM]]
 
 # Backend BDD Step Definitions
 

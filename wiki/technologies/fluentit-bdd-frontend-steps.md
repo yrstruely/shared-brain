@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-bdd-frontend-steps.md`
-> **Related:** [[wiki/technologies/dna-bdd-features|BDD Feature Generator]], [[wiki/technologies/dna-tdd-frontend|Frontend TDD]], [[wiki/technologies/rlm|RLM]]
+> **Source:** `.framework/skills/fluentit-bdd-frontend-steps.md`
+> **Related:** [[wiki/technologies/fluentit-bdd-features|BDD Feature Generator]], [[wiki/technologies/fluentit-tdd-frontend|Frontend TDD]], [[wiki/technologies/rlm|RLM]]
 
 # Frontend BDD Step Definitions
 

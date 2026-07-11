@@ -169,12 +169,12 @@ Document: tests generated, implementation completed, decisions made, next steps.
 
 ```bash
 # Full workflow
-/dna-tdd-frontend:dna-tdd-implement specs/<feature>/*.feature --project ip-hub
+/fluentit-tdd-frontend:fluentit-tdd-implement specs/<feature>/*.feature --project ip-hub
 
 # Shortcuts
-/dna-tdd-frontend:dna-tdd-implement specs/<feature>/*.feature --shortcut=implement --project ip-hub
-/dna-tdd-frontend:dna-tdd-implement specs/<feature>/*.feature --shortcut=validate --project ip-hub
-/dna-tdd-frontend:dna-tdd-implement specs/<feature>/*.feature --shortcut=refactor --project ip-hub
+/fluentit-tdd-frontend:fluentit-tdd-implement specs/<feature>/*.feature --shortcut=implement --project ip-hub
+/fluentit-tdd-frontend:fluentit-tdd-implement specs/<feature>/*.feature --shortcut=validate --project ip-hub
+/fluentit-tdd-frontend:fluentit-tdd-implement specs/<feature>/*.feature --shortcut=refactor --project ip-hub
 ```
 
 ---

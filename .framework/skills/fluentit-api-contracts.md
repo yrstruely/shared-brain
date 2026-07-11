@@ -36,7 +36,7 @@ argument-hint: Provide feature name and project name
 3. **Validate prerequisites**
 
    Read `{paths.features}/{FEATURE_NAME}/DESIGN.md`.
-   If missing Phase 1 (Domain Model): stop, tell user to run `/dna-domain-entity` first.
+   If missing Phase 1 (Domain Model): stop, tell user to run `/fluentit-domain-entity` first.
 
 4. **Discover conventions via RLM**
 
@@ -171,7 +171,7 @@ Append Phase 2 section:
 ```markdown
 ## Phase 2: API Contracts
 
-Created by: /dna-api-contracts
+Created by: /fluentit-api-contracts
 Date: {YYYY-MM-DD}
 
 ### Endpoints
@@ -208,4 +208,4 @@ Date: {YYYY-MM-DD}
 
 ## Source
 
-Original: `.framework/agents/playbooks/dna-tools/commands/dna-api-contracts.md`
+Original: `.framework/agents/playbooks/fluentit-tools/commands/fluentit-api-contracts.md`

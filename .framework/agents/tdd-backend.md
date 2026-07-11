@@ -162,12 +162,12 @@ Report: files created, decisions, coverage, next steps.
 
 ```bash
 # Full workflow
-/dna-tdd-backend:dna-tdd-backend apps/backend-e2e/features/<feature>.feature "<scenario>" --project ip-hub
+/fluentit-tdd-backend:fluentit-tdd-backend apps/backend-e2e/features/<feature>.feature "<scenario>" --project ip-hub
 
 # Shortcuts
-/dna-tdd-backend:dna-tdd-backend ... --shortcut=implement --project ip-hub
-/dna-tdd-backend:dna-tdd-backend ... --shortcut=validate --project ip-hub
-/dna-tdd-backend:dna-tdd-backend ... --shortcut=refactor --project ip-hub
+/fluentit-tdd-backend:fluentit-tdd-backend ... --shortcut=implement --project ip-hub
+/fluentit-tdd-backend:fluentit-tdd-backend ... --shortcut=validate --project ip-hub
+/fluentit-tdd-backend:fluentit-tdd-backend ... --shortcut=refactor --project ip-hub
 ```
 
 ---

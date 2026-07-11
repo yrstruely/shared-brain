@@ -1,6 +1,6 @@
 > **Type:** Reference
 > **Source:** `setup-instructions/WORKFLOW.md`
-> **Related:** [[wiki/technologies/dna-orchestrator|Orchestrator]], [[.framework/skills/index|Framework Skills]], [[setup-instructions/SETUP_GUIDE|Setup Guide]]
+> **Related:** [[wiki/technologies/fluentit-orchestrator|Orchestrator]], [[.framework/skills/index|Framework Skills]], [[setup-instructions/SETUP_GUIDE|Setup Guide]]
 
 # Project Workflow
 
@@ -16,7 +16,7 @@ The framework provides a complete development pipeline:
 Discovery → Design → Scaffold → BDD → TDD → Review → PR
 ```
 
-The [[wiki/technologies/dna-orchestrator|Orchestrator]] skill detects your current state and routes to the right tool.
+The [[wiki/technologies/fluentit-orchestrator|Orchestrator]] skill detects your current state and routes to the right tool.
 
 ## Quick Start
 
@@ -30,17 +30,17 @@ Building a "User Profile" feature:
 
 | Step | Skill | Output |
 |------|-------|--------|
-| 1 | `dna-orchestrator` | Detects state, recommends next skill |
-| 2 | `dna-bdd-features` | `.feature` files |
-| 3 | `dna-bdd-frontend-steps` | Playwright + MSW + Pact |
-| 3 | `dna-bdd-backend-steps` | API E2E steps + factories |
-| 4 | `dna-domain-entity` | Domain entity + value objects |
-| 5 | `dna-api-contracts` | DTOs + frontend API layer |
-| 6 | `dna-backend-module` | Handlers + repository + controller |
-| 7 | `dna-tdd-frontend` | Vue components + tests |
-| 7 | `dna-tdd-backend` | Service + aggregate + tests |
-| 8 | `dna-review` | Cleaned code |
-| 9 | `dna-pr` | Committed PR |
+| 1 | `fluentit-orchestrator` | Detects state, recommends next skill |
+| 2 | `fluentit-bdd-features` | `.feature` files |
+| 3 | `fluentit-bdd-frontend-steps` | Playwright + MSW + Pact |
+| 3 | `fluentit-bdd-backend-steps` | API E2E steps + factories |
+| 4 | `fluentit-domain-entity` | Domain entity + value objects |
+| 5 | `fluentit-api-contracts` | DTOs + frontend API layer |
+| 6 | `fluentit-backend-module` | Handlers + repository + controller |
+| 7 | `fluentit-tdd-frontend` | Vue components + tests |
+| 7 | `fluentit-tdd-backend` | Service + aggregate + tests |
+| 8 | `fluentit-review` | Cleaned code |
+| 9 | `fluentit-pr` | Committed PR |
 
 ## Parallel Skills
 
@@ -51,7 +51,7 @@ Building a "User Profile" feature:
 
 | Scenario | Approach |
 |----------|----------|
-| New project | `dna-orchestrator --greenfield` |
+| New project | `fluentit-orchestrator --greenfield` |
 | Existing code | `graphify:index` first, then orchestrator |
 
 ## Full Guide

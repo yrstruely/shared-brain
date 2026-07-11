@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-tdd-backend.md`
-> **Related:** [[wiki/technologies/dna-bdd-backend-steps|BDD Backend Steps]], [[wiki/technologies/rlm|RLM]], [[wiki/patterns/tdd-red-green-clean|TDD Red-Green-Clean]]
+> **Source:** `.framework/skills/fluentit-tdd-backend.md`
+> **Related:** [[wiki/technologies/fluentit-bdd-backend-steps|BDD Backend Steps]], [[wiki/technologies/rlm|RLM]], [[wiki/patterns/tdd-red-green-clean|TDD Red-Green-Clean]]
 
 # Backend TDD Implementation
 

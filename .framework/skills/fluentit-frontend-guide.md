@@ -251,4 +251,4 @@ All implementations MUST meet:
 
 ## Source
 
-Original: `.framework/agents/playbooks/frontend-guide/commands/dna-frontend-guide.md`
+Original: `.framework/agents/playbooks/frontend-guide/commands/fluentit-frontend-guide.md`

@@ -1,5 +1,5 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-orchestrator.md`
+> **Source:** `.framework/skills/fluentit-orchestrator.md`
 > **Related:** All [[wiki/technologies/index#Framework Skills|framework skills]], [[wiki/technologies/rlm|RLM]], [[wiki/technologies/graphify|Graphify]]
 
 # Project Orchestrator
@@ -44,13 +44,13 @@ PR:           Pull Request Workflow
 
 | Detected State | Next Skill | Phase |
 |---|---|---|
-| No specs/features | `dna-bdd-features` | BDD |
-| Features exist, no steps | `dna-bdd-frontend-steps` + `dna-bdd-backend-steps` | BDD |
-| Steps exist, no implementation | `dna-tdd-frontend` + `dna-tdd-backend` | TDD |
-| Implementation exists, raw | `dna-review` | Review |
-| Code clean, uncommitted | `dna-pr` | PR |
-| New domain concept | `dna-domain-entity` | Discovery |
-| New API surface | `dna-api-contracts` | Discovery |
+| No specs/features | `fluentit-bdd-features` | BDD |
+| Features exist, no steps | `fluentit-bdd-frontend-steps` + `fluentit-bdd-backend-steps` | BDD |
+| Steps exist, no implementation | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | TDD |
+| Implementation exists, raw | `fluentit-review` | Review |
+| Code clean, uncommitted | `fluentit-pr` | PR |
+| New domain concept | `fluentit-domain-entity` | Discovery |
+| New API surface | `fluentit-api-contracts` | Discovery |
 
 ## Usage
 
@@ -72,14 +72,14 @@ claude /framework:orchestrator --project ip-hub --feature user-profile --auto
 
 | Skill | Phase | Can Parallel | Depends On |
 |-------|-------|-------------|------------|
-| [[technologies/dna-domain-entity|dna-domain-entity]] | Discovery | No | — |
-| [[technologies/dna-api-contracts|dna-api-contracts]] | Discovery | No | Domain Entity |
-| [[technologies/dna-backend-module|dna-backend-module]] | Scaffold | No | API Contracts |
-| [[technologies/dna-frontend-guide|dna-frontend-guide]] | Scaffold | No | API Contracts |
-| [[technologies/dna-bdd-features|dna-bdd-features]] | BDD | No | — |
-| [[technologies/dna-bdd-frontend-steps|dna-bdd-frontend-steps]] | BDD | Yes | BDD Features |
-| [[technologies/dna-bdd-backend-steps|dna-bdd-backend-steps]] | BDD | Yes | BDD Features |
-| [[technologies/dna-tdd-frontend|dna-tdd-frontend]] | TDD | Yes | BDD Frontend Steps |
-| [[technologies/dna-tdd-backend|dna-tdd-backend]] | TDD | Yes | BDD Backend Steps |
-| [[technologies/dna-review|dna-review]] | Review | No | TDD Frontend + Backend |
-| [[technologies/dna-pr|dna-pr]] | PR | No | Code Review |
+| [[technologies/fluentit-domain-entity|fluentit-domain-entity]] | Discovery | No | — |
+| [[technologies/fluentit-api-contracts|fluentit-api-contracts]] | Discovery | No | Domain Entity |
+| [[technologies/fluentit-backend-module|fluentit-backend-module]] | Scaffold | No | API Contracts |
+| [[technologies/fluentit-frontend-guide|fluentit-frontend-guide]] | Scaffold | No | API Contracts |
+| [[technologies/fluentit-bdd-features|fluentit-bdd-features]] | BDD | No | — |
+| [[technologies/fluentit-bdd-frontend-steps|fluentit-bdd-frontend-steps]] | BDD | Yes | BDD Features |
+| [[technologies/fluentit-bdd-backend-steps|fluentit-bdd-backend-steps]] | BDD | Yes | BDD Features |
+| [[technologies/fluentit-tdd-frontend|fluentit-tdd-frontend]] | TDD | Yes | BDD Frontend Steps |
+| [[technologies/fluentit-tdd-backend|fluentit-tdd-backend]] | TDD | Yes | BDD Backend Steps |
+| [[technologies/fluentit-review|fluentit-review]] | Review | No | TDD Frontend + Backend |
+| [[technologies/fluentit-pr|fluentit-pr]] | PR | No | Code Review |

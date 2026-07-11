@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-api-contracts.md`
-> **Related:** [[wiki/technologies/dna-backend-module|Backend Module]], [[wiki/technologies/dna-frontend-guide|Frontend Guide]], [[wiki/technologies/rlm|RLM]]
+> **Source:** `.framework/skills/fluentit-api-contracts.md`
+> **Related:** [[wiki/technologies/fluentit-backend-module|Backend Module]], [[wiki/technologies/fluentit-frontend-guide|Frontend Guide]], [[wiki/technologies/rlm|RLM]]
 
 # API Contracts
 

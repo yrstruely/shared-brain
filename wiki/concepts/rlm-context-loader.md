@@ -19,4 +19,4 @@ generation_complete: true
 
 ## Related Pages
 - The Project Orchestrator uses the RLM context loader to load project context and determine the current state of the development pipeline. [[Project Orchestrator]]
-- The Backend Module skill uses RLM context loader to discover project conventions and architecture patterns before scaffolding layers. [[skills/dna-backend-module]]
+- The Backend Module skill uses RLM context loader to discover project conventions and architecture patterns before scaffolding layers. [[skills/fluentit-backend-module]]

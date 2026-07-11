@@ -16,7 +16,7 @@ This framework provides a **complete development pipeline** from requirements to
 Discovery → Design → Scaffold → BDD → TDD → Review → PR
 ```
 
-Each phase has dedicated skills. The [[wiki/technologies/dna-orchestrator|Orchestrator]] skill detects where you are and routes to the right tool.
+Each phase has dedicated skills. The [[wiki/technologies/fluentit-orchestrator|Orchestrator]] skill detects where you are and routes to the right tool.
 
 ---
 
@@ -116,7 +116,7 @@ The orchestrator detects nothing exists yet and recommends:
   ❌ No steps
   ❌ No implementation
 
-Recommended: dna-bdd-features
+Recommended: fluentit-bdd-features
 ```
 
 ### Step 2: Generate BDD Features
@@ -239,18 +239,18 @@ claude /wiki:ingest projects/my-project/sources/prds/user-profile.md
 
 | Phase | Skill | When to Use |
 |-------|-------|-------------|
-| **Discovery** | `dna-domain-entity` | New domain concept needed |
-| **Design** | `dna-api-contracts` | API surface changes |
-| **Scaffold** | `dna-backend-module` | New backend feature |
-| **Scaffold** | `dna-frontend-guide` | New frontend feature |
-| **BDD** | `dna-bdd-features` | Convert specs to Gherkin |
-| **BDD** | `dna-bdd-frontend-steps` | Frontend E2E glue |
-| **BDD** | `dna-bdd-backend-steps` | Backend E2E glue |
-| **TDD** | `dna-tdd-frontend` | Implement frontend |
-| **TDD** | `dna-tdd-backend` | Implement backend |
-| **Review** | `dna-review` | Clean AI-generated code |
-| **PR** | `dna-pr` | Commit and create PR |
-| **Meta** | `dna-orchestrator` | Don't know where to start |
+| **Discovery** | `fluentit-domain-entity` | New domain concept needed |
+| **Design** | `fluentit-api-contracts` | API surface changes |
+| **Scaffold** | `fluentit-backend-module` | New backend feature |
+| **Scaffold** | `fluentit-frontend-guide` | New frontend feature |
+| **BDD** | `fluentit-bdd-features` | Convert specs to Gherkin |
+| **BDD** | `fluentit-bdd-frontend-steps` | Frontend E2E glue |
+| **BDD** | `fluentit-bdd-backend-steps` | Backend E2E glue |
+| **TDD** | `fluentit-tdd-frontend` | Implement frontend |
+| **TDD** | `fluentit-tdd-backend` | Implement backend |
+| **Review** | `fluentit-review` | Clean AI-generated code |
+| **PR** | `fluentit-pr` | Commit and create PR |
+| **Meta** | `fluentit-orchestrator` | Don't know where to start |
 
 ---
 
@@ -260,16 +260,16 @@ Skills that can run simultaneously:
 
 ```
 Phase: BDD
-├── dna-bdd-frontend-steps  ⎫
-└── dna-bdd-backend-steps   ⎭ Parallel
+├── fluentit-bdd-frontend-steps  ⎫
+└── fluentit-bdd-backend-steps   ⎭ Parallel
 
 Phase: TDD
-├── dna-tdd-frontend        ⎫
-└── dna-tdd-backend         ⎭ Parallel
+├── fluentit-tdd-frontend        ⎫
+└── fluentit-tdd-backend         ⎭ Parallel
 
 Phase: Discovery
-├── dna-domain-entity       ⎫
-└── dna-api-contracts       ⎭ Sequential (contracts depend on entity)
+├── fluentit-domain-entity       ⎫
+└── fluentit-api-contracts       ⎭ Sequential (contracts depend on entity)
 ```
 
 ---
@@ -304,13 +304,13 @@ claude /framework:orchestrator --project my-project --feature dashboard
 | "OKF not found" | Check `projects/my-project/okf/index.md` exists |
 | "Skill not found" | Run `bash bin/sync-skills.sh` |
 | "Graphify not built" | `cd .framework/external/graphify-minimal && npm run build` |
-| "Tests fail after TDD" | Run `dna-review` then re-run tests |
+| "Tests fail after TDD" | Run `fluentit-review` then re-run tests |
 
 ---
 
 ## See Also
 
 - [[.framework/skills/index|Framework Skills Registry]] — Full skill documentation
-- [[.framework/skills/dna-orchestrator|Project Orchestrator]] — Meta-skill that routes to correct tool
+- [[.framework/skills/fluentit-orchestrator|Project Orchestrator]] — Meta-skill that routes to correct tool
 - [[wiki/technologies/index|Technologies Index]] — Tech evaluations and comparisons
 - [[setup-instructions/SETUP_GUIDE|Setup Guide]] — Initial framework installation

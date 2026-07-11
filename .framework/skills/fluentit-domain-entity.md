@@ -207,7 +207,7 @@ Generate ALL files following conventions from Phase 2.
 
 ## Phase 1: Domain Model
 
-Created by: /dna-new-domain-entity
+Created by: /fluentit-new-domain-entity
 Date: {YYYY-MM-DD}
 
 ### Entity: {EntityName}
@@ -237,8 +237,8 @@ Date: {YYYY-MM-DD}
 2. ...
 
 ### Suggested Next Steps
-- Create API contracts: `/dna-api-contracts {FEATURE_NAME}`
-- Create backend module: `/dna-backend-module {FEATURE_NAME}`
+- Create API contracts: `/fluentit-api-contracts {FEATURE_NAME}`
+- Create backend module: `/fluentit-backend-module {FEATURE_NAME}`
 ```
 
 ### Update Graphify
@@ -261,4 +261,4 @@ Date: {YYYY-MM-DD}
 
 ## Source
 
-Original: `.framework/agents/playbooks/dna-tools/commands/dna-new-domain-entity.md`
+Original: `.framework/agents/playbooks/fluentit-tools/commands/fluentit-new-domain-entity.md`

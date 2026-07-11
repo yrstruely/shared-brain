@@ -60,18 +60,18 @@
 
 - [[technologies/rlm|rlm]] `aliases: Recursive Language Model, RLM Context Loader` - type: technology
 - [[technologies/graphify|graphify]] `aliases: Graphify Minimal, Code Relationship Graph` - type: technology
-- [[technologies/dna-orchestrator|dna-orchestrator]] `aliases: Project Orchestrator, Skill Conductor` - type: skill
-- [[technologies/dna-bdd-features|dna-bdd-features]] `aliases: BDD Feature Generator` - type: skill
-- [[technologies/dna-bdd-frontend-steps|dna-bdd-frontend-steps]] `aliases: BDD Frontend Steps` - type: skill
-- [[technologies/dna-bdd-backend-steps|dna-bdd-backend-steps]] `aliases: BDD Backend Steps` - type: skill
-- [[technologies/dna-tdd-frontend|dna-tdd-frontend]] `aliases: Frontend TDD` - type: skill
-- [[technologies/dna-tdd-backend|dna-tdd-backend]] `aliases: Backend TDD` - type: skill
-- [[technologies/dna-domain-entity|dna-domain-entity]] `aliases: Domain Entity` - type: skill
-- [[technologies/dna-api-contracts|dna-api-contracts]] `aliases: API Contracts` - type: skill
-- [[technologies/dna-backend-module|dna-backend-module]] `aliases: Backend Module` - type: skill
-- [[technologies/dna-frontend-guide|dna-frontend-guide]] `aliases: Frontend Guide` - type: skill
-- [[technologies/dna-pr|dna-pr]] `aliases: Pull Request Workflow` - type: skill
-- [[technologies/dna-review|dna-review]] `aliases: Code Review` - type: skill
+- [[technologies/fluentit-orchestrator|fluentit-orchestrator]] `aliases: Project Orchestrator, Skill Conductor` - type: skill
+- [[technologies/fluentit-bdd-features|fluentit-bdd-features]] `aliases: BDD Feature Generator` - type: skill
+- [[technologies/fluentit-bdd-frontend-steps|fluentit-bdd-frontend-steps]] `aliases: BDD Frontend Steps` - type: skill
+- [[technologies/fluentit-bdd-backend-steps|fluentit-bdd-backend-steps]] `aliases: BDD Backend Steps` - type: skill
+- [[technologies/fluentit-tdd-frontend|fluentit-tdd-frontend]] `aliases: Frontend TDD` - type: skill
+- [[technologies/fluentit-tdd-backend|fluentit-tdd-backend]] `aliases: Backend TDD` - type: skill
+- [[technologies/fluentit-domain-entity|fluentit-domain-entity]] `aliases: Domain Entity` - type: skill
+- [[technologies/fluentit-api-contracts|fluentit-api-contracts]] `aliases: API Contracts` - type: skill
+- [[technologies/fluentit-backend-module|fluentit-backend-module]] `aliases: Backend Module` - type: skill
+- [[technologies/fluentit-frontend-guide|fluentit-frontend-guide]] `aliases: Frontend Guide` - type: skill
+- [[technologies/fluentit-pr|fluentit-pr]] `aliases: Pull Request Workflow` - type: skill
+- [[technologies/fluentit-review|fluentit-review]] `aliases: Code Review` - type: skill
 - [[technologies/wiki-ingest-pipeline|wiki-ingest-pipeline]] `aliases: Wiki Ingest` - type: skill
 - [[technologies/skill-porting-template|skill-porting-template]] `aliases: Master Porting Template` - type: reference
 - [[technologies/index|index]] - > Framework skills, infrastructure, and development tools.

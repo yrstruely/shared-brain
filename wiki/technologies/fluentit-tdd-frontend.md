@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-tdd-frontend.md`
-> **Related:** [[wiki/technologies/dna-bdd-frontend-steps|BDD Frontend Steps]], [[wiki/technologies/rlm|RLM]], [[wiki/patterns/tdd-red-green-clean|TDD Red-Green-Clean]]
+> **Source:** `.framework/skills/fluentit-tdd-frontend.md`
+> **Related:** [[wiki/technologies/fluentit-bdd-frontend-steps|BDD Frontend Steps]], [[wiki/technologies/rlm|RLM]], [[wiki/patterns/tdd-red-green-clean|TDD Red-Green-Clean]]
 
 # Frontend TDD Implementation
 

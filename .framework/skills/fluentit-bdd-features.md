@@ -426,10 +426,10 @@ argument-hint: Provide the spec folder path and project name (e.g., specs/fronte
 
 ```bash
 # Full workflow
-/dna-bdd-features:dna-bdd-features {specPath} --project {projectName}
+/fluentit-bdd-features:fluentit-bdd-features {specPath} --project {projectName}
 
 # Example
-/dna-bdd-features:dna-bdd-features specs/frontend/dashboard/ --project ip-hub
+/fluentit-bdd-features:fluentit-bdd-features specs/frontend/dashboard/ --project ip-hub
 ```
 
 ---
@@ -453,4 +453,4 @@ argument-hint: Provide the spec folder path and project name (e.g., specs/fronte
 
 ## Source
 
-Original: `.framework/agents/playbooks/bdd-feature-agents/commands/dna-bdd-features.md`
+Original: `.framework/agents/playbooks/bdd-feature-agents/commands/fluentit-bdd-features.md`

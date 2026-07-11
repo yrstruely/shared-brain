@@ -335,10 +335,10 @@ argument-hint: Provide feature file path and project name (e.g., test/e2e/featur
 
 ```bash
 # Full workflow
-/dna-bdd-backend-steps:dna-bdd-backend-features {featureFile} --project {projectName}
+/fluentit-bdd-backend-steps:fluentit-bdd-backend-features {featureFile} --project {projectName}
 
 # Example
-/dna-bdd-backend-steps:dna-bdd-backend-features test/e2e/features/dashboard.feature --project ip-hub
+/fluentit-bdd-backend-steps:fluentit-bdd-backend-features test/e2e/features/dashboard.feature --project ip-hub
 ```
 
 ---
@@ -372,4 +372,4 @@ The skill adapts to the project's backend architecture:
 
 ## Source
 
-Original: `.framework/agents/playbooks/bdd-backend-agents/commands/dna-bdd-backend-features.md`
+Original: `.framework/agents/playbooks/bdd-backend-agents/commands/fluentit-bdd-backend-features.md`

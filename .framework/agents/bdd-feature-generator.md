@@ -226,7 +226,7 @@ Feature: [Feature Name] - [Phase Description]
 /framework:bdd-features --project ip-hub --spec specs/frontend/dashboard/
 
 # Direct agent invocation
-/dna-bdd-features:dna-bdd-features @specs/frontend/dashboard/ --project ip-hub
+/fluentit-bdd-features:fluentit-bdd-features @specs/frontend/dashboard/ --project ip-hub
 ```
 
 ---

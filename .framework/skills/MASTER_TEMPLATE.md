@@ -276,11 +276,11 @@ Ensure proper use of:
 
 ## Next Steps
 
-1. Use this template to port `dna-tdd-backend` (the most complex skill)
+1. Use this template to port `fluentit-tdd-backend` (the most complex skill)
 2. Test the ported skill on IP Hub
 3. Use the TDD backend port as a pattern for the remaining skills
 4. Ingest all ported skills into the wiki
 
 ---
 
-*See [[.framework/skills/dna-tdd-backend|Ported TDD Backend Skill]] for the concrete implementation of this template.*
+*See [[.framework/skills/fluentit-tdd-backend|Ported TDD Backend Skill]] for the concrete implementation of this template.*

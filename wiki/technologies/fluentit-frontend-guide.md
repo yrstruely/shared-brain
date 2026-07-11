@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-frontend-guide.md`
-> **Related:** [[wiki/technologies/dna-tdd-frontend|Frontend TDD]], [[wiki/technologies/dna-api-contracts|API Contracts]], [[wiki/technologies/rlm|RLM]]
+> **Source:** `.framework/skills/fluentit-frontend-guide.md`
+> **Related:** [[wiki/technologies/fluentit-tdd-frontend|Frontend TDD]], [[wiki/technologies/fluentit-api-contracts|API Contracts]], [[wiki/technologies/rlm|RLM]]
 
 # Frontend Development Guide
 

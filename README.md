@@ -91,13 +91,13 @@ Quick reference:
 ```
 PRDs / Specs
     ↓
-/dna-bdd-features       → .feature files (Gherkin)
+/fluentit-bdd-features       → .feature files (Gherkin)
     ↓
-/dna-bdd-frontend-steps → Playwright step definitions
-/dna-bdd-backend-steps  → NestJS step definitions
+/fluentit-bdd-frontend-steps → Playwright step definitions
+/fluentit-bdd-backend-steps  → NestJS step definitions
     ↓
-/dna-tdd-frontend       → Vue components (Red→Green→Clean)
-/dna-tdd-backend        → CQRS handlers (Red→Green→Clean)
+/fluentit-tdd-frontend       → Vue components (Red→Green→Clean)
+/fluentit-tdd-backend        → CQRS handlers (Red→Green→Clean)
     ↓
 /graphify:index         → Index code relationships
 ```

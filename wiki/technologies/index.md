@@ -34,21 +34,21 @@
 | [[rlm\|RLM Context Loader]] | Infrastructure | ✅ Active | Recursive context loading |
 | [[graphify\|Graphify Minimal]] | Infrastructure | ✅ Active | Code relationship graph |
 | [[wiki-ingest-pipeline\|Wiki Ingest Pipeline]] | Infrastructure | ✅ Active | Source ingestion |
-| [[dna-bdd-features\|BDD Feature Generator]] | Pipeline | ✅ Ported | Specs → Gherkin features |
-| [[dna-bdd-frontend-steps\|BDD Frontend Steps]] | Pipeline | ✅ Ported | Feature → Playwright/MSW/Pact |
-| [[dna-bdd-backend-steps\|BDD Backend Steps]] | Pipeline | ✅ Ported | Feature → API E2E steps |
-| [[dna-tdd-frontend\|TDD Frontend]] | Pipeline | ✅ Ported | Component implementation |
-| [[dna-tdd-backend\|TDD Backend]] | Pipeline | ✅ Ported | Service/aggregate implementation |
-| [[dna-domain-entity\|Domain Entity]] | Scaffolding | ✅ Ported | DDD entity design |
-| [[dna-api-contracts\|API Contracts]] | Scaffolding | ✅ Ported | DTOs + frontend wiring |
-| [[dna-backend-module\|Backend Module]] | Scaffolding | ✅ Ported | Full backend module |
-| [[dna-frontend-guide\|Frontend Guide]] | Workflow | ✅ Ported | Feature dev orchestration |
-| [[dna-pr\|Pull Request]] | Workflow | ✅ Ported | Commit → PR → ticket |
-| [[dna-review\|Code Review]] | Workflow | ✅ Ported | AI cleanup |
+| [[fluentit-bdd-features\|BDD Feature Generator]] | Pipeline | ✅ Ported | Specs → Gherkin features |
+| [[fluentit-bdd-frontend-steps\|BDD Frontend Steps]] | Pipeline | ✅ Ported | Feature → Playwright/MSW/Pact |
+| [[fluentit-bdd-backend-steps\|BDD Backend Steps]] | Pipeline | ✅ Ported | Feature → API E2E steps |
+| [[fluentit-tdd-frontend\|TDD Frontend]] | Pipeline | ✅ Ported | Component implementation |
+| [[fluentit-tdd-backend\|TDD Backend]] | Pipeline | ✅ Ported | Service/aggregate implementation |
+| [[fluentit-domain-entity\|Domain Entity]] | Scaffolding | ✅ Ported | DDD entity design |
+| [[fluentit-api-contracts\|API Contracts]] | Scaffolding | ✅ Ported | DTOs + frontend wiring |
+| [[fluentit-backend-module\|Backend Module]] | Scaffolding | ✅ Ported | Full backend module |
+| [[fluentit-frontend-guide\|Frontend Guide]] | Workflow | ✅ Ported | Feature dev orchestration |
+| [[fluentit-pr\|Pull Request]] | Workflow | ✅ Ported | Commit → PR → ticket |
+| [[fluentit-review\|Code Review]] | Workflow | ✅ Ported | AI cleanup |
 | [[skill-porting-template\|Master Porting Template]] | Reference | ✅ Active | Porting guide |
-| [[dna-orchestrator\|Project Orchestrator]] | Meta | ✅ Active | Skill conductor / pipeline router |
-| [[bdd-feature-agents\|BDD Feature Agents]] | Pipeline | 🗑️ Merged | Content → [[dna-bdd-features\|BDD Feature Generator]] |
-| [[tdd-implementation-agents\|TDD Implementation Agents]] | Pipeline | 🗑️ Merged | Content → [[dna-tdd-frontend\|Frontend TDD]] + [[dna-tdd-backend\|Backend TDD]] |
+| [[fluentit-orchestrator\|Project Orchestrator]] | Meta | ✅ Active | Skill conductor / pipeline router |
+| [[bdd-feature-agents\|BDD Feature Agents]] | Pipeline | 🗑️ Merged | Content → [[fluentit-bdd-features\|BDD Feature Generator]] |
+| [[tdd-implementation-agents\|TDD Implementation Agents]] | Pipeline | 🗑️ Merged | Content → [[fluentit-tdd-frontend\|Frontend TDD]] + [[fluentit-tdd-backend\|Backend TDD]] |
 
 ---
 

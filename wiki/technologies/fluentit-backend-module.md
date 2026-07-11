@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-backend-module.md`
-> **Related:** [[wiki/technologies/dna-domain-entity|Domain Entity]], [[wiki/technologies/dna-api-contracts|API Contracts]], [[wiki/technologies/rlm|RLM]]
+> **Source:** `.framework/skills/fluentit-backend-module.md`
+> **Related:** [[wiki/technologies/fluentit-domain-entity|Domain Entity]], [[wiki/technologies/fluentit-api-contracts|API Contracts]], [[wiki/technologies/rlm|RLM]]
 
 # Backend Module
 

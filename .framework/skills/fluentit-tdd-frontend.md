@@ -414,12 +414,12 @@ Usage: `{command} {featurePath} --project {projectName} --shortcut=implement`
 
 ```bash
 # Full workflow
-/dna-tdd-frontend:dna-tdd-implement {featurePath} --project {projectName}
+/fluentit-tdd-frontend:fluentit-tdd-implement {featurePath} --project {projectName}
 
 # Shortcuts
-/dna-tdd-frontend:dna-tdd-implement ... --shortcut=implement --project {projectName}
-/dna-tdd-frontend:dna-tdd-implement ... --shortcut=validate --project {projectName}
-/dna-tdd-frontend:dna-tdd-implement ... --shortcut=refactor --project {projectName}
+/fluentit-tdd-frontend:fluentit-tdd-implement ... --shortcut=implement --project {projectName}
+/fluentit-tdd-frontend:fluentit-tdd-implement ... --shortcut=validate --project {projectName}
+/fluentit-tdd-frontend:fluentit-tdd-implement ... --shortcut=refactor --project {projectName}
 ```
 
 ---
@@ -440,4 +440,4 @@ Usage: `{command} {featurePath} --project {projectName} --shortcut=implement`
 
 ## Source
 
-Original: `.framework/agents/playbooks/tdd-frontend-agents/commands/dna-tdd-implement.md`
+Original: `.framework/agents/playbooks/tdd-frontend-agents/commands/fluentit-tdd-implement.md`

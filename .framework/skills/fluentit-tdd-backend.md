@@ -381,12 +381,12 @@ Usage: `{command} {featurePath} "{scenario}" --project {projectName} --shortcut=
 
 ```bash
 # Full workflow
-/dna-tdd-backend:dna-tdd-backend {featurePath} "{scenario}" --project {projectName}
+/fluentit-tdd-backend:fluentit-tdd-backend {featurePath} "{scenario}" --project {projectName}
 
 # Shortcuts
-/dna-tdd-backend:dna-tdd-backend ... --shortcut=implement --project {projectName}
-/dna-tdd-backend:dna-tdd-backend ... --shortcut=validate --project {projectName}
-/dna-tdd-backend:dna-tdd-backend ... --shortcut=refactor --project {projectName}
+/fluentit-tdd-backend:fluentit-tdd-backend ... --shortcut=implement --project {projectName}
+/fluentit-tdd-backend:fluentit-tdd-backend ... --shortcut=validate --project {projectName}
+/fluentit-tdd-backend:fluentit-tdd-backend ... --shortcut=refactor --project {projectName}
 ```
 
 ---
@@ -407,4 +407,4 @@ Usage: `{command} {featurePath} "{scenario}" --project {projectName} --shortcut=
 
 ## Source
 
-Original: `.framework/agents/playbooks/tdd-backend-agents/commands/dna-tdd-backend.md`
+Original: `.framework/agents/playbooks/tdd-backend-agents/commands/fluentit-tdd-backend.md`

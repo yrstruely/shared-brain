@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-review.md`
-> **Related:** [[wiki/technologies/dna-pr|Pull Request]], [[wiki/technologies/dna-tdd-frontend|Frontend TDD]], [[wiki/technologies/dna-tdd-backend|Backend TDD]]
+> **Source:** `.framework/skills/fluentit-review.md`
+> **Related:** [[wiki/technologies/fluentit-pr|Pull Request]], [[wiki/technologies/fluentit-tdd-frontend|Frontend TDD]], [[wiki/technologies/fluentit-tdd-backend|Backend TDD]]
 
 # Code Review
 

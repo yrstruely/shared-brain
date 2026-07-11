@@ -459,19 +459,19 @@ const related = await graphify.query(`
 
 ```bash
 # Stage 1: Requirements → BDD Features
-/dna-bdd-features:dna-bdd-features @specs/cart-redesign/ --project ip-hub
+/fluentit-bdd-features:fluentit-bdd-features @specs/cart-redesign/ --project ip-hub
 
 # Stage 2a: Frontend Step Definitions
-/dna-bdd-frontend-features:dna-bdd-frontend-features   features/cart/*.feature --project ip-hub
+/fluentit-bdd-frontend-features:fluentit-bdd-frontend-features   features/cart/*.feature --project ip-hub
 
 # Stage 2b: Backend Step Definitions
-/dna-bdd-backend-features:dna-bdd-backend-features   apps/backend-e2e/features/cart/*.feature --project ip-hub
+/fluentit-bdd-backend-features:fluentit-bdd-backend-features   apps/backend-e2e/features/cart/*.feature --project ip-hub
 
 # Stage 3a: Frontend TDD
-/dna-tdd-frontend:dna-tdd-implement specs/cart/*.feature --project ip-hub
+/fluentit-tdd-frontend:fluentit-tdd-implement specs/cart/*.feature --project ip-hub
 
 # Stage 3b: Backend TDD
-/dna-tdd-backend:dna-tdd-backend   apps/backend-e2e/features/cart.feature "Add item to cart" --project ip-hub
+/fluentit-tdd-backend:fluentit-tdd-backend   apps/backend-e2e/features/cart.feature "Add item to cart" --project ip-hub
 ```
 
 ---

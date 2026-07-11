@@ -196,7 +196,7 @@ Append Phase 3 section:
 ```markdown
 ## Phase 3: Backend Implementation
 
-Created by: /dna-backend-module
+Created by: /fluentit-backend-module
 Date: {YYYY-MM-DD}
 
 ### Module: {EntityName}Module
@@ -246,4 +246,4 @@ The skill adapts to the project's backend architecture:
 
 ## Source
 
-Original: `.framework/agents/playbooks/dna-tools/commands/dna-backend-module.md`
+Original: `.framework/agents/playbooks/fluentit-tools/commands/fluentit-backend-module.md`

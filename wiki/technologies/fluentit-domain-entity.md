@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-domain-entity.md`
-> **Related:** [[wiki/technologies/dna-backend-module|Backend Module]], [[wiki/concepts/domain-driven-design|Domain-Driven Design]], [[wiki/technologies/rlm|RLM]]
+> **Source:** `.framework/skills/fluentit-domain-entity.md`
+> **Related:** [[wiki/technologies/fluentit-backend-module|Backend Module]], [[wiki/concepts/domain-driven-design|Domain-Driven Design]], [[wiki/technologies/rlm|RLM]]
 
 # Domain Entity
 

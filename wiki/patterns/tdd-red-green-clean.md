@@ -1,5 +1,5 @@
 > **Type:** Pattern
-> **Source:** `.framework/skills/dna-tdd-*.md`
+> **Source:** `.framework/skills/fluentit-tdd-*.md`
 > **Related:** [[wiki/patterns/bdd-pipeline|BDD Pipeline]], [[wiki/concepts/project-context|ProjectContext]]
 
 # TDD Red-Green-Clean
@@ -162,7 +162,7 @@ For experienced users, each TDD skill supports shortcuts:
 ## Related
 
 - [[wiki/patterns/bdd-pipeline|BDD Pipeline]] — What happens before TDD
-- [[technologies/dna-tdd-frontend|dna-tdd-frontend]]
-- [[technologies/dna-tdd-backend|dna-tdd-backend]]
+- [[technologies/fluentit-tdd-frontend|fluentit-tdd-frontend]]
+- [[technologies/fluentit-tdd-backend|fluentit-tdd-backend]]
 - [[entities/playwright|playwright]] — Frontend E2E testing
 - [[entities/cucumber|cucumber]] — Backend testing

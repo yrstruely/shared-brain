@@ -403,10 +403,10 @@ argument-hint: Provide feature files and project name (e.g., features/dashboard/
 
 ```bash
 # Full workflow
-/dna-bdd-frontend-steps:dna-bdd-frontend-features {featureFiles} --project {projectName}
+/fluentit-bdd-frontend-steps:fluentit-bdd-frontend-features {featureFiles} --project {projectName}
 
 # Example
-/dna-bdd-frontend-steps:dna-bdd-frontend-features features/dashboard/*.feature --project ip-hub
+/fluentit-bdd-frontend-steps:fluentit-bdd-frontend-features features/dashboard/*.feature --project ip-hub
 ```
 
 ---
@@ -444,4 +444,4 @@ If tooling is not auto-detected, it falls back to `projectType.tooling.frontend`
 
 ## Source
 
-Original: `.framework/agents/playbooks/bdd-frontend-agents/commands/dna-bdd-frontend-features.md`
+Original: `.framework/agents/playbooks/bdd-frontend-agents/commands/fluentit-bdd-frontend-features.md`

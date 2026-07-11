@@ -67,17 +67,17 @@ PR:           Pull Request Workflow
 
 | Detected State | Missing | Next Skill | Phase |
 |---|---|---|---|
-| No specs | Everything | `dna-bdd-features` | BDD |
-| Specs exist, no features | `.feature` files | `dna-bdd-features` | BDD |
-| Features exist, no steps | Step definitions | `dna-bdd-frontend-steps` + `dna-bdd-backend-steps` | BDD |
-| Steps exist, no tests | Unit tests | `dna-tdd-frontend` + `dna-tdd-backend` | TDD |
-| Tests exist, failing | Implementation | `dna-tdd-frontend` + `dna-tdd-backend` | TDD |
-| Tests pass, code raw | Cleanup | `dna-review` | Review |
-| Code clean, uncommitted | Commit/PR | `dna-pr` | PR |
-| New domain concept | Entity design | `dna-domain-entity` | Discovery |
-| New API surface | Contracts | `dna-api-contracts` | Discovery |
-| New backend feature | Module scaffold | `dna-backend-module` | Scaffold |
-| New frontend feature | Component scaffold | `dna-frontend-guide` | Scaffold |
+| No specs | Everything | `fluentit-bdd-features` | BDD |
+| Specs exist, no features | `.feature` files | `fluentit-bdd-features` | BDD |
+| Features exist, no steps | Step definitions | `fluentit-bdd-frontend-steps` + `fluentit-bdd-backend-steps` | BDD |
+| Steps exist, no tests | Unit tests | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | TDD |
+| Tests exist, failing | Implementation | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | TDD |
+| Tests pass, code raw | Cleanup | `fluentit-review` | Review |
+| Code clean, uncommitted | Commit/PR | `fluentit-pr` | PR |
+| New domain concept | Entity design | `fluentit-domain-entity` | Discovery |
+| New API surface | Contracts | `fluentit-api-contracts` | Discovery |
+| New backend feature | Module scaffold | `fluentit-backend-module` | Scaffold |
+| New frontend feature | Component scaffold | `fluentit-frontend-guide` | Scaffold |
 
 ---
 
@@ -106,7 +106,7 @@ async function recommendNextSkill(input: OrchestratorInput): Promise<SkillRecomm
   // Greenfield feature (nothing exists yet)
   if (!state.hasSpecs && !state.hasFeatures) {
     return [{
-      skill: 'dna-bdd-features',
+      skill: 'fluentit-bdd-features',
       phase: 'BDD',
       reason: `No features found for ${input.featureName}. Start with BDD feature generation.`,
       dependencies: [],
@@ -118,18 +118,18 @@ async function recommendNextSkill(input: OrchestratorInput): Promise<SkillRecomm
   if (state.hasFeatures && !state.hasFrontendSteps) {
     return [
       {
-        skill: 'dna-bdd-frontend-steps',
+        skill: 'fluentit-bdd-frontend-steps',
         phase: 'BDD',
         reason: 'Features exist but frontend step definitions are missing.',
-        dependencies: ['dna-bdd-features'],
-        parallelWith: ['dna-bdd-backend-steps']
+        dependencies: ['fluentit-bdd-features'],
+        parallelWith: ['fluentit-bdd-backend-steps']
       },
       {
-        skill: 'dna-bdd-backend-steps',
+        skill: 'fluentit-bdd-backend-steps',
         phase: 'BDD',
         reason: 'Features exist but backend step definitions are missing.',
-        dependencies: ['dna-bdd-features'],
-        parallelWith: ['dna-bdd-frontend-steps']
+        dependencies: ['fluentit-bdd-features'],
+        parallelWith: ['fluentit-bdd-frontend-steps']
       }
     ];
   }
@@ -138,18 +138,18 @@ async function recommendNextSkill(input: OrchestratorInput): Promise<SkillRecomm
   if (state.hasFrontendSteps && !state.hasImplementation) {
     return [
       {
-        skill: 'dna-tdd-frontend',
+        skill: 'fluentit-tdd-frontend',
         phase: 'TDD',
         reason: 'Step definitions ready. Implement frontend component.',
-        dependencies: ['dna-bdd-frontend-steps'],
-        parallelWith: ['dna-tdd-backend']
+        dependencies: ['fluentit-bdd-frontend-steps'],
+        parallelWith: ['fluentit-tdd-backend']
       },
       {
-        skill: 'dna-tdd-backend',
+        skill: 'fluentit-tdd-backend',
         phase: 'TDD',
         reason: 'Step definitions ready. Implement backend service/aggregate.',
-        dependencies: ['dna-bdd-backend-steps'],
-        parallelWith: ['dna-tdd-frontend']
+        dependencies: ['fluentit-bdd-backend-steps'],
+        parallelWith: ['fluentit-tdd-frontend']
       }
     ];
   }
@@ -157,10 +157,10 @@ async function recommendNextSkill(input: OrchestratorInput): Promise<SkillRecomm
   // Implementation exists, needs cleanup
   if (state.hasImplementation && !state.isClean) {
     return [{
-      skill: 'dna-review',
+      skill: 'fluentit-review',
       phase: 'Review',
       reason: 'Code exists but needs AI artifact cleanup.',
-      dependencies: ['dna-tdd-frontend', 'dna-tdd-backend'],
+      dependencies: ['fluentit-tdd-frontend', 'fluentit-tdd-backend'],
       parallelWith: []
     }];
   }
@@ -168,10 +168,10 @@ async function recommendNextSkill(input: OrchestratorInput): Promise<SkillRecomm
   // Everything clean, needs PR
   if (state.isClean && state.hasUncommittedChanges) {
     return [{
-      skill: 'dna-pr',
+      skill: 'fluentit-pr',
       phase: 'PR',
       reason: 'Implementation complete and clean. Create PR.',
-      dependencies: ['dna-review'],
+      dependencies: ['fluentit-review'],
       parallelWith: []
     }];
   }
@@ -206,10 +206,10 @@ Detected State:
   ❌ Implementation missing
 
 Recommended Next:
-  1. Run dna-bdd-frontend-steps (parallel with backend)
-  2. Run dna-bdd-backend-steps (parallel with frontend)
+  1. Run fluentit-bdd-frontend-steps (parallel with backend)
+  2. Run fluentit-bdd-backend-steps (parallel with frontend)
 
-Dependencies: dna-bdd-features (✅ completed)
+Dependencies: fluentit-bdd-features (✅ completed)
 
 Proceed? [Y/n/custom]
 ```
@@ -235,20 +235,20 @@ Output:
 ## Execution Plan: user-profile
 
 ### Phase 1: BDD (Current)
-- [ ] dna-bdd-frontend-steps
-- [ ] dna-bdd-backend-steps
+- [ ] fluentit-bdd-frontend-steps
+- [ ] fluentit-bdd-backend-steps
   → Parallel execution possible
 
 ### Phase 2: TDD
-- [ ] dna-tdd-frontend
-- [ ] dna-tdd-backend
+- [ ] fluentit-tdd-frontend
+- [ ] fluentit-tdd-backend
   → Parallel execution possible
 
 ### Phase 3: Review
-- [ ] dna-review
+- [ ] fluentit-review
 
 ### Phase 4: PR
-- [ ] dna-pr
+- [ ] fluentit-pr
 
 Estimated: 4 phases, 6 skills, ~45 min
 ```
@@ -264,7 +264,7 @@ Handle complex dependency chains:
 const needsEntity = await checkDomainEntityExists(projectName, entityName);
 if (!needsEntity) {
   recommendations.unshift({
-    skill: 'dna-domain-entity',
+    skill: 'fluentit-domain-entity',
     phase: 'Discovery',
     reason: `Domain entity '${entityName}' not found. Design it first.`,
     dependencies: [],
@@ -276,10 +276,10 @@ if (!needsEntity) {
 const hasContracts = await checkApiContractsExist(projectName, featureName);
 if (!hasContracts) {
   recommendations.unshift({
-    skill: 'dna-api-contracts',
+    skill: 'fluentit-api-contracts',
     phase: 'Discovery',
     reason: 'API contracts not defined. Establish contract before implementation.',
-    dependencies: ['dna-domain-entity'],
+    dependencies: ['fluentit-domain-entity'],
     parallelWith: []
   });
 }
@@ -343,14 +343,14 @@ The orchestrator knows about all framework skills:
 
 | Skill | Phase | Can Parallel | Depends On |
 |-------|-------|-------------|------------|
-| `dna-domain-entity` | Discovery | No | — |
-| `dna-api-contracts` | Discovery | No | `dna-domain-entity` |
-| `dna-backend-module` | Scaffold | No | `dna-api-contracts` |
-| `dna-frontend-guide` | Scaffold | No | `dna-api-contracts` |
-| `dna-bdd-features` | BDD | No | — |
-| `dna-bdd-frontend-steps` | BDD | Yes (backend) | `dna-bdd-features` |
-| `dna-bdd-backend-steps` | BDD | Yes (frontend) | `dna-bdd-features` |
-| `dna-tdd-frontend` | TDD | Yes (backend) | `dna-bdd-frontend-steps` |
-| `dna-tdd-backend` | TDD | Yes (frontend) | `dna-bdd-backend-steps` |
-| `dna-review` | Review | No | `dna-tdd-frontend`, `dna-tdd-backend` |
-| `dna-pr` | PR | No | `dna-review` |
+| `fluentit-domain-entity` | Discovery | No | — |
+| `fluentit-api-contracts` | Discovery | No | `fluentit-domain-entity` |
+| `fluentit-backend-module` | Scaffold | No | `fluentit-api-contracts` |
+| `fluentit-frontend-guide` | Scaffold | No | `fluentit-api-contracts` |
+| `fluentit-bdd-features` | BDD | No | — |
+| `fluentit-bdd-frontend-steps` | BDD | Yes (backend) | `fluentit-bdd-features` |
+| `fluentit-bdd-backend-steps` | BDD | Yes (frontend) | `fluentit-bdd-features` |
+| `fluentit-tdd-frontend` | TDD | Yes (backend) | `fluentit-bdd-frontend-steps` |
+| `fluentit-tdd-backend` | TDD | Yes (frontend) | `fluentit-bdd-backend-steps` |
+| `fluentit-review` | Review | No | `fluentit-tdd-frontend`, `fluentit-tdd-backend` |
+| `fluentit-pr` | PR | No | `fluentit-review` |

@@ -1,6 +1,6 @@
 > **Type:** Skill
-> **Source:** `.framework/skills/dna-pr.md`
-> **Related:** [[wiki/technologies/dna-review|Code Review]], [[wiki/technologies/dna-frontend-guide|Frontend Guide]], [[wiki/technologies/dna-backend-module|Backend Module]]
+> **Source:** `.framework/skills/fluentit-pr.md`
+> **Related:** [[wiki/technologies/fluentit-review|Code Review]], [[wiki/technologies/fluentit-frontend-guide|Frontend Guide]], [[wiki/technologies/fluentit-backend-module|Backend Module]]
 
 # Pull Request Workflow
 
