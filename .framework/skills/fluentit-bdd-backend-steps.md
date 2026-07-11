@@ -27,15 +27,36 @@ Read `projects/{projectName}/okf/index.md` to find:
 - `paths.backend` — backend source path
 - `techStack.backend` — NestJS, Express, etc.
 
-### Step 2: Find the Feature File
+### Step 2: Resolve the Code Path
+
+Check if the OKF has a `codePaths` field.
+
+**If `codePaths` is present:**
+1. Determine the machine identifier in this priority:
+   - Environment variable `FLUENTIT_MACHINE`
+   - Local config file `~/.fluentit/machine.json` (read with Bash: `cat ~/.fluentit/machine.json 2>/dev/null || echo "{}"`)
+   - Hostname: `hostname` command
+2. Find the entry in `codePaths` where `machine` matches the identifier.
+3. If found, set `{codeRoot}` to that entry's `path`.
+4. If not found, STOP and tell the user:
+   > "No code path configured for machine '{machineId}' in project '{projectName}'. Please provide the path, or add this to the OKF:\n> codePaths:\n>   - machine: '{machineId}'\n>     path: '<your path here>'"
+
+**If `codePaths` is absent:**
+- The project is vault-local. Set `{codeRoot}` = `projects/{projectName}/`.
+
+**From now on, use:**
+- `projects/{projectName}/` for OKF, specs, and documentation (vault side)
+- `{codeRoot}/` for features, code, tests, and git operations (code side)
+
+### Step 3: Find the Feature File
 
 ```bash
-find projects/{projectName}/features -name "*{featureName}*.feature"
+find {codeRoot}/features -name "*{featureName}*.feature"
 ```
 
 Read the feature file. Focus on `@backend` scenarios.
 
-### Step 3: Generate Step Definitions
+### Step 4: Generate Step Definitions
 
 For each `@backend` scenario, generate API test steps.
 
@@ -63,10 +84,10 @@ Then('the response body contains {string}', (bodyText: string) => {
 
 Use Write to create:
 ```
-projects/{projectName}/{backendPath}/test/e2e/step-definitions/{featureName}.steps.ts
+{codeRoot}/{backendPath}/test/e2e/step-definitions/{featureName}.steps.ts
 ```
 
-### Step 4: Report
+### Step 5: Report
 
 ```
 ✅ Generated backend step definitions: {path}
