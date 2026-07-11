@@ -49,4 +49,4 @@ None
       Then one ninja dies (there can be only one)" — [[|]]
 
 ## Related Pages
-- Business rules defined during entity design can be expressed using the Gherkin Rule keyword for validation. [[skills/fluentit-domain-entity]]
+- Business rules defined during entity design can be expressed using the Gherkin Rule keyword for validation. [[technologies/fluentit-domain-entity|fluentit-domain-entity]]

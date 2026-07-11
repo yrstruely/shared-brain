@@ -43,4 +43,4 @@ No related entities.
 
 ## Related Pages
 - The discovery interview phase of Domain Entity skill aligns with event storming workshops to identify domain entities. [[concepts/domain-entity|domain-entity]]
-- Event Storming is a complementary DDD workshop technique that can feed into the entity discovery interview phase. [[skills/fluentit-domain-entity]]
+- Event Storming is a complementary DDD workshop technique that can feed into the entity discovery interview phase. [[technologies/fluentit-domain-entity|fluentit-domain-entity]]

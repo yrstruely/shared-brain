@@ -1,6 +1,6 @@
 > **Type:** Reference
 > **Source:** `setup-instructions/WORKFLOW.md`
-> **Related:** [[wiki/technologies/fluentit-orchestrator|Orchestrator]], [[.framework/skills/index|Framework Skills]], [[setup-instructions/SETUP_GUIDE|Setup Guide]]
+> **Related:** [[wiki/technologies/fluentit-orchestrator|Orchestrator]], [[concepts/skillsfrontend-tdd-implementation|Framework Skills]], [[setup-instructions/SETUP_GUIDE|Setup Guide]]
 
 # Project Workflow
 

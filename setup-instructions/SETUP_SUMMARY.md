@@ -18,25 +18,25 @@ The framework has been fully assembled and undergone a major architectural refac
 
 ### 1. Skills Ported & Renamed (17 total)
 
-| Phase | Skill | Status | Tested |
-|-------|-------|--------|--------|
-| Infrastructure | `rlm-context-loader` | ✅ Active | ❌ No |
-| Infrastructure | `graphify-minimal` | ✅ Active | ✅ Yes (self-indexed) |
-| Infrastructure | `wiki-ingest-pipeline` | ✅ Active | ✅ Yes (Cucumber docs) |
-| Pipeline | `fluentit-bdd-features` | ✅ Ported | ⚠️ Partial (path fix pending restart) |
-| Pipeline | `fluentit-bdd-frontend-steps` | ✅ Ported | ❌ No |
-| Pipeline | `fluentit-bdd-backend-steps` | ✅ Ported | ❌ No |
-| Pipeline | `fluentit-tdd-frontend` | ✅ Ported | ❌ No |
-| Pipeline | `fluentit-tdd-backend` | ✅ Ported | ❌ No |
-| Scaffolding | `fluentit-domain-entity` | ✅ Ported | ❌ No |
-| Scaffolding | `fluentit-api-contracts` | ✅ Ported | ❌ No |
-| Scaffolding | `fluentit-backend-module` | ✅ Ported | ❌ No |
-| Workflow | `fluentit-frontend-guide` | ✅ Ported | ❌ No |
-| Workflow | `fluentit-pr` | ✅ Ported | ❌ No |
-| Workflow | `fluentit-review` | ✅ Ported | ❌ No |
-| Meta | `fluentit-orchestrator` | ✅ Created | ✅ Yes (path resolution works) |
-| Reference | `MASTER_TEMPLATE` | ✅ Active | N/A |
-| Registry | `index` | ✅ Active | N/A |
+| Phase          | Skill                         | Status    | Tested                                |
+| -------------- | ----------------------------- | --------- | ------------------------------------- |
+| Infrastructure | `rlm-context-loader`          | ✅ Active  | ❌ No                                  |
+| Infrastructure | `graphify-minimal`            | ✅ Active  | ✅ Yes (self-indexed)                  |
+| Infrastructure | `wiki-ingest-pipeline`        | ✅ Active  | ✅ Yes (Cucumber docs)                 |
+| Pipeline       | `fluentit-bdd-features`       | ✅ Ported  | ⚠️ Partial (path fix pending restart) |
+| Pipeline       | `fluentit-bdd-frontend-steps` | ✅ Ported  | ❌ No                                  |
+| Pipeline       | `fluentit-bdd-backend-steps`  | ✅ Ported  | ❌ No                                  |
+| Pipeline       | `fluentit-tdd-frontend`       | ✅ Ported  | ❌ No                                  |
+| Pipeline       | `fluentit-tdd-backend`        | ✅ Ported  | ❌ No                                  |
+| Scaffolding    | `fluentit-domain-entity`      | ✅ Ported  | ❌ No                                  |
+| Scaffolding    | `fluentit-api-contracts`      | ✅ Ported  | ❌ No                                  |
+| Scaffolding    | `fluentit-backend-module`     | ✅ Ported  | ❌ No                                  |
+| Workflow       | `fluentit-frontend-guide`     | ✅ Ported  | ❌ No                                  |
+| Workflow       | `fluentit-pr`                 | ✅ Ported  | ❌ No                                  |
+| Workflow       | `fluentit-review`             | ✅ Ported  | ❌ No                                  |
+| Meta           | `fluentit-orchestrator`       | ✅ Created | ✅ Yes (path resolution works)         |
+| Reference      | `MASTER_TEMPLATE`             | ✅ Active  | N/A                                   |
+| Registry       | `index`                       | ✅ Active  | N/A                                   |
 
 **Key Changes:**
 - All 12 DNA skills renamed from `dna-` to `fluentit-` prefix

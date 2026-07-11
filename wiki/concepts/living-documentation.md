@@ -52,4 +52,4 @@ Living Documentation is a software documentation approach where specifications a
 ## Related Pages
 - The BDD Feature Generator produces living documentation from feature templates, work superseded by the merged skill [[technologies/bdd-feature-agents|bdd-feature-agents]]
 - The PR Workflow automates version bumps and ticket updates, contributing to living documentation that stays in sync with code changes [[entities/pull-request-workflow|pull-request-workflow]]
-- Living documentation relies on code clarity — Code Review helps ensure Gherkin scenarios and step definitions look human-authored. [[skills/fluentit-review|Code Review]]
+- Living documentation relies on code clarity — Code Review helps ensure Gherkin scenarios and step definitions look human-authored. [[technologies/fluentit-review|fluentit-review]]

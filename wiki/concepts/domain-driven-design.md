@@ -44,5 +44,5 @@ Domain-Driven Design (DDD) is a software development methodology that emphasizes
 ## Related Pages
 - Domain Entity skill implements DDD principles for designing framework-free domain entities. [[concepts/domain-entity|domain-entity]]
 - Backend Modules are often implemented following Domain-Driven Design patterns for organizing application and infrastructure layers. [[entities/backend-module|backend-module]]
-- Domain-Driven Design is the foundational methodology that the Domain Entity skill implements for entity design. [[skills/fluentit-domain-entity]]
-- The Backend Module skill implements Domain-Driven Design principles by scaffolding application and infrastructure layers from domain models described in DESIGN.md. [[skills/fluentit-backend-module]]
+- Domain-Driven Design is the foundational methodology that the Domain Entity skill implements for entity design. [[technologies/fluentit-domain-entity|fluentit-domain-entity]]
+- The Backend Module skill implements Domain-Driven Design principles by scaffolding application and infrastructure layers from domain models described in DESIGN.md. [[technologies/fluentit-backend-module|fluentit-backend-module]]

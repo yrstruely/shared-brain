@@ -489,3 +489,141 @@ Every ingest, lint run, and maintenance operation is recorded here automatically
 - [[technologies/dna-backend-module]] linked from: [[wiki/concepts/domain-driven-design.md]], [[wiki/concepts/rlm-context-loader.md]], [[wiki/concepts/project-context.md]]
 - [[technologies/dna-api-contracts]]: no suitable linking targets found
 - [[patterns/bdd-pipeline]]: no suitable linking targets found
+
+
+## [2026-07-11 21:06] Wiki lint report
+
+
+> Wiki status overview: 61 pages total, 5 pages missing aliases, 0 duplicate pages, 15 dead links (0 involve duplicates), 5 orphan pages (0 are duplicates), 0 empty pages, 40 ungrounded quotes, 1 out-of-vocabulary tags. Lint elapsed: 51s
+
+> Aliases missing: 5 page(s) without aliases
+
+### Pages missing aliases [5]
+
+- [[entities/backend-module]]
+- [[entities/pull-request-workflow]]
+- [[entities/playwright]]
+- [[concepts/skillsfrontend-tdd-implementation]]
+- [[concepts/domain-entity]]
+
+### Dead links (detected) [15]
+
+- [[workflow]] → **.framework/skills/index** (page does not exist)
+- [[entities/playwright]] → **sources/tdd-red-green-clean** (page does not exist)
+- [[concepts/rlm-context-loader]] → **Project Orchestrator** (page does not exist)
+- [[concepts/rlm-context-loader]] → **skills/fluentit-backend-module** (page does not exist)
+- [[concepts/project-context]] → **Project Orchestrator** (page does not exist)
+- [[concepts/project-context]] → **skills/fluentit-backend-module** (page does not exist)
+- [[concepts/acceptance-test-driven-development]] → **skills/frontend-tdd-implementation** (page does not exist)
+- [[concepts/acceptance-test-driven-development]] → **Project Orchestrator** (page does not exist)
+- [[concepts/acceptance-test-driven-development]] → **skills/fluentit-review** (page does not exist)
+- [[concepts/test-driven-development]] → **skills/fluentit-review** (page does not exist)
+- [[concepts/rule]] → **skills/fluentit-domain-entity** (page does not exist)
+- [[concepts/domain-driven-design]] → **skills/fluentit-domain-entity** (page does not exist)
+- [[concepts/domain-driven-design]] → **skills/fluentit-backend-module** (page does not exist)
+- [[concepts/event-storming]] → **skills/fluentit-domain-entity** (page does not exist)
+- [[concepts/living-documentation]] → **skills/fluentit-review** (page does not exist)
+
+### Ungrounded quotes (detected) [40]
+
+- [[concepts/automation]] → [[]]: "If you're new to BDD, discovery is the right place to start. You won't get much joy from the other two practices until you've mastered discovery."
+- [[concepts/automation]] → [[]]: "The three iterative practices: Automation — Connect specifications to the system as failing tests — Automated test suite."
+- [[concepts/background]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Background — Adds context to the scenarios that follow it. Runs before each scenario in the feature."
+- [[concepts/background]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Best Practice: Keep your Background section short. Don't use it to set up complicated states."
+- [[concepts/behaviour-driven-development]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "BDD is a methodology focused on discovery, collaboration, and examples — not testing. It helps teams build shared understanding of what to build before writing code."
+- [[concepts/behaviour-driven-development]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "If you're new to BDD, discovery is the right place to start. You won't get much joy from the other two practices until you've mastered discovery."
+- [[concepts/cucumber-expressions]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Cucumber Expressions — Default; simpler syntax with {parameter} patterns"
+- [[concepts/data-tables]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Data Tables — For passing a list of values."
+- [[concepts/declarative-style]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Scenarios should explain what, not how. Ask: 'Will this wording need to change if the implementation does?' If yes, rework it."
+- [[concepts/discovery]] → [[]]: "If you're new to BDD, discovery is the right place to start. You won't get much joy from the other two practices until you've mastered discovery."
+- [[concepts/discovery]] → [[]]: "The three iterative practices: Discovery — Explore what the system could do through collaborative workshops — Shared understanding."
+- [[concepts/domain-driven-design]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Domain-Driven Design — BDD's natural companion; shared ubiquitous language"
+- [[concepts/event-storming]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Event Storming — Collaborative discovery technique for complex domains"
+- [[concepts/example-mapping]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Example Mapping — Structured conversation format for BDD discovery"
+- [[concepts/formulation]] → [[]]: "The three iterative practices: Discovery — Explore what the system could do through collaborative workshops — Shared understanding."
+- [[concepts/formulation]] → [[]]: "The three iterative practices: Formulation — Document examples as structured, executable specifications — Gherkin scenarios."
+- [[concepts/gherkin-tags]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Tags — Place above Feature or Scenario to group related features."
+- [[concepts/gherkin]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Gherkin is a set of grammar rules that makes plain text structured enough for Cucumber to understand. It uses a small set of keywords to describe software behavior in plain language."
+- [[concepts/gherkin]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Gherkin is the lingua franca — readable by humans and computers"
+- [[concepts/given–when–then]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Given — Context — Puts the system in a known state."
+- [[concepts/given–when–then]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Then — Outcome — Describes an expected outcome or result."
+- [[concepts/given–when–then]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "When — Action — Describes an event or action."
+- [[concepts/imperative-style]] → [[]]: "Scenarios that describe UI interactions are brittle and miss the underlying behaviour"
+- [[concepts/living-documentation]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Living Documentation — Executable specs that stay current with code"
+- [[concepts/rule]] → [[]]: "Feature: Highlander
+  Rule: There can be only One
+    Example: Only One -- More than one alive
+      Given there are 3 ninjas
+      When 2 ninjas meet, they will fight
+      Then one ninja dies (there can be only one)"
+- [[concepts/rule]] → [[]]: "Rule (Gherkin 6+) — Represents one business rule that should be implemented. Groups scenarios under a specific rule."
+- [[concepts/scenario-outline]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Scenario Outline / Scenario Template — Runs the same Scenario multiple times with different combinations of values."
+- [[concepts/specification-by-example]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Specification by Example — Documenting requirements as concrete examples"
+- [[concepts/starting-with-automation-before-discovery]] → [[]]: "Anti-Patterns: 1. Starting with Automation Before Discovery"
+- [[concepts/starting-with-automation-before-discovery]] → [[]]: "If you're new to BDD, discovery is the right place to start. You won't get much joy from the other two practices until you've mastered discovery."
+- [[concepts/step-definition]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "A Step Definition is a method with an expression that links it to one or more Gherkin steps. Step definitions connect Gherkin steps to programming code — they 'hard-wire the specification to the implementation.'"
+- [[concepts/test-pyramid]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "BDD operates at the acceptance level, while TDD guides unit-level implementation."
+- [[concepts/test-pyramid]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "BDD scenarios serve as 'guide-rails' at the top of the pyramid, while lower-level TDD tests guide implementation details."
+- [[concepts/testing-through-the-ui]] → [[]]: "Testing Through the UI: Scenarios that describe UI interactions are brittle and miss the underlying behaviour"
+- [[entities/behat]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Behat — PHP BDD framework"
+- [[entities/behave]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Behave — Python BDD framework"
+- [[entities/cucumber]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Cucumber — Reference BDD framework (Java, Ruby, JavaScript, and more)"
+- [[entities/cucumber]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "Gherkin is a set of grammar rules that makes plain text structured enough for Cucumber to understand."
+- [[entities/pytest-bdd]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "pytest-bdd — BDD plugin for pytest"
+- [[entities/specflow]] → [[sources/articles/bdd-cucumber-gherkin-reference]]: "SpecFlow — .NET BDD framework inspired by Cucumber"
+
+### Pages with out-of-vocabulary tags [1]
+
+- [[sources/bdd-cucumber-gherkin-reference_7dfdd4]] — invalid: Behaviour-Driven Development, Gherkin, Step Definition, Test Pyramid, Cucumber Expressions, Declarative Style, Scenario Outline, Background, Doc Strings, Data Tables, Given–When–Then, Living Documentation, Specification by Example, Example Mapping, Event Storming, Domain-Driven Design, Gherkin Tags, Discovery, Formulation, Automation, Rule, Imperative Style, Testing Through the UI, Starting with Automation Before Discovery
+
+### Orphan pages (detected) [5]
+
+- [[workflow]] — no other Wiki pages link here
+- [[technologies/fluentit-orchestrator]] — no other Wiki pages link here
+- [[technologies/skill-porting-template]] — no other Wiki pages link here
+- [[technologies/wiki-ingest-pipeline]] — no other Wiki pages link here
+- [[patterns/bdd-pipeline]] — no other Wiki pages link here
+
+### LLM analysis
+
+### LLM analysis
+
+- **Missing pages (important concepts without standalone pages):** Several concepts like "skills/fluentit-backend-module", "skills/fluentit-review", "skills/frontend-tdd-implementation", and "Project Orchestrator" are referenced by multiple wiki pages (e.g., `rule`, `domain-driven-design`, `acceptance-test-driven-development`) but do not have their own pages. These are critical for structural completeness of the framework documentation.
+- **Naming inconsistency:** The page `[[concepts/skillsfrontend-tdd-implementation]]` appears to be a concatenation error — it should likely be `skills/frontend-tdd-implementation` to match the pattern of other skill references (e.g., `skills/fluentit-review`). This causes broken navigation and confusion.
+- **Tag vocabulary violation:** The source page `[[sources/bdd-cucumber-gherkin-reference_7dfdd4]]` uses tags like "Behaviour-Driven Development", "Gherkin", "Step Definition" etc. that are not in the allowed tag vocabulary (allowed only entity/concept types). This violates schema rules and will fail frontmatter validation.
+- **Cross-reference structure:** The `workflow` page lists a pipeline arrow `Discovery → Design → Scaffold → BDD → TDD → Review → PR` but the intermediate steps (Scaffold, Design) are not defined as pages, and no links exist to explain them. This could confuse readers.
+- **No contradictions** found between pages — definitions of BDD, TDD, Gherkin, etc. are consistent across the sampled content.
+- **No staleness** detected — all pages show recent creation/update dates (within the 90-day threshold).
+
+
+## [2026-07-11 21:10] Smart Fix All (Causality-Aware with Aliases)
+
+## Complete Aliases
+- [[entities/pull-request-workflow]]: added 6 aliases (total 6)
+- [[entities/backend-module]]: added 5 aliases (total 5)
+- [[entities/playwright]]: added 6 aliases (total 6)
+- [[concepts/skillsfrontend-tdd-implementation]]: added 4 aliases (total 4)
+
+## Fix Dead Links
+- [[workflow]]: `[[.framework/skills/index]]` → corrected: [[concepts/skillsfrontend-tdd-implementation|Framework Skills]]
+- [[entities/playwright]]: `[[sources/tdd-red-green-clean]]` → pre-check corrected (alias match): [[patterns/tdd-red-green-clean|tdd-red-green-clean]]
+- [[concepts/rlm-context-loader]]: `[[Project Orchestrator]]` → stub created (unfilled): wiki/entities/project-orchestrator.md — will be filled by next ingest of a real source
+- [[concepts/rlm-context-loader]]: `[[skills/fluentit-backend-module]]` → pre-check corrected (alias match): [[technologies/fluentit-backend-module|fluentit-backend-module]]
+- [[concepts/project-context]]: `[[Project Orchestrator]]` → corrected: [[entities/project-orchestrator|Project Orchestrator]]
+- [[concepts/project-context]]: `[[skills/fluentit-backend-module]]` → pre-check corrected (alias match): [[technologies/fluentit-backend-module|fluentit-backend-module]]
+- [[concepts/acceptance-test-driven-development]]: `[[skills/frontend-tdd-implementation]]` → corrected: [[concepts/skillsfrontend-tdd-implementation|skillsfrontend-tdd-implementation]]
+- [[concepts/acceptance-test-driven-development]]: `[[Project Orchestrator]]` → corrected: [[entities/project-orchestrator|Project Orchestrator]]
+- [[concepts/acceptance-test-driven-development]]: `[[skills/fluentit-review]]` → pre-check corrected (alias match): [[technologies/fluentit-review|fluentit-review]]
+- [[concepts/test-driven-development]]: `[[skills/fluentit-review]]` → pre-check corrected (alias match): [[technologies/fluentit-review|fluentit-review]]
+- [[concepts/rule]]: `[[skills/fluentit-domain-entity]]` → pre-check corrected (alias match): [[technologies/fluentit-domain-entity|fluentit-domain-entity]]
+- [[concepts/domain-driven-design]]: `[[skills/fluentit-domain-entity]]` → pre-check corrected (alias match): [[technologies/fluentit-domain-entity|fluentit-domain-entity]]
+- [[concepts/domain-driven-design]]: `[[skills/fluentit-backend-module]]` → pre-check corrected (alias match): [[technologies/fluentit-backend-module|fluentit-backend-module]]
+- [[concepts/event-storming]]: `[[skills/fluentit-domain-entity]]` → pre-check corrected (alias match): [[technologies/fluentit-domain-entity|fluentit-domain-entity]]
+- [[concepts/living-documentation]]: `[[skills/fluentit-review]]` → pre-check corrected (alias match): [[technologies/fluentit-review|fluentit-review]]
+
+## Link Orphan Pages
+- [[workflow]]: no suitable linking targets found
+- [[technologies/fluentit-orchestrator]]: no suitable linking targets found
+- [[technologies/skill-porting-template]] linked from: [[wiki/concepts/rlm-context-loader.md]], [[wiki/concepts/project-context.md]]
+- [[technologies/wiki-ingest-pipeline]]: no suitable linking targets found
+- [[patterns/bdd-pipeline]] linked from: [[wiki/concepts/acceptance-test-driven-development.md]], [[wiki/concepts/test-driven-development.md]], [[wiki/concepts/project-context.md]]

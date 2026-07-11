@@ -166,5 +166,7 @@ All 11 ported skills use ProjectContext:
 ## Related Pages
 - Domain Entity skill loads project context as its first phase to inform entity design. [[concepts/domain-entity|domain-entity]]
 - The RLM engine loads ProjectContext data for recursive exploration. [[concepts/rlm-context-loader|rlm-context-loader]]
-- The Project Orchestrator detects the project state by analyzing the existing project context (specs, features, steps, implementation) to decide the next skill to run. [[Project Orchestrator]]
-- The Backend Module pipeline begins by loading project context via RLM, enabling adaptation to architectures like CQRS, MVC, or Hexagonal. [[skills/fluentit-backend-module]]
+- The Project Orchestrator detects the project state by analyzing the existing project context (specs, features, steps, implementation) to decide the next skill to run. [[entities/project-orchestrator|Project Orchestrator]]
+- The Backend Module pipeline begins by loading project context via RLM, enabling adaptation to architectures like CQRS, MVC, or Hexagonal. [[technologies/fluentit-backend-module|fluentit-backend-module]]
+- The Skill Porting Master Template includes a path abstraction cheat sheet that maps hardcoded paths to Project Context properties. [[concepts/skill-porting-master-template]]
+- Phase 0 of the BDD Pipeline loads ProjectContext to drive feature generation [[patterns/bdd-pipeline|BDD Pipeline]]

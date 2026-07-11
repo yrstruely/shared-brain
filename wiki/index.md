@@ -6,9 +6,10 @@
 
 ## Entities
 
-- [[entities/backend-module|backend-module]] - type: entity
-- [[entities/pull-request-workflow|pull-request-workflow]] - type: entity
-- [[entities/playwright|playwright]] - type: entity
+- [[entities/project-orchestrator|project-orchestrator]] - type: entity
+- [[entities/backend-module|backend-module]] `aliases: back-end module, server-side module, backend component, backend service, backend plugin` - type: entity
+- [[entities/pull-request-workflow|pull-request-workflow]] `aliases: PR workflow, pull request workflow, PR process, pull request process, code review workflow, merge request workflow` - type: entity
+- [[entities/playwright|playwright]] `aliases: Playwright, Microsoft Playwright, Playwright testing framework, Playwright browser automation, Playwright (software), PW` - type: entity
 - [[entities/fred-brooks|fred-brooks]] `aliases: Frederick Phillips Brooks, Brooks` - type: entity
 - [[entities/behat|behat]] `aliases: Behat, Behat BDD framework, Behat (PHP BDD framework)` - type: entity
 - [[entities/pytest-bdd|pytest-bdd]] `aliases: pytest BDD, pytest BDD plugin` - type: entity
@@ -18,7 +19,7 @@
 
 ## Concepts
 
-- [[concepts/skillsfrontend-tdd-implementation|skillsfrontend-tdd-implementation]] - type: concept
+- [[concepts/skillsfrontend-tdd-implementation|skillsfrontend-tdd-implementation]] `aliases: TDD Implementation, Test-Driven Development Implementation, Frontend TDD, TDD for Frontend` - type: concept
 - [[concepts/domain-entity|domain-entity]] - type: concept
 - [[concepts/rlm-context-loader|rlm-context-loader]] `aliases: Context Loader, RLM Context Loader, rlm context loader` - type: concept
 - [[concepts/project-context|project-context]] `aliases: Project Context, project context object, context abstraction, project metadata, project configuration object` - aliases:
@@ -53,33 +54,3 @@
 ## Sources
 
 - [[sources/bdd-cucumber-gherkin-reference_7dfdd4|bdd-cucumber-gherkin-reference_7dfdd4]] `aliases: BDD with Cucumber and Gherkin Reference, Cucumber.io BDD Documentation`
-
----
-
-## Technologies
-
-- [[technologies/rlm|rlm]] `aliases: Recursive Language Model, RLM Context Loader` - type: technology
-- [[technologies/graphify|graphify]] `aliases: Graphify Minimal, Code Relationship Graph` - type: technology
-- [[technologies/fluentit-orchestrator|fluentit-orchestrator]] `aliases: Project Orchestrator, Skill Conductor` - type: skill
-- [[technologies/fluentit-bdd-features|fluentit-bdd-features]] `aliases: BDD Feature Generator` - type: skill
-- [[technologies/fluentit-bdd-frontend-steps|fluentit-bdd-frontend-steps]] `aliases: BDD Frontend Steps` - type: skill
-- [[technologies/fluentit-bdd-backend-steps|fluentit-bdd-backend-steps]] `aliases: BDD Backend Steps` - type: skill
-- [[technologies/fluentit-tdd-frontend|fluentit-tdd-frontend]] `aliases: Frontend TDD` - type: skill
-- [[technologies/fluentit-tdd-backend|fluentit-tdd-backend]] `aliases: Backend TDD` - type: skill
-- [[technologies/fluentit-domain-entity|fluentit-domain-entity]] `aliases: Domain Entity` - type: skill
-- [[technologies/fluentit-api-contracts|fluentit-api-contracts]] `aliases: API Contracts` - type: skill
-- [[technologies/fluentit-backend-module|fluentit-backend-module]] `aliases: Backend Module` - type: skill
-- [[technologies/fluentit-frontend-guide|fluentit-frontend-guide]] `aliases: Frontend Guide` - type: skill
-- [[technologies/fluentit-pr|fluentit-pr]] `aliases: Pull Request Workflow` - type: skill
-- [[technologies/fluentit-review|fluentit-review]] `aliases: Code Review` - type: skill
-- [[technologies/wiki-ingest-pipeline|wiki-ingest-pipeline]] `aliases: Wiki Ingest` - type: skill
-- [[technologies/skill-porting-template|skill-porting-template]] `aliases: Master Porting Template` - type: reference
-- [[technologies/index|index]] - > Framework skills, infrastructure, and development tools.
-
----
-
-## Workflow
-
-- [[workflow|workflow]] `aliases: Project Workflow, Development Workflow` - type: reference
-- [[setup-instructions/SETUP_GUIDE|SETUP_GUIDE]] `aliases: Setup Guide` - type: reference
-- [[setup-instructions/WORKFLOW|WORKFLOW]] `aliases: Project Workflow` - type: reference

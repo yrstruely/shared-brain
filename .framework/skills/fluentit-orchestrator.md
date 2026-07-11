@@ -63,37 +63,74 @@ Check vault-side artifacts (documentation):
 ls projects/{projectName}/specs/ 2>/dev/null || echo "No specs"
 ```
 
-Check code-side artifacts (implementation):
+Check code-side artifacts — in dependency order:
+
+**Scaffolding (must exist before implementation):**
+```bash
+# Check for domain entities
+echo "=== Domain Entities ==="
+find {codeRoot}/{domainPath} -name "*.entity.ts" 2>/dev/null | head -5 || echo "No entities"
+
+# Check for API contracts (DTOs)
+echo "=== API Contracts ==="
+find {codeRoot}/{backendPath} -name "*.dto.ts" 2>/dev/null | head -5 || echo "No DTOs"
+find {codeRoot}/{frontendPath} -name "*.api.ts" 2>/dev/null | head -5 || echo "No API services"
+
+# Check for backend module scaffold
+echo "=== Backend Modules ==="
+find {codeRoot}/{backendPath} -name "*.module.ts" 2>/dev/null | head -5 || echo "No modules"
+
+# Check for frontend structure
+echo "=== Frontend Structure ==="
+find {codeRoot}/{frontendPath} -name "*.vue" -o -name "*.tsx" 2>/dev/null | head -5 || echo "No frontend components"
+```
+
+**BDD artifacts:**
 ```bash
 # Check for Gherkin features
+echo "=== Features ==="
 ls {codeRoot}/features/ 2>/dev/null || echo "No features"
 
 # Check for step definitions
-find {codeRoot} -name "*.steps.ts" 2>/dev/null | head -5
-
-# Check for implementation files
-find {codeRoot}/{frontendPath} -name "*.vue" 2>/dev/null | head -5
-find {codeRoot}/{backendPath} -name "*.controller.ts" 2>/dev/null | head -5
-
-# Check for test files
-find {codeRoot} -name "*.spec.ts" 2>/dev/null | head -5
+echo "=== Step Definitions ==="
+find {codeRoot} -name "*.steps.ts" 2>/dev/null | head -5 || echo "No steps"
 ```
 
-Note: `{frontendPath}` and `{backendPath}` come from the OKF `paths` map.
+**TDD artifacts:**
+```bash
+# Check for test files
+echo "=== Tests ==="
+find {codeRoot} -name "*.spec.ts" 2>/dev/null | head -5 || echo "No tests"
+
+# Check for implementation files
+echo "=== Implementation ==="
+find {codeRoot}/{backendPath} -name "*.controller.ts" 2>/dev/null | head -5 || echo "No controllers"
+find {codeRoot}/{frontendPath} -name "*.vue" 2>/dev/null | head -5 || echo "No Vue components"
+```
+
+Note: `{frontendPath}`, `{backendPath}`, `{domainPath}` come from the OKF `paths` map.
 
 **Step 4: Recommend the Next Skill**
 
-Recommend the next skill based on state:
+Recommend the next skill based on state, in pipeline order:
 
-| State Detected | Recommended Skill | Why |
-|---|---|---|
-| No specs, no features | `fluentit-bdd-features` | Start with BDD feature generation from PRDs |
-| Specs exist, no features | `fluentit-bdd-features` | Convert specs to Gherkin |
-| Features exist, no steps | `fluentit-bdd-frontend-steps` + `fluentit-bdd-backend-steps` | Generate step definitions |
-| Steps exist, no tests | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | Implement the code |
-| Tests fail | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | Fix implementation |
-| Code exists, unreviewed | `fluentit-review` | Clean up AI artifacts |
-| Code clean, uncommitted | `fluentit-pr` | Create PR |
+**Pipeline Order:** Discovery → Scaffold → BDD → TDD → Review → PR
+
+| State Detected | Recommended Skill | Phase | Why |
+|---|---|---|---|
+| No domain entities | `fluentit-domain-entity` | Discovery | Design the domain model first |
+| No API contracts (DTOs) | `fluentit-api-contracts` | Discovery | Define contracts before implementation |
+| No backend module scaffold | `fluentit-backend-module` | Scaffold | Scaffold module structure |
+| No frontend structure | `fluentit-frontend-guide` | Scaffold | Set up frontend architecture |
+| No specs, no features | `fluentit-bdd-features` | BDD | Start with BDD feature generation from PRDs |
+| Specs exist, no features | `fluentit-bdd-features` | BDD | Convert specs to Gherkin |
+| Features exist, no steps | `fluentit-bdd-frontend-steps` + `fluentit-bdd-backend-steps` | BDD | Generate step definitions |
+| Steps exist, no tests | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | TDD | Implement the code |
+| Tests fail | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | TDD | Fix implementation |
+| Code exists, unreviewed | `fluentit-review` | Review | Clean up AI artifacts |
+| Code clean, uncommitted | `fluentit-pr` | PR | Create PR |
+
+**Important:** Always check scaffolding BEFORE BDD. If entities, DTOs, or module structure are missing, do Discovery/Scaffold first.
 
 **Step 5: Output the Recommendation**
 
@@ -106,17 +143,28 @@ Output a clear recommendation:
 
 Detected State:
   ✅ OKF exists
-  ❌ No specs found
-  ❌ No features found
-  ❌ No step definitions
-  ❌ No implementation
+  [Scaffolding]
+    ❌/✅ Domain entities
+    ❌/✅ API contracts (DTOs)
+    ❌/✅ Backend modules
+    ❌/✅ Frontend structure
+  [BDD]
+    ❌/✅ Specs/PRDs
+    ❌/✅ Gherkin features
+    ❌/✅ Step definitions
+  [TDD]
+    ❌/✅ Tests
+    ❌/✅ Implementation
+  [Review]
+    ❌/✅ Code reviewed
+    ❌/✅ Committed
 
-Next Skill: fluentit-bdd-features
-  → Reads specs/PRDs and generates Gherkin .feature files
-  → Writes features to: {codeRoot}/features/
-  → Command: fluentit-bdd-features --project {projectName} --specs specs/
+Next Skill: {recommendedSkill}
+  → {description}
+  → Writes to: {outputPath}
+  → Command: {recommendedSkill} --project {projectName} --feature {featureName}
 
-Dependencies: None (starting from scratch)
+Dependencies: {dependencies}
 ```
 
 ## Error Handling
@@ -126,27 +174,29 @@ Dependencies: None (starting from scratch)
 | OKF file missing | "Create projects/{name}/okf/index.md first. See setup-instructions/WORKFLOW.md for the template." |
 | Project directory missing | "Run: mkdir -p projects/{name}/okf && create the index.md" |
 | Feature name not provided | "Please provide a feature name: fluentit-orchestrator --project {name} --feature {feature}" |
-| Multiple missing phases | List them in order and recommend starting with the first |
+| Multiple missing phases | List them in pipeline order and recommend starting with the first |
+| Scaffolding missing (no entities/DTOs/modules) | "Run scaffolding first: fluentit-domain-entity, fluentit-api-contracts, fluentit-backend-module, fluentit-frontend-guide" |
 | No matching codePaths entry | "No code path configured for machine '{id}'. Provide the path or add it to the OKF." |
 
 ## Skill Registry
 
-| Skill | Phase | Can Parallel |
-|---|---|---|
-| `fluentit-bdd-features` | BDD | No |
-| `fluentit-bdd-frontend-steps` | BDD | Yes (with backend steps) |
-| `fluentit-bdd-backend-steps` | BDD | Yes (with frontend steps) |
-| `fluentit-tdd-frontend` | TDD | Yes (with backend TDD) |
-| `fluentit-tdd-backend` | TDD | Yes (with frontend TDD) |
-| `fluentit-domain-entity` | Discovery | No |
-| `fluentit-api-contracts` | Discovery | No |
-| `fluentit-backend-module` | Scaffold | No |
-| `fluentit-frontend-guide` | Scaffold | No |
-| `fluentit-review` | Review | No |
-| `fluentit-pr` | PR | No |
+| Skill | Phase | Order | Can Parallel |
+|---|---|---|---|
+| `fluentit-domain-entity` | Discovery | 1 | No |
+| `fluentit-api-contracts` | Discovery | 2 | No |
+| `fluentit-backend-module` | Scaffold | 3 | No |
+| `fluentit-frontend-guide` | Scaffold | 4 | No |
+| `fluentit-bdd-features` | BDD | 5 | No |
+| `fluentit-bdd-frontend-steps` | BDD | 6 | Yes (with backend steps) |
+| `fluentit-bdd-backend-steps` | BDD | 6 | Yes (with frontend steps) |
+| `fluentit-tdd-frontend` | TDD | 7 | Yes (with backend TDD) |
+| `fluentit-tdd-backend` | TDD | 7 | Yes (with frontend TDD) |
+| `fluentit-review` | Review | 8 | No |
+| `fluentit-pr` | PR | 9 | No |
 
 ## Important Notes
 
 - This skill **reads files** and **makes recommendations**. It does not write code.
 - The user must manually run the recommended skill next.
+- **Scaffolding comes before BDD.** If domain entities, API contracts, or module structure are missing, the orchestrator recommends Discovery/Scaffold skills first.
 - Skills are in `~/.claude/skills/` and loaded when Claude Code starts.
