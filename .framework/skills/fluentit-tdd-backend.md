@@ -1,410 +1,199 @@
 ---
-description: Project-agnostic TDD implementation for backend features with CQRS and DDD. Uses RLM for context loading and Graphify for code discovery.
-argument-hint: Provide the feature file path, scenario name, and project name
+description: Implements backend features from BDD specs using TDD (Red → Green → Clean). Generates tests, then implements NestJS/Express controllers and services.
+argument-hint: Provide the project name and feature name (e.g., --project hello-world --feature welcome)
 ---
 
-# Backend TDD Implementation (Project-Agnostic)
+# Backend TDD Implementation
 
-> Red → Green → Validate → Clean cycle for backend features. Ported from playbook to use ProjectContext and RLM.
+> Red → Green → Clean cycle for backend features. Generates tests, then implements the controller and service.
 
----
+## How to Use
 
-## Phase 0: Load Project Context
-
-**Goal:** Load project configuration, tech stack, domain context, and existing code via RLM.
-
-**Actions:**
-
-1. **Load ProjectContext via RLM**
-
-   ```typescript
-   const context = await loadProjectContext(projectName);
-   const { project, projectType, graph, wiki } = context;
-   ```
-
-2. **Validate project is initialized**
-
-   Check `projects/${projectName}/okf/index.md` exists.
-   If not: prompt user to run `/framework:init-project --name ${projectName}`.
-
-3. **Resolve paths from ProjectContext**
-
-   ```typescript
-   const paths = {
-     backend: project.paths.backend,
-     domain: project.paths.domain,
-     features: project.paths.features,
-     specs: project.paths.specs.backend,
-     tests: {
-       unit: project.paths.tests?.unit || `${project.paths.backend}/test/unit`,
-       integration: project.paths.tests?.integration || `${project.paths.backend}/test/integration`,
-       e2e: project.paths.tests?.e2e || `${project.paths.backend}/test/e2e`
-     }
-   };
-   ```
-
-4. **Load tech stack config**
-
-   ```typescript
-   const techStack = project.techStack.backend;
-   // techStack.framework — e.g., 'nestjs'
-   // techStack.architecture — e.g., 'cqrs'
-   // techStack.database — e.g., 'postgresql'
-   // techStack.testing — e.g., 'jest'
-   ```
-
-5. **Query Graphify for existing entities**
-
-   ```typescript
-   const existingEntities = await graphify.query(`
-     MATCH (e:DomainEntity) WHERE e.project = $project RETURN e
-   `, { project: projectName });
-
-   const existingFeatures = await graphify.query(`
-     MATCH (f:Feature) WHERE f.project = $project RETURN f
-   `, { project: projectName });
-   ```
-
-6. **Query Wiki for backend patterns**
-
-   ```typescript
-   const patterns = await wiki.query(`
-     Find backend patterns for: ${techStack.framework} ${techStack.architecture}
-     Find DDD patterns for: ${project.type}
-   `);
-   ```
-
-7. **Load domain context**
-
-   ```typescript
-   const domain = project.domain;
-   // domain.assetTypes, .jurisdictions, .currency, .userRoles, etc.
-   ```
-
-8. **Report to user**
-
-   - Project: `${projectName}` (${project.type})
-   - Tech: `${techStack.framework}` + `${techStack.architecture}`
-   - Existing entities: `${existingEntities.length}`
-   - Existing features: `${existingFeatures.length}`
-   - Confirm before proceeding
-
----
-
-## Phase 1: Red — Generate Failing Tests
-
-**Goal:** Analyze the BDD scenario and generate comprehensive tests that fail.
-
-**Agent:** `tdd-red-test-generator`
-
-**Actions:**
-
-1. Create todo list with all phases
-2. Read the feature file from `{paths.tests.e2e}/features/`
-3. Analyze the scenario
-4. If requirements unclear, ask user:
-   - What backend components are needed?
-   - What API endpoints?
-   - What domain entities are involved?
-5. Generate unit tests for:
-   - Value objects (validation, equality)
-   - Domain entities (business logic)
-   - Handlers (with interface mocks)
-   - Mappers (Domain↔ORM, Domain→DTO)
-6. Generate integration tests for:
-   - API endpoints with real database
-   - Authentication/authorization
-   - Validation errors
-7. Generate/update test factories
-8. Run tests to confirm Red state
-
-**Stack-agnostic test locations:**
-```typescript
-// Unit tests
-`${paths.tests.unit}/<<domain>>/<<entity>>.handler.spec.ts`
-
-// Integration tests  
-`${paths.tests.integration}/<<feature>>.integration.spec.ts`
-
-// Factories
-`${paths.tests.e2e}/support/factories/<<entity>>.factory.ts`
+```
+fluentit-tdd-backend --project hello-world --feature welcome
 ```
 
-9. Summarize generated tests and confirm with user
-10. **Wait for user review before proceeding**
+## What This Skill Does
 
----
+1. **Reads the OKF** to understand the project tech stack
+2. **Reads the feature file** to understand what to implement
+3. **Generates failing tests** (Red)
+4. **Implements the controller + service** to make tests pass (Green)
+5. **Runs tests** to confirm
 
-## Phase 2: Review Generated Tests
+## Step-by-Step Instructions
 
-**Goal:** Refine tests based on user feedback.
+### Step 1: Read the OKF
 
-**CRITICAL:** Do not skip. Test quality is essential.
+Use the Read tool to open `projects/{projectName}/okf/index.md`.
 
-**Actions:**
+Extract:
+- `techStack.backend` — NestJS, Express, Fastify, etc.
+- `paths.backend` — where backend code lives
+- `paths.tests` — where tests live
 
-1. Review generated test files with user
-2. Incorporate feedback, clarify ambiguities
-3. Identify missing edge cases
-4. Confirm final test suite
-5. **Wait for approval before proceeding**
+If OKF doesn't exist, STOP and tell the user to create it.
 
----
+### Step 2: Find the Feature File
 
-## Phase 3: Green — Implement Code
+Use the Bash tool:
+```bash
+find projects/{projectName}/features -name "*{featureName}*.feature" 2>/dev/null
+```
 
-**Goal:** Implement minimal code to make all failing tests pass.
+Use the Read tool to read the matching `.feature` file.
 
-**Agent:** `tdd-green-implementer`
+If no feature file found, STOP:
+> "No feature file found for '{featureName}'. Run fluentit-bdd-features first."
 
-**Actions:**
-
-1. Create todo list for implementation
-2. Implement in strict DDD layer order:
-
-   **Domain Layer** (`{paths.domain}/`):
-   - Value objects (type, status)
-   - Domain entity
-   - Repository interface with Symbol token
-   - Domain events (if needed)
-   - Export from index.ts
-
-   **Infrastructure Layer** (`{paths.backend}/<<domain>>/infrastructure/`):
-   - ORM entity
-   - Domain↔ORM mapper
-   - Repository implementation
-   - Add entity to test-database.ts
-
-   **Application Layer** (`{paths.backend}/<<domain>>/`):
-   - Command/Query classes
-   - Handlers (using `@Inject(IRepository)`)
-   - Domain→DTO mapper
-
-   **API Layer** (`{paths.backend}/bffe/` or controller path):
-   - Controller endpoints
-   - Module registration
-   - AppModule import
-
-3. **Architecture compliance** (stack-specific):
-
-   ```typescript
-   const validations = projectType.validations.backend;
-   // For NestJS/CQRS:
-   // - Handlers use @Inject(IRepository) NOT @InjectRepository
-   // - Value objects for all status/type fields
-   // - Domain entities have behavior (not anemic)
-   // - No imports from test/ in production code
-   // - UUID identifiers (not numeric/string)
-   ```
-
-4. Run unit tests after each layer — fix failures before proceeding
-5. Run integration tests after API layer complete
-6. Summarize implementation and confirm with user
-7. **Wait for approval before proceeding**
-
----
-
-## Phase 4: Validate — Confirm Green Status
-
-**Goal:** Validate all tests pass and DDD architecture is correct.
-
-**Agent:** `tdd-green-validator`
-
-**Actions:**
-
-1. Pre-validation checks:
-
-   ```bash
-   {context.project.commands.typecheck}
-   {context.project.commands.lint}
-   ```
-
-2. Validate DDD architecture:
-   - Domain entities have no framework dependencies
-   - Value objects have validation in constructors
-   - Handlers use `@Inject(IRepository)` NOT `@InjectRepository`
-   - No imports from `test/` in production code
-
-3. Run all test suites:
-
-   ```bash
-   {context.project.commands.test} --testPathPattern="<<DOMAIN>>"
-   {context.project.commands.testIntegration} --testPathPattern="<<FEATURE>>"
-   {context.project.commands.testE2e} -- --name "<<SCENARIO>>"
-   ```
-
-4. Run regression tests:
-
-   ```bash
-   {context.project.commands.test}
-   {context.project.commands.testIntegration}
-   ```
-
-5. Generate validation report
-6. If failures: return to Phase 3
-7. **Wait for user decision:**
-   - Proceed to Phase 5 (refactoring)
-   - Skip to Phase 7 (summarize)
-
----
-
-## Phase 5: Clean — Refactor Code (Optional)
-
-**Goal:** Improve code quality while maintaining test compliance.
-
-**CRITICAL:** Only proceed if user approved. All tests must pass.
-
-**Agent:** `tdd-clean-refactorer`
-
-**Actions:**
-
-1. Establish pre-refactor baseline (all tests passing)
-2. Analyze code for refactoring opportunities:
-   - Handler simplification (extract to domain services)
-   - Primitive obsession → value objects
-   - Anemic → rich domain model
-   - Extract domain events
-   - Specification pattern for complex queries
-   - Repository query extraction
-3. Generate refactoring plan with risk/impact assessment
-4. Present plan to user for approval
-5. Execute approved refactorings incrementally:
-   - Make one change
-   - Run tests immediately
-   - If tests pass: continue
-   - If tests fail: revert immediately
-6. Document suggested tests for future Red phases
-7. **Wait for user review before proceeding**
-
----
-
-## Phase 6: Validate After Refactoring
-
-**Goal:** Confirm all tests still pass after refactoring.
-
-**Agent:** `tdd-green-validator`
-
-**Actions:**
-
-1. Run full test suite:
-
-   ```bash
-   {context.project.commands.test}
-   {context.project.commands.testIntegration}
-   {context.project.commands.testE2e}
-   ```
-
-2. Verify test counts match pre-refactor baseline
-3. Check TypeScript compilation and lint
-4. Generate comparison report (before vs after)
-5. If regressions: revert problematic changes, re-run
-6. **Wait for user confirmation before proceeding**
-
----
-
-## Phase 7: Summarize and Index
-
-**Goal:** Document what was accomplished and update knowledge graph.
-
-**Actions:**
-
-1. Mark all todos complete
-2. Generate summary report:
-
-   ```markdown
-   ## TDD Implementation Summary: <<SCENARIO_NAME>>
-
-   ### Test Results
-   | Phase | Test Type | Count | Status |
-   |-------|-----------|-------|--------|
-   | Red | Unit tests generated | X | FAIL (expected) |
-   | Red | Integration tests generated | Y | FAIL (expected) |
-   | Green | Unit tests | X | PASS |
-   | Green | Integration tests | Y | PASS |
-   | Green | E2E scenarios | Z | PASS |
-   | Clean | After refactoring | X+Y+Z | PASS |
-
-   ### Files Created
-   **Domain Layer** (`{paths.domain}/`):
-   - `entities/<<entity>>.entity.ts`
-   - `value-objects/<<domain>>/<<entity>>-status.vo.ts`
-   - `repositories/<<entity>>.repository.interface.ts`
-
-   **Infrastructure Layer** (`{paths.backend}/<<domain>>/infrastructure/`):
-   - `<<entity>>.orm-entity.ts`
-   - `<<entity>>.mapper.ts`
-   - `<<entity>>.repository.ts`
-
-   **Application Layer** (`{paths.backend}/<<domain>>/`):
-   - `queries/<<query>>.query.ts`
-   - `queries/<<query>>.handler.ts`
-   - `queries/<<entity>>-dto.mapper.ts`
-
-   **Tests**:
-   - `<<handler>>.handler.spec.ts`
-   - `test/integration/<<feature>>.integration.spec.ts`
-   ```
-
-3. **Update Graphify**
-
-   ```bash
-   /graphify:index --project {projectName}
-   ```
-
-4. **Extract patterns to wiki**
-
-   If new patterns discovered during implementation:
-   - Create `wiki/patterns/{pattern-name}.md`
-   - Link from `.framework/registry/pattern-catalog.md`
-
-5. **Update project OKF**
-
-   - Add ADRs for architectural decisions to `projects/{projectName}/okf/adr/`
-   - Update `projects/{projectName}/okf/index.md` with new features
-
----
-
-## Workflow Shortcuts
-
-| Shortcut | Description | Phases |
-|----------|-------------|--------|
-| `full` | Complete TDD cycle | 0-7 |
-| `implement` | Tests exist, implement only | 3-4, 7 |
-| `validate` | Just run validation | 4 only |
-| `refactor` | Tests pass, refactor only | 5-6, 7 |
-
-Usage: `{command} {featurePath} "{scenario}" --project {projectName} --shortcut=implement`
-
----
-
-## Commands
+### Step 3: Check Existing Code
 
 ```bash
-# Full workflow
-/fluentit-tdd-backend:fluentit-tdd-backend {featurePath} "{scenario}" --project {projectName}
+# Check for existing controller
+find projects/{projectName}/{backendPath} -name "*{featureName}*.controller.*" 2>/dev/null
 
-# Shortcuts
-/fluentit-tdd-backend:fluentit-tdd-backend ... --shortcut=implement --project {projectName}
-/fluentit-tdd-backend:fluentit-tdd-backend ... --shortcut=validate --project {projectName}
-/fluentit-tdd-backend:fluentit-tdd-backend ... --shortcut=refactor --project {projectName}
+# Check for existing service
+find projects/{projectName}/{backendPath} -name "*{featureName}*.service.*" 2>/dev/null
+
+# Check for existing tests
+find projects/{projectName}/{backendPath} -name "*{featureName}*.spec.*" 2>/dev/null
 ```
 
----
+### Step 4: Generate Tests (Red)
 
-## Changes from Original Playbook
+Create a controller test based on the `@backend` scenarios in the feature file.
 
-| Aspect | Original | Ported |
-|--------|----------|--------|
-| Paths | `apps/ip-hub-backend/` | `context.project.paths.backend` |
-| Domain | IP Hub bounded contexts | `context.project.domain` |
-| Commands | `pnpm nx test ip-hub-backend` | `context.project.commands.test` |
-| Context loading | Manual file reads | `loadProjectContext()` via RLM |
-| Entity discovery | File grepping | `graphify.query()` |
-| Patterns | None | `wiki.query()` for cross-project patterns |
-| Indexing | None | Graphify reindex after completion |
+**For NestJS/Jest:**
+```typescript
+import { Test, TestingModule } from '@nestjs/testing'
+import { WelcomeController } from './welcome.controller'
+import { WelcomeService } from './welcome.service'
 
----
+describe('WelcomeController', () => {
+  let controller: WelcomeController
 
-## Source
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [WelcomeController],
+      providers: [WelcomeService],
+    }).compile()
 
-Original: `.framework/agents/playbooks/tdd-backend-agents/commands/fluentit-tdd-backend.md`
+    controller = module.get<WelcomeController>(WelcomeController)
+  })
+
+  describe('GET /welcome', () => {
+    it('returns welcome message', () => {
+      const result = controller.getWelcome()
+      expect(result).toEqual({ message: 'Hello, World!' })
+    })
+  })
+})
+```
+
+Use the Write tool to create the test file at:
+```
+projects/{projectName}/{backendPath}/{featureName}/{featureName}.controller.spec.ts
+```
+
+### Step 5: Run Tests (Confirm Red)
+
+```bash
+cd projects/{projectName}/{backendPath} && npx jest {featureName}.controller.spec.ts 2>&1
+```
+
+Tests should **fail** because the controller and service don't exist.
+
+### Step 6: Implement Service (Green)
+
+Create a minimal service:
+
+```typescript
+import { Injectable } from '@nestjs/common'
+
+@Injectable()
+export class WelcomeService {
+  getWelcome(): { message: string } {
+    return { message: 'Hello, World!' }
+  }
+}
+```
+
+Use the Write tool:
+```
+projects/{projectName}/{backendPath}/{featureName}/{featureName}.service.ts
+```
+
+### Step 7: Implement Controller (Green)
+
+Create a minimal controller:
+
+```typescript
+import { Controller, Get } from '@nestjs/common'
+import { WelcomeService } from './welcome.service'
+
+@Controller('welcome')
+export class WelcomeController {
+  constructor(private readonly service: WelcomeService) {}
+
+  @Get()
+  getWelcome() {
+    return this.service.getWelcome()
+  }
+}
+```
+
+Use the Write tool:
+```
+projects/{projectName}/{backendPath}/{featureName}/{featureName}.controller.ts
+```
+
+### Step 8: Register in Module
+
+Read the AppModule:
+```
+projects/{projectName}/{backendPath}/app.module.ts
+```
+
+Add the new module/controller. If there's a dedicated module file, add it there. Otherwise, add to AppModule.
+
+### Step 9: Run Tests (Confirm Green)
+
+```bash
+cd projects/{projectName}/{backendPath} && npx jest {featureName}.controller.spec.ts 2>&1
+```
+
+Tests should now **pass**.
+
+### Step 10: Report Results
+
+```
+✅ Backend TDD Complete: {featureName}
+
+Tests: PASS
+Controller: projects/{projectName}/{backendPath}/{featureName}/{featureName}.controller.ts
+Service: projects/{projectName}/{backendPath}/{featureName}/{featureName}.service.ts
+
+Next steps:
+  - Review the controller and service
+  - Run: fluentit-review --project {projectName}
+  - Or run: fluentit-tdd-frontend --project {projectName} --feature {featureName}
+```
+
+## Error Handling
+
+| Problem | Response |
+|---------|----------|
+| Feature file not found | "Run fluentit-bdd-features first." |
+| Controller already exists | Ask: "Overwrite? [Y/n]" |
+| Tests already pass | "Component may already be implemented." |
+| Tests fail after implementation | Debug: check service injection, return types, imports. |
+| Module registration fails | Check imports, providers array, controller array. |
+| No test framework | "Configure Jest/Vitest first." |
+
+## Important Notes
+
+- This skill **writes files** (tests + controller + service + module updates).
+- Implementation should be minimal — just enough to make tests pass.
+- Follow the project's backend framework (NestJS, Express, etc.) from the OKF.
+- For NestJS: use DI, DTOs, and proper module structure.
+- For Express: use routes, middleware, and controllers as appropriate.

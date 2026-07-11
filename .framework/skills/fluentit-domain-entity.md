@@ -1,264 +1,77 @@
 ---
-description: Project-agnostic interview-driven creation of domain entities. Uses RLM to explore existing conventions and ProjectContext for paths.
-argument-hint: Provide feature description and project name
+description: Designs and implements a domain entity through structured interview. Framework-free domain code.
+argument-hint: Provide feature description and project name.
 ---
 
-# New Domain Entity (Project-Agnostic)
+# Domain Entity
 
-> Structured interview to design and implement a new domain entity. Framework-independent — no framework imports in domain code. Uses RLM for convention discovery.
+> Designs a domain entity through a structured interview with the user.
 
----
+## How to Use
 
-## Phase 0: Load Project Context
-
-**Goal:** Load project configuration and discover existing domain conventions.
-
-**Actions:**
-
-1. **Load ProjectContext via RLM**
-
-   ```typescript
-   const context = await loadProjectContext(projectName);
-   const { project, projectType } = context;
-   ```
-
-2. **Resolve paths**
-
-   ```typescript
-   const paths = {
-     domain: project.paths.domain || `libs/domain/src/`,
-     features: project.paths.features || `specs/features/`,
-     docs: project.paths.docs || `documentation/`
-   };
-   ```
-
-3. **Discover existing domain entities via RLM**
-
-   ```typescript
-   const conventions = await rlm.explore({
-     project: projectName,
-     path: paths.domain,
-     query: "Extract coding conventions: constructor style, value object pattern, repository interfaces, events, index.ts organization"
-   });
-   ```
-
-4. **Query Graphify for related entities**
-
-   ```typescript
-   const relatedEntities = await graphify.query(`
-     MATCH (e:DomainEntity)
-     WHERE e.project = $project
-     RETURN e.name, e.properties
-   `, { project: projectName });
-   ```
-
----
-
-## Phase 1: Initial Input
-
-If `$ARGUMENTS` provided, use as feature description.
-Otherwise, ask user:
-- What domain entity or feature do you need? Describe the business concept.
-
-Derive `FEATURE_NAME` from description (kebab-case).
-Design doc path: `{paths.features}/{FEATURE_NAME}/DESIGN.md`.
-
----
-
-## Phase 2: Parallel Documentation & Domain Extraction
-
-### Step 2.1 — Discover documentation
-
-Use RLM to explore project documentation:
-
-```typescript
-const docAnalysis = await rlm.explore({
-  project: projectName,
-  path: paths.docs,
-  query: `Find all documentation relevant to: "${featureDescription}". Extract entities, business rules, state machines, relationships.`
-});
+```
+fluentit-domain-entity --project hello-world --feature "user profile"
 ```
 
-### Step 2.2 — Extract conventions
+## What This Skill Does
 
-```typescript
-const codingConventions = await rlm.explore({
-  project: projectName,
-  path: paths.domain,
-  query: "Extract coding conventions from existing domain entities: constructor style, value objects, repository pattern, events"
-});
-```
+1. Asks the user questions about the entity
+2. Designs the entity structure
+3. Implements it in the domain layer
 
-### Step 2.3 — Consolidate
+## Step-by-Step
 
-Merge findings:
-- Relevant documentation
-- Existing entities that may relate (foreign keys)
-- Coding conventions to follow
-- Ambiguities and gaps
+### Step 1: Read the OKF
 
----
+Read `projects/{projectName}/okf/index.md` for `paths.domain`.
 
-## Phase 3: Iterative Q&A (2–3 Rounds)
+### Step 2: Interview the User
 
-### Round 1 — Core Identity & Properties
+Ask 3-5 questions:
 
-- **Identity:** What uniquely identifies this entity?
-- **Core properties:** Which properties are needed? (from docs, user confirms)
-- **Relationships:** How does it relate to existing entities?
-- **Ambiguities:** Present conflicting options from docs, ask user to choose
+1. "What is this entity called? (e.g., User, Order, Product)"
+2. "What properties does it have? (e.g., name, email, status)"
+3. "Does it have statuses with transitions? (e.g., draft → active → archived)"
+4. "What business rules apply? (e.g., email must be unique)"
+5. "How does it relate to other entities?"
 
-**Hard rule:** If docs conflict, present both options. Do NOT assume.
+### Step 3: Design the Entity
 
-### Round 2 — Behavior & Lifecycle
-
-- **Status/state machine:** Does it have statuses? Valid transitions?
-- **Business methods:** What operations? Idempotent?
-- **Events:** What should publish on change?
-- **Repository queries:** How will it be looked up?
-
-### Round 3 — Final Resolution (if needed)
-
-Any still-unclear points get removed from the design entirely.
-
----
-
-## Phase 4: Design Confirmation
-
-Present complete design:
+Present the design:
 
 ```
 Entity: {EntityName}
-Location: {paths.domain}/entities/{entity-name}.entity.ts
 
 Properties:
-  - id: string (readonly)
-  - ...
+  - id: string
+  - name: string
+  - status: {StatusType}
 
-Value Objects (if any):
-  - {StatusVO}: [values] → transitions: ...
-
-Business Methods:
-  - methodName(): description
-
-Events:
-  - {Entity}CreatedEvent(props...)
-
-Repository Interface: I{EntityName}Repository
-  - save, findById, ...
-
-Relationships:
-  - belongs to {ExistingEntity} via {field}
+Business Rules:
+  - name cannot be empty
+  - status transitions: {from} → {to}
 
 Files to create:
-  1. {paths.domain}/entities/{name}.entity.ts
-  2. {paths.domain}/value-objects/... (if any)
-  3. {paths.domain}/events/... (each event)
-  4. {paths.domain}/repositories/... .interface.ts
-  5. {paths.domain}/entities/{name}.entity.spec.ts
-  6. Update: {paths.domain}/index.ts
+  - {domainPath}/entities/{name}.entity.ts
+  - {domainPath}/entities/{name}.entity.spec.ts
 ```
 
-Ask: Does this design look correct?
+Wait for user confirmation.
 
----
+### Step 4: Implement
 
-## Phase 5: Code Generation
+Create the entity file with:
+- Constructor validation
+- Business methods
+- No framework dependencies
 
-Generate ALL files following conventions from Phase 2.
+Create the test file with:
+- Construction tests
+- Business rule tests
 
-### Entity file
-- Public readonly for immutable fields
-- Public mutable for changeable fields
-- Business methods that validate before mutating
-- Idempotent state transitions
-- `updatedAt` bumped on every mutation
-- Throw plain `Error` for domain violations (not framework exceptions)
+## Error Handling
 
-### Value Object files (if applicable)
-- Static readonly array with `as const`
-- Private constructor with validation
-- `fromString()`, `toString()`, `equals()`
-- For statuses: `isTerminal()`, `canTransitionTo()`
-
-### Event files
-- Simple class with `public readonly` constructor params
-- Named `{Entity}{Action}Event`
-
-### Repository interface
-- Interface with async methods
-- Symbol token: `export const I{Name}Repository = Symbol('I{Name}Repository')`
-- Standard: save, findById, delete + domain-specific finders
-
-### Unit tests
-- Construction, business methods, state transitions, idempotency
-
-### Update index.ts
-- Add exports grouped with comment section
-
----
-
-## Phase 6: Design Document & Index
-
-### Generate DESIGN.md
-
-```markdown
-# Feature: {Feature Name}
-
-## Phase 1: Domain Model
-
-Created by: /fluentit-new-domain-entity
-Date: {YYYY-MM-DD}
-
-### Entity: {EntityName}
-
-**Properties:**
-| Field | Type | Mutable | Description |
-|-------|------|---------|-------------|
-| id | string | readonly | UUID |
-| ... | ... | ... | ... |
-
-**Value Objects:**
-- **{StatusVO}**: [{values}] — transitions: {from} → {to}
-
-**Events:**
-| Event | Trigger | Properties |
-|-------|---------|------------|
-| {Entity}CreatedEvent | created | id, ... |
-
-**Repository:** I{EntityName}Repository
-- save, findById, ...
-
-**Design Decisions:**
-- "{Decision}": {reason}
-
-**Generated Files:**
-1. `{paths.domain}/entities/{name}.entity.ts`
-2. ...
-
-### Suggested Next Steps
-- Create API contracts: `/fluentit-api-contracts {FEATURE_NAME}`
-- Create backend module: `/fluentit-backend-module {FEATURE_NAME}`
-```
-
-### Update Graphify
-
-```bash
-/graphify:index --project {projectName}
-```
-
----
-
-## Rules
-
-- NEVER use `any`. Use `unknown` or specific types.
-- NEVER import framework code in domain layer.
-- NEVER guess. If unsure after asking, drop it.
-- Follow existing entity patterns as reference.
-- Keep entities focused. Suggest splitting if scope creeps.
-
----
-
-## Source
-
-Original: `.framework/agents/playbooks/fluentit-tools/commands/fluentit-new-domain-entity.md`
+| Problem | Response |
+|---------|----------|
+| User unsure | Suggest based on feature name and common patterns |
+| Domain path missing | "Set paths.domain in the OKF" |

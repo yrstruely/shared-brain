@@ -1,147 +1,64 @@
 ---
-description: Load project context recursively using RLM instead of naive prompt stuffing. Returns ~15k tokens of highly relevant context.
-argument-hint: Provide project name (e.g., ip-hub)
+description: Loads project context by reading the OKF file. All skills use this as their first step.
+argument-hint: Provide project name.
 ---
 
 # RLM Context Loader
 
-> Load project context recursively using RLM instead of naive prompt stuffing.
+> Reads the project OKF file and extracts configuration. Every skill starts here.
 
----
+## How to Use
 
-## Status
+This skill is used **internally** by other skills. You don't invoke it directly.
 
-✅ **Active** — Uses hampton-io/RLM (`~/RLM`).
+## What It Does
 
-## Dependencies
+1. Reads `projects/{projectName}/okf/index.md`
+2. Parses the YAML frontmatter
+3. Returns project configuration
 
-- `hampton-io/RLM` — Primary RLM implementation for Claude Code
-- `graphify-minimal` skill (for code relationship queries)
-- `wiki-ingest-pipeline` skill (for cross-project pattern queries)
+## Manual Equivalent
 
----
-
-## Configuration
-
-```typescript
-import { RLM } from 'hampton-io/RLM';
-
-const rlm = new RLM({
-  model: 'claude-sonnet-4',
-  verbose: true,
-  tools: ['chunk', 'grep', 'summarize', 'groupBy'],
-});
-```
-
----
-
-## Alternative: Backend Projects
-
-For NestJS/backend services that need embedded RLM, use `code-rabi/rllm` as a project dependency (not globally):
+If you need to load context manually:
 
 ```bash
-# Inside a backend project only
-cd projects/my-backend
-pnpm add rllm
+# Read the OKF
+cat projects/{projectName}/okf/index.md
+
+# Extract key fields:
+# - name: project name
+# - type: project type (nestjs-vue, etc.)
+# - techStack: frontend, backend, database info
+# - paths: where code lives
 ```
 
+## OKF Template
+
+```markdown
+---
+name: my-project
+type: nestjs-vue
+techStack:
+  frontend: vue3
+  backend: nestjs
+  database: postgresql
+paths:
+  frontend: frontend/src
+  backend: backend/src
+  domain: backend/src/domain
+  features: features/
+  specs:
+    frontend: specs/frontend
+    backend: specs/backend
 ---
 
-## Project Discovery
+# My Project
 
-```typescript
-async function loadProjectContext(projectName: string): Promise<ProjectContext> {
-  // 1. Load project OKF index
-  const project = await readOkfIndex(`projects/${projectName}/okf/index.md`);
-
-  // 2. Load project-type config
-  const projectType = await readProjectType(project.projectType);
-
-  // 3. Query Graphify for relevant context
-  const graphContext = await graphify.query(`
-    MATCH (p:Project {name: $project})
-    RETURN p, p.features, p.domain, p.adrs
-  `, { project: projectName });
-
-  // 4. Query Wiki for cross-project patterns
-  const wikiContext = await wiki.query(`
-    Find patterns for: ${project.techStack}
-    Find anti-patterns for: ${project.projectType}
-  `);
-
-  return { project, projectType, graphContext, wikiContext };
-}
+Brief description.
 ```
 
----
+## Important Notes
 
-## Usage in Agents
-
-All BDD/TDD agents call this loader before execution:
-
-```typescript
-const context = await loadProjectContext('ip-hub');
-// Agent receives ~15k tokens of highly relevant context
-// instead of 50k+ tokens of raw codebase
-```
-
----
-
-## Context Schema
-
-```typescript
-interface ProjectContext {
-  project: {
-    name: string;
-    type: string;
-    techStack: TechStack;
-    repoUrl: string;
-    ciUrl: string;
-  };
-  projectType: {
-    patterns: Pattern[];
-    antiPatterns: AntiPattern[];
-    templates: Template[];
-  };
-  graphContext: {
-    entities: DomainEntity[];
-    features: Feature[];
-    adrs: ADR[];
-  };
-  wikiContext: {
-    patterns: Pattern[];
-    antiPatterns: AntiPattern[];
-    technologies: Technology[];
-  };
-}
-```
-
----
-
-## Commands
-
-| Command | Description |
-|---------|-------------|
-| `/rlm:load-context --project <name>` | Load full context for a project |
-| `/rlm:query --project <name> "<question>"` | Ask a question with RLM context |
-
----
-
-## Installation
-
-```bash
-# Primary: hampton-io/RLM (for Claude Code)
-git clone https://github.com/hampton-io/RLM.git
-cd RLM && npm install && npm run build
-```
-
-## Backend Alternative
-
-For backend services needing embedded RLM, install `code-rabi/rllm` per-project:
-
-```bash
-cd projects/my-backend
-pnpm add rllm
-```
-
-See [code-rabi/rllm](https://github.com/code-rabi/rllm) for backend integration docs.
+- The OKF is the **single source of truth** for project configuration
+- All skills read it to know where files live and what tech stack to use
+- If a skill fails, the first thing to check is whether the OKF is correct

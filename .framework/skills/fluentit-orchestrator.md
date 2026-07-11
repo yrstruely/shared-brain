@@ -1,356 +1,110 @@
 ---
-description: Project orchestration skill. Detects project state, determines which skills to run, and sequences them correctly. The conductor of the framework.
-argument-hint: Provide project name and optionally a goal (e.g., "implement user profile feature" or "scaffold new project")
+description: Detects project state and recommends the next FluentIT skill to run. Start here when you don't know what to do next.
+argument-hint: Provide project name (required). Optionally provide feature name.
 ---
 
-# Project Orchestrator (Project-Agnostic)
+# Project Orchestrator
 
-> Detects project state, determines the next skill to run, and sequences the full development pipeline. The conductor of the framework.
+> Detects what exists in a project and tells you which skill to run next.
 
----
-
-## Phase 0: Load Project Context
-
-**Goal:** Understand the project completely — its state, architecture, and what needs to happen next.
-
-**Actions:**
-
-1. **Load ProjectContext via RLM**
-
-   ```typescript
-   const context = await loadProjectContext(projectName);
-   const { project, projectType, graph, wiki } = context;
-   ```
-
-2. **Detect project initialization state**
-
-   ```typescript
-   const isInitialized = await checkPath(`projects/${projectName}/okf/index.md`);
-   if (!isInitialized) {
-     return { nextSkill: 'init-project', reason: 'Project OKF not found' };
-   }
-   ```
-
-3. **Detect current feature state**
-
-   ```typescript
-   const state = await detectFeatureState(projectName, featureName);
-   // Returns: { hasSpecs, hasFeatures, hasFrontendSteps, hasBackendSteps,
-   //            hasFrontendTests, hasBackendTests, hasImplementation }
-   ```
-
-4. **Resolve goal**
-
-   - If user provided a goal (e.g., "implement user profile") → parse into feature scope
-   - If no goal → ask user or suggest based on project backlog
-
----
-
-## Phase 1: Determine Pipeline Stage
-
-Based on detected state, determine where we are in the pipeline:
+## Quick Start
 
 ```
-Pipeline Flow:
-
-[Goal] → [Discovery] → [Design] → [Scaffold] → [BDD] → [TDD] → [Review] → [PR]
-
-Discovery:    Domain Entity (interview) → API Contracts → Backend Module Design
-Scaffold:     Backend Module → Frontend Guide setup
-BDD:          Features → Frontend Steps → Backend Steps
-TDD:          Frontend TDD → Backend TDD
-Review:       Code Review (AI cleanup)
-PR:           Pull Request Workflow
+fluentit-orchestrator --project hello-world --feature welcome
 ```
 
-### State Machine
+## What This Skill Does
 
-| Detected State | Missing | Next Skill | Phase |
-|---|---|---|---|
-| No specs | Everything | `fluentit-bdd-features` | BDD |
-| Specs exist, no features | `.feature` files | `fluentit-bdd-features` | BDD |
-| Features exist, no steps | Step definitions | `fluentit-bdd-frontend-steps` + `fluentit-bdd-backend-steps` | BDD |
-| Steps exist, no tests | Unit tests | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | TDD |
-| Tests exist, failing | Implementation | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | TDD |
-| Tests pass, code raw | Cleanup | `fluentit-review` | Review |
-| Code clean, uncommitted | Commit/PR | `fluentit-pr` | PR |
-| New domain concept | Entity design | `fluentit-domain-entity` | Discovery |
-| New API surface | Contracts | `fluentit-api-contracts` | Discovery |
-| New backend feature | Module scaffold | `fluentit-backend-module` | Scaffold |
-| New frontend feature | Component scaffold | `fluentit-frontend-guide` | Scaffold |
+1. **Reads the project OKF** to understand the project structure
+2. **Checks what files already exist** (specs, features, steps, tests, code)
+3. **Tells you the next skill to run** and why
 
----
+## How to Use
 
-## Phase 2: Skill Selection Logic
+**Step 1:** The user provides a project name and optionally a feature name.
 
-```typescript
-interface OrchestratorInput {
-  projectName: string;
-  goal?: string;           // e.g., "implement user profile"
-  featureName?: string;    // specific feature to work on
-  forcePhase?: Phase;      // override auto-detection
-}
+**Step 2:** Read the OKF file:
+- Use the Read tool to open `projects/{projectName}/okf/index.md`
+- If this file doesn't exist, STOP and tell the user: "Project '{projectName}' not found. Create projects/{projectName}/okf/index.md first."
 
-interface SkillRecommendation {
-  skill: string;
-  phase: Phase;
-  reason: string;
-  dependencies: string[];   // skills that must run first
-  parallelWith?: string[];  // skills that can run concurrently
-}
+**Step 3:** Detect the current state by checking which files exist. Use the Bash tool to list directories:
 
-async function recommendNextSkill(input: OrchestratorInput): Promise<SkillRecommendation[]> {
-  const context = await loadProjectContext(input.projectName);
-  const state = await detectFeatureState(input.projectName, input.featureName);
+```bash
+# Check for specs (PRDs, requirements)
+ls projects/{projectName}/specs/ 2>/dev/null || echo "No specs"
 
-  // Greenfield feature (nothing exists yet)
-  if (!state.hasSpecs && !state.hasFeatures) {
-    return [{
-      skill: 'fluentit-bdd-features',
-      phase: 'BDD',
-      reason: `No features found for ${input.featureName}. Start with BDD feature generation.`,
-      dependencies: [],
-      parallelWith: []
-    }];
-  }
+# Check for Gherkin features
+ls projects/{projectName}/features/ 2>/dev/null || echo "No features"
 
-  // Have features, need steps
-  if (state.hasFeatures && !state.hasFrontendSteps) {
-    return [
-      {
-        skill: 'fluentit-bdd-frontend-steps',
-        phase: 'BDD',
-        reason: 'Features exist but frontend step definitions are missing.',
-        dependencies: ['fluentit-bdd-features'],
-        parallelWith: ['fluentit-bdd-backend-steps']
-      },
-      {
-        skill: 'fluentit-bdd-backend-steps',
-        phase: 'BDD',
-        reason: 'Features exist but backend step definitions are missing.',
-        dependencies: ['fluentit-bdd-features'],
-        parallelWith: ['fluentit-bdd-frontend-steps']
-      }
-    ];
-  }
+# Check for step definitions
+find projects/{projectName} -name "*.steps.ts" 2>/dev/null | head -5
 
-  // Have steps, need implementation
-  if (state.hasFrontendSteps && !state.hasImplementation) {
-    return [
-      {
-        skill: 'fluentit-tdd-frontend',
-        phase: 'TDD',
-        reason: 'Step definitions ready. Implement frontend component.',
-        dependencies: ['fluentit-bdd-frontend-steps'],
-        parallelWith: ['fluentit-tdd-backend']
-      },
-      {
-        skill: 'fluentit-tdd-backend',
-        phase: 'TDD',
-        reason: 'Step definitions ready. Implement backend service/aggregate.',
-        dependencies: ['fluentit-bdd-backend-steps'],
-        parallelWith: ['fluentit-tdd-frontend']
-      }
-    ];
-  }
+# Check for implementation files
+find projects/{projectName}/frontend/src -name "*.vue" 2>/dev/null | head -5
+find projects/{projectName}/backend/src -name "*.controller.ts" 2>/dev/null | head -5
 
-  // Implementation exists, needs cleanup
-  if (state.hasImplementation && !state.isClean) {
-    return [{
-      skill: 'fluentit-review',
-      phase: 'Review',
-      reason: 'Code exists but needs AI artifact cleanup.',
-      dependencies: ['fluentit-tdd-frontend', 'fluentit-tdd-backend'],
-      parallelWith: []
-    }];
-  }
-
-  // Everything clean, needs PR
-  if (state.isClean && state.hasUncommittedChanges) {
-    return [{
-      skill: 'fluentit-pr',
-      phase: 'PR',
-      reason: 'Implementation complete and clean. Create PR.',
-      dependencies: ['fluentit-review'],
-      parallelWith: []
-    }];
-  }
-
-  // All done
-  return [{
-    skill: 'none',
-    phase: 'Complete',
-    reason: 'Feature is fully implemented, tested, reviewed, and merged.',
-    dependencies: [],
-    parallelWith: []
-  }];
-}
+# Check for test files
+find projects/{projectName} -name "*.spec.ts" 2>/dev/null | head -5
 ```
 
----
+**Step 4:** Recommend the next skill based on state:
 
-## Phase 3: Execute or Recommend
+| State Detected | Recommended Skill | Why |
+|---|---|---|
+| No specs, no features | `fluentit-bdd-features` | Start with BDD feature generation from PRDs |
+| Specs exist, no features | `fluentit-bdd-features` | Convert specs to Gherkin |
+| Features exist, no steps | `fluentit-bdd-frontend-steps` + `fluentit-bdd-backend-steps` | Generate step definitions |
+| Steps exist, no tests | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | Implement the code |
+| Tests fail | `fluentit-tdd-frontend` + `fluentit-tdd-backend` | Fix implementation |
+| Code exists, unreviewed | `fluentit-review` | Clean up AI artifacts |
+| Code clean, uncommitted | `fluentit-pr` | Create PR |
 
-### Mode A: Interactive (Default)
-
-Present the recommendation and ask user confirmation:
+**Step 5:** Output a clear recommendation:
 
 ```
-📋 Project: ip-hub | Feature: user-profile
+📋 Project: {projectName} | Feature: {featureName}
 
 Detected State:
-  ✅ Specs exist
-  ✅ Features exist
-  ❌ Frontend steps missing
-  ❌ Backend steps missing
-  ❌ Implementation missing
+  ✅ OKF exists
+  ❌ No specs found
+  ❌ No features found
+  ❌ No step definitions
+  ❌ No implementation
 
-Recommended Next:
-  1. Run fluentit-bdd-frontend-steps (parallel with backend)
-  2. Run fluentit-bdd-backend-steps (parallel with frontend)
+Next Skill: fluentit-bdd-features
+  → Reads specs/PRDs and generates Gherkin .feature files
+  → Command: fluentit-bdd-features --project {projectName} --specs specs/
 
-Dependencies: fluentit-bdd-features (✅ completed)
-
-Proceed? [Y/n/custom]
+Dependencies: None (starting from scratch)
 ```
 
-### Mode B: Autopilot
+## Error Handling
 
-Execute skills automatically without confirmation (for CI/CD or trusted workflows):
-
-```bash
-claude /framework:orchestrator --project ip-hub --feature user-profile --auto
-```
-
-### Mode C: Planning Only
-
-Output a plan without executing:
-
-```bash
-claude /framework:orchestrator --project ip-hub --feature user-profile --plan
-```
-
-Output:
-```markdown
-## Execution Plan: user-profile
-
-### Phase 1: BDD (Current)
-- [ ] fluentit-bdd-frontend-steps
-- [ ] fluentit-bdd-backend-steps
-  → Parallel execution possible
-
-### Phase 2: TDD
-- [ ] fluentit-tdd-frontend
-- [ ] fluentit-tdd-backend
-  → Parallel execution possible
-
-### Phase 3: Review
-- [ ] fluentit-review
-
-### Phase 4: PR
-- [ ] fluentit-pr
-
-Estimated: 4 phases, 6 skills, ~45 min
-```
-
----
-
-## Phase 4: Dependency Resolution
-
-Handle complex dependency chains:
-
-```typescript
-// Domain entity needed before backend module?
-const needsEntity = await checkDomainEntityExists(projectName, entityName);
-if (!needsEntity) {
-  recommendations.unshift({
-    skill: 'fluentit-domain-entity',
-    phase: 'Discovery',
-    reason: `Domain entity '${entityName}' not found. Design it first.`,
-    dependencies: [],
-    parallelWith: []
-  });
-}
-
-// API contracts needed before frontend/backend TDD?
-const hasContracts = await checkApiContractsExist(projectName, featureName);
-if (!hasContracts) {
-  recommendations.unshift({
-    skill: 'fluentit-api-contracts',
-    phase: 'Discovery',
-    reason: 'API contracts not defined. Establish contract before implementation.',
-    dependencies: ['fluentit-domain-entity'],
-    parallelWith: []
-  });
-}
-```
-
----
-
-## Phase 5: Post-Skill Update
-
-After each skill completes:
-
-1. **Update Graphify** — Index what was created
-2. **Update Wiki** — Log the operation
-3. **Re-detect state** — Check if we can proceed to next skill
-4. **Continue or pause** — Ask user if in interactive mode
-
-```typescript
-async function onSkillComplete(result: SkillResult) {
-  await graphify.index(result.createdFiles);
-  await wiki.logOperation(result.skill, result.summary);
-  const newState = await detectFeatureState(projectName, featureName);
-
-  if (mode === 'auto') {
-    const next = await recommendNextSkill({ projectName, featureName });
-    if (next[0].skill !== 'none') {
-      await executeSkill(next[0]);
-    }
-  }
-}
-```
-
----
-
-## Usage
-
-```bash
-# Interactive — detect state and recommend next step
-claude /framework:orchestrator --project ip-hub
-
-# Work on specific feature
-claude /framework:orchestrator --project ip-hub --feature user-profile
-
-# Plan only (dry run)
-claude /framework:orchestrator --project ip-hub --feature user-profile --plan
-
-# Autopilot (execute without confirmation)
-claude /framework:orchestrator --project ip-hub --feature user-profile --auto
-
-# Force a specific phase
-claude /framework:orchestrator --project ip-hub --feature user-profile --phase BDD
-
-# Greenfield — scaffold everything from scratch
-claude /framework:orchestrator --project ip-hub --feature user-profile --greenfield
-```
-
----
+| Problem | Response |
+|---------|----------|
+| OKF file missing | "Create projects/{name}/okf/index.md first. See setup-instructions/WORKFLOW.md for the template." |
+| Project directory missing | "Run: mkdir -p projects/{name}/okf && create the index.md" |
+| Feature name not provided | "Please provide a feature name: fluentit-orchestrator --project {name} --feature {feature}" |
+| Multiple missing phases | List them in order and recommend starting with the first |
 
 ## Skill Registry
 
-The orchestrator knows about all framework skills:
+| Skill | Phase | Can Parallel |
+|---|---|---|
+| `fluentit-bdd-features` | BDD | No |
+| `fluentit-bdd-frontend-steps` | BDD | Yes (with backend steps) |
+| `fluentit-bdd-backend-steps` | BDD | Yes (with frontend steps) |
+| `fluentit-tdd-frontend` | TDD | Yes (with backend TDD) |
+| `fluentit-tdd-backend` | TDD | Yes (with frontend TDD) |
+| `fluentit-domain-entity` | Discovery | No |
+| `fluentit-api-contracts` | Discovery | No |
+| `fluentit-backend-module` | Scaffold | No |
+| `fluentit-frontend-guide` | Scaffold | No |
+| `fluentit-review` | Review | No |
+| `fluentit-pr` | PR | No |
 
-| Skill | Phase | Can Parallel | Depends On |
-|-------|-------|-------------|------------|
-| `fluentit-domain-entity` | Discovery | No | — |
-| `fluentit-api-contracts` | Discovery | No | `fluentit-domain-entity` |
-| `fluentit-backend-module` | Scaffold | No | `fluentit-api-contracts` |
-| `fluentit-frontend-guide` | Scaffold | No | `fluentit-api-contracts` |
-| `fluentit-bdd-features` | BDD | No | — |
-| `fluentit-bdd-frontend-steps` | BDD | Yes (backend) | `fluentit-bdd-features` |
-| `fluentit-bdd-backend-steps` | BDD | Yes (frontend) | `fluentit-bdd-features` |
-| `fluentit-tdd-frontend` | TDD | Yes (backend) | `fluentit-bdd-frontend-steps` |
-| `fluentit-tdd-backend` | TDD | Yes (frontend) | `fluentit-bdd-backend-steps` |
-| `fluentit-review` | Review | No | `fluentit-tdd-frontend`, `fluentit-tdd-backend` |
-| `fluentit-pr` | PR | No | `fluentit-review` |
+## Important Notes
+
+- This skill **reads files** and **makes recommendations**. It does not write code.
+- The user must manually run the recommended skill next.
+- Skills are in `~/.claude/skills/` and loaded when Claude Code starts.

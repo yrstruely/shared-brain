@@ -1,105 +1,81 @@
 ---
-description: Project-agnostic code review. Cleans up AI-generated code to look human-written while preserving functionality.
-argument-hint: Provide files to review, or review uncommitted changes automatically
+description: Cleans up AI-generated code to look human-written. Removes verbose comments and simplifies over-engineered patterns.
+argument-hint: Provide project name. Reviews uncommitted changes by default.
 ---
 
-# Code Review — AI Cleanup (Project-Agnostic)
+# Code Review
 
-> Clean up AI-generated code to look human-written. Remove AI artifacts while preserving all functionality.
+> Cleans up AI-generated code. Removes artifacts, improves naming, ensures consistency.
 
----
+## How to Use
 
-## Phase 0: Detect Scope
-
-1. Run `git status` and `git diff` to check for uncommitted changes
-2. If uncommitted changes exist → review those files
-3. If no uncommitted changes → ask user:
-   - Last commit: review files from `git show --name-only HEAD`
-   - Specify files: user provides paths
-
----
-
-## Phase 1: Load Project Context (Optional)
-
-If running within a project:
-
-```typescript
-const context = await loadProjectContext(projectName);
-const conventions = context.projectType?.codingConventions;
+```
+fluentit-review --project hello-world
 ```
 
-Load project-specific conventions if available:
-- Naming patterns
-- Comment style
-- TypeScript strictness level
-- Import organization
+## What This Skill Does
 
----
+1. Checks what files changed (git status)
+2. Reads each changed file
+3. Suggests or applies cleanups
 
-## Phase 2: Analyze for AI Patterns
+## Step-by-Step
 
-Review code for these AI artifacts:
-
-### Comments to REMOVE
-- Comments that restate what code does (`// increment counter` above `counter++`)
-- Generic docstrings on obvious functions
-- Commented-out code blocks
-- Template comments (`// TODO: implement`, `// Helper function`)
-
-### Comments to KEEP
-- WHY comments (business logic reasoning)
-- Non-obvious algorithm explanations
-- Edge case notes
-- Security-relevant explanations
-
-### Type Annotations
-- REMOVE: Redundant annotations where type is obvious (`const x: number = 42`)
-- KEEP: Function parameters, return types, public APIs
-
-### Error Handling
-- REMOVE: Catch-all handlers with generic logging
-- REMOVE: Null checks for values that cannot be null
-- REMOVE: Defensive checks for impossible scenarios
-- KEEP: Security-relevant error handling
-- KEEP: Actual edge case handling
-
-### Naming
-- REPLACE: Generic names (`data`, `result`, `item`, `temp`, `val`)
-  WITH: Domain-specific terminology from surrounding code
-
-### Over-Engineering
-- REMOVE: Helper functions that wrap single operations
-- REMOVE: Unnecessary abstractions without value
-- REMOVE: Layers that don't reduce duplication or improve testability
-
----
-
-## Phase 3: Apply Changes
-
-1. List specific changes with justification
-2. Apply changes preserving all functionality
-3. Verify no behavioral changes
-
----
-
-## Phase 4: Verify
-
-Run project checks if available:
+### Step 1: Detect Scope
 
 ```bash
-{context.project.commands.typecheck}
-{context.project.commands.test}
-{context.project.commands.lint}
+cd projects/{projectName} && git status --short
 ```
 
----
+If no uncommitted changes, tell user: "No changes to review. Make some changes first."
 
-## Output
+### Step 2: Read Changed Files
 
-Return cleaned code. Include summary of changes made.
+For each modified file, use the Read tool to see the content.
 
----
+### Step 3: Check for AI Artifacts
 
-## Source
+Look for these common patterns:
 
-Original: `.framework/agents/playbooks/fluentit-tools/commands/fluentit-review.md`
+| Artifact | Fix |
+|----------|-----|
+| Verbose comments (`// This function does...`) | Remove or simplify |
+| `console.log` statements | Remove |
+| Overly defensive null checks | Simplify where safe |
+| `any` types | Replace with proper types |
+| Generated boilerplate comments | Remove |
+| Inconsistent naming | Standardize |
+| Magic numbers | Extract to constants |
+| Duplicate code | Extract to shared function |
+
+### Step 4: Apply Cleanups
+
+Use the Edit tool to make changes. For each file:
+1. Show the user what will change
+2. Apply the edit
+3. Confirm
+
+### Step 5: Run Checks
+
+```bash
+cd projects/{projectName} && npm run lint 2>&1
+```
+
+### Step 6: Report
+
+```
+✅ Review Complete
+
+Files reviewed: {count}
+Changes made:
+  - {file 1}: {changes}
+  - {file 2}: {changes}
+
+Next: fluentit-pr --project {name}
+```
+
+## Important Notes
+
+- **Preserve functionality** — never change behavior, only style/structure
+- **Ask before changing** — show the user what you plan to change
+- **Respect project conventions** — follow the existing code style

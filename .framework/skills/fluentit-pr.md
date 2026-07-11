@@ -1,215 +1,74 @@
 ---
-description: Project-agnostic pull request workflow. Commits, versions, pushes, and creates PRs. Adapts to project's git provider and ticket system.
-argument-hint: Provide project name and optional branch/ticket info
+description: Pull request workflow. Commits changes, pushes, and creates a PR.
+argument-hint: Provide project name and optional ticket number.
 ---
 
-# Pull Request Workflow (Project-Agnostic)
+# Pull Request Workflow
 
-> Executes a complete PR cycle: checks, commit, version bump, push, create PR, update ticket. Adapts to project config.
+> Commits changes, pushes to remote, and creates a pull request.
 
----
+## How to Use
 
-## Phase 0: Load Project Context
-
-**Goal:** Load project git config, CI/CD settings, and reviewer assignments.
-
-**Actions:**
-
-1. **Load ProjectContext via RLM**
-
-   ```typescript
-   const context = await loadProjectContext(projectName);
-   const { project } = context;
-   ```
-
-2. **Load project git config**
-
-   ```typescript
-   const gitConfig = project.git || {};
-   // git.provider — 'azure-devops', 'github', 'gitlab'
-   // git.defaultBranch — 'develop', 'main', 'master'
-   // git.repoUrl
-   // git.prTarget — target branch for PRs
-   ```
-
-3. **Load CI/CD config**
-
-   ```typescript
-   const ci = project.ci || {};
-   // ci.provider — 'github-actions', 'azure-pipelines', etc.
-   // ci.checks — which checks to run before PR
-   ```
-
-4. **Load reviewer assignments**
-
-   ```typescript
-   const reviewers = project.reviewers || {};
-   // reviewers.backend — default backend reviewer
-   // reviewers.frontend — default frontend reviewer
-   // reviewers.default — fallback reviewer
-   ```
-
-5. **Load ticket system config**
-
-   ```typescript
-   const tickets = project.tickets || {};
-   // tickets.system — 'linear', 'jira', 'azure-boards'
-   // tickets.prefix — 'DELI', 'PROJ', etc.
-   ```
-
----
-
-## Step 1: Detect Affected Apps
-
-Determine which app(s) are affected by changes:
-
-```bash
-git diff --name-only HEAD~1 | grep -E "^{project.paths.backend}|^{project.paths.frontend}" | sort -u
+```
+fluentit-pr --project hello-world --ticket PROJ-123
 ```
 
-Determine default reviewer based on changed paths.
+## What This Skill Does
 
----
+1. Checks git status
+2. Stages and commits changes
+3. Pushes to remote
+4. Creates a PR (if configured)
 
-## Step 2: Check Sync with Remote
+## Step-by-Step
 
-```bash
-git fetch origin {gitConfig.defaultBranch}
-git rev-list --count HEAD..origin/{gitConfig.defaultBranch}
-```
-
-If behind: warn user, ask to rebase.
-
----
-
-## Step 3: Ask Branch Strategy
-
-- Stay on current branch
-- Create new branch from `{gitConfig.defaultBranch}`
-
-If new branch:
-1. Ask for ticket ID (extract from branch name if present)
-2. Suggest branch name: `feature/{ticket-prefix}-{number}-{description}`
-3. Create branch from `{gitConfig.defaultBranch}`
-
----
-
-## Step 4: Ask for Ticket ID
-
-Extract `{ticket-prefix}-{number}` from branch name.
-Validate and get title from ticket system.
-
----
-
-## Step 5: Ask for Reviewer
-
-Suggest default based on changed code:
-- Backend changes → `{reviewers.backend}`
-- Frontend changes → `{reviewers.frontend}`
-- Mixed/other → `{reviewers.default}`
-
----
-
-## Step 6: Analyze Changes and Generate Commit Message
-
-Use subagent to analyze `git diff --staged` and generate concise commit message.
-
----
-
-## Step 7: Run Project-Specific Checks
-
-Run checks based on affected apps:
+### Step 1: Check Status
 
 ```bash
-# Always run
-{context.project.commands.format}
-{context.project.commands.lint}
-
-# For backend changes
-{context.project.commands.test}
-{context.project.commands.typecheck}
-
-# For frontend changes
-{context.project.commands.test}
-{context.project.commands.build}
+cd projects/{projectName} && git status --short
 ```
 
-If any check fails, fix before proceeding.
+If no changes, tell user: "Nothing to commit."
 
----
-
-## Step 8: Bump Version
-
-Read version from remote `{gitConfig.defaultBranch}`:
+### Step 2: Stage Changes
 
 ```bash
-git show origin/{gitConfig.defaultBranch}:{versionFile} | grep '"version"'
+cd projects/{projectName} && git add -A
 ```
 
-Increment patch version. Update version file.
-
----
-
-## Step 9: Commit Changes
+### Step 3: Commit
 
 ```bash
-git add -A
-git commit -m "{commit-message}"
+cd projects/{projectName} && git commit -m "feat: {featureName}
+
+- {change 1}
+- {change 2}
+
+Ticket: {ticket}"
 ```
 
----
-
-## Step 10: Push to Remote
+### Step 4: Push
 
 ```bash
-git push --force-with-lease -u origin HEAD
+cd projects/{projectName} && git push origin $(git branch --show-current)
 ```
 
----
+### Step 5: Report
 
-## Step 11: Create PR
+```
+✅ PR Workflow Complete
 
-Create PR via project git provider:
+Commit: {hash}
+Branch: {branch}
+Remote: pushed
 
-```bash
-# Provider-specific command
-{gitConfig.provider} pr create \
-  --source-branch $(git rev-parse --abbrev-ref HEAD) \
-  --target-branch {gitConfig.prTarget} \
-  --title "{commit-message}" \
-  --description "## Summary\n\n{description}\n\n## Test\n\nAll tests pass."
+If GitHub CLI is configured, run: gh pr create --title "feat: {featureName}"
 ```
 
-Add reviewer.
+## Error Handling
 
----
-
-## Step 12: Update Ticket
-
-Add comment to ticket with PR URL.
-
----
-
-## Step 13: Summarize
-
-Display:
-- Branch name
-- New version
-- PR URL
-- Ticket updated
-
----
-
-## Provider Adaptation
-
-| Provider | PR Creation | Ticket Integration |
-|----------|------------|-------------------|
-| Azure DevOps | `az repos pr create` | Azure Boards API |
-| GitHub | `gh pr create` | GitHub Issues API |
-| GitLab | `glab mr create` | GitLab Issues API |
-
----
-
-## Source
-
-Original: `.framework/agents/playbooks/fluentit-tools/commands/fluentit-pr.md`
+| Problem | Response |
+|---------|----------|
+| No git remote | "Add a remote: git remote add origin {url}" |
+| Merge conflicts | "Resolve conflicts before committing." |
+| Pre-commit hooks fail | Fix the issues (lint, tests) and retry. |
