@@ -17,6 +17,9 @@ paths:
     unit: backend/src/**/*.spec.ts
     integration: backend/test
     e2e: frontend/e2e
+codePaths:
+  - machine: "desktop"
+    path: "C:/Users/Reforged/Projects/hello-world"
 ---
 
 # Hello World
