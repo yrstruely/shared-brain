@@ -1,0 +1,9 @@
+{
+  "name": "dna-tdd-frontend",
+  "version": "1.5.0",
+  "description": "TDD agents to implement Unit and Integration tests for the frontend and then to implement the code to make them pass. Supports architecture-driven test generation.",
+  "author": {
+    "name": "Kerry Harris",
+    "email": "kerry.harris@dna.co.nz"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "graphify-minimal",
+  "version": "1.0.0",
+  "description": "Project-agnostic knowledge graph for code relationships. Zero-dependency JSON implementation.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "graphify": "bin/graphify.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test dist/**/*.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "dna-bdd-backend-features",
+  "version": "1.5.0",
+  "description": "BDD agents to implement Gherkin feature files generated for the backend. Supports Architecture Specification as primary reference for Technical/Combined specs.",
+  "author": {
+    "name": "Kerry Harris",
+    "email": "kerry.harris@dna.co.nz"
+  }
+}

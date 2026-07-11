@@ -1,0 +1,9 @@
+{
+  "name": "dna-frontend-guide",
+  "version": "1.0.0",
+  "description": "Frontend development guide agents for Nuxt 4 + Vue 3 projects. Covers feature implementation from BDD specs and Figma, code review, and component architecture design.",
+  "author": {
+    "name": "Peter Koopman",
+    "email": "peter.koopman@dna.co.nz"
+  }
+}

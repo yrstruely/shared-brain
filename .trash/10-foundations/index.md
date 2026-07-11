@@ -1,0 +1,1 @@
+This folder is for reusable skills, prompts, patterns, and reference material.

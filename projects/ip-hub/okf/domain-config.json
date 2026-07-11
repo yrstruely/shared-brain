@@ -1,0 +1,55 @@
+{
+  "assetTypes": ["patent", "trademark", "copyright"],
+  "jurisdictions": ["Dubai/GCC", "International (PCT)", "USPTO", "EPO", "EUIPO", "WIPO"],
+  "currency": "AED",
+  "userRoles": ["Patent Applicant", "IP Professional", "Inventor", "Legal Counsel", "Technical Writer"],
+  "personas": ["Alice", "Bob", "Carol", "David", "Emma"],
+  "filingStrategies": ["Single", "Comprehensive"],
+  "patentComponents": [
+    "Applicant information",
+    "Asset detail",
+    "Technical description",
+    "Detailed specification",
+    "Asset claims",
+    "Market compliance",
+    "Commercial strategy",
+    "Translations"
+  ],
+  "components": [
+    {
+      "name": "Accordion",
+      "testIdPattern": "{title}-accordion",
+      "usage": "Collapsible content sections"
+    },
+    {
+      "name": "Button",
+      "testIdPattern": "{label}-button",
+      "usage": "Actions and navigation"
+    },
+    {
+      "name": "TextField",
+      "testIdPattern": "{name}-text-field",
+      "usage": "Text and numeric input"
+    },
+    {
+      "name": "SelectField",
+      "testIdPattern": "{name}-select-field",
+      "usage": "Dropdown selection"
+    },
+    {
+      "name": "RadioGroup",
+      "testIdPattern": "{name}-radio-group",
+      "usage": "Single selection from options"
+    },
+    {
+      "name": "FileUploadField",
+      "testIdPattern": "{name}-file-upload",
+      "usage": "File uploads"
+    },
+    {
+      "name": "TextAreaField",
+      "testIdPattern": "{name}-text-area",
+      "usage": "Multi-line text input"
+    }
+  ]
+}

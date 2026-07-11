@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Graphify indexes
+.graphify/
+
+# Obsidian
+.obsidian/
+
+# Claude Code
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Build outputs
+dist/
+build/
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp

@@ -1,0 +1,9 @@
+{
+  "name": "dna-bdd-features",
+  "version": "1.4.0",
+  "description": "BDD agents to handle analysis of requirements and the generation of detailed and complete Gherkin feature files. Supports UI, Technical, and Combined spec types with Architecture Specification integration.",
+  "author": {
+    "name": "Kerry Harris",
+    "email": "kerry.harris@dna.co.nz"
+  }
+}

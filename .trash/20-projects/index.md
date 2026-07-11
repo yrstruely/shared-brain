@@ -1,0 +1,1 @@
+This folder contains one folder for each project.

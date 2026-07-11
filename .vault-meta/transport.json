@@ -1,0 +1,15 @@
+{
+  "preferred": "cli",
+  "fallback_chain": ["cli", "filesystem"],
+  "available": {
+    "cli": {
+      "present": true,
+      "binary": "D:\Program Files\Obsidian\Obsidian.com",
+      "version_string": "Obsidian CLI",
+      "vault_targeting": "name"
+    },
+    "filesystem": {"present": true},
+    "mcp_obsidian": {"present": null, "detection": "deferred"},
+    "mcpvault": {"present": null, "detection": "deferred"}
+  }
+}

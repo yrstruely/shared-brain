@@ -1,0 +1,9 @@
+{
+  "name": "dna-tools",
+  "version": "1.1.0",
+  "description": "DNA developer tools: PR workflow, code review, DDD feature pipeline, and more",
+  "author": {
+    "name": "Ilia Belov",
+    "email": "belov.penrose@gmail.com"
+  }
+}
